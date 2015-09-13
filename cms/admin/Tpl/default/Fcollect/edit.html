@@ -1,0 +1,210 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='fcollect/edit?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href='#' class="selected" rel="tabsContent1"><span>来源信息</span></a></li>
+	<li><a href='#' rel="tabsContent2"><span>文章规则</span></a></li>
+</ul>
+</div>
+</div>
+<div id="pageCo">
+<div class="manageForm">
+<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+	<tbody>
+		<tr>
+			<th>节点名称：</th><td><input type="text" name="name" class="input required" size="40" value="{{$data.name}}"/></td>
+		</tr>
+		<tr>
+			<th>目标页面编码：</th>
+			<td><input type="radio" name="source_lang" value="gb2312" {{if $data.source_lang == 'gb2312'}}checked{{/if}}/>GB2312 
+			<input type="radio" name="source_lang" value="utf-8"  {{if $data.source_lang == 'utf-8'}}checked{{/if}}/>UTF8 </td>
+		</tr>
+		<tr>
+			<th>来源方式：</th>
+			<td><input type="radio" name="source_type" value="hand" {{if $data.source_type == 'hand'}}checked{{/if}}/>手工指定列表网址  </td>
+		</tr>
+		<tr>
+			<th>手工指定网址：<span>填写需要采集的页面链接，<br/>多个链接换行保存</span></th>
+			<td><textarea class="textarea required" name="source_url"  cols="70" rows="5">{{$data.source_url}}</textarea></td>
+		</tr>
+		<tr>
+			<th>内容页地址前缀：<span>前面没域名的地址会加上此前缀</span></th>
+			<td><input type="text" name="profiex_url" class="input" size="40" value="{{$data.profiex_url}}"/></td>
+		</tr>
+		<tr>
+			<th>图片/FLASH地址前缀：<span>图片地址为相对地址时使用</span></th>
+			<td><input type="text" name="prefix_img" class="input" size="40" value="{{$data.prefix_img}}"/></td>
+		</tr>
+		<tr>
+			<th>区域开始的HTML：<span>唯一的</span></th>
+			<td><textarea class="textarea required" name="html_start" cols="50" rows="3">{{$data.html_start}}</textarea></td>
+		</tr>
+		<tr>
+			<th>区域结束的HTML：<span>唯一的</span></th>
+			<td><textarea class="textarea required" name="html_end" cols="50" rows="3">{{$data.html_end}}</textarea></td>
+		</tr>
+		<tr>
+			<th>必须包含：<span>使用正则表达式</span></th>
+			<td><input type="text" name="have_is" class="input" size="40" value="{{$data.have_is}}"/></td>
+		</tr>
+		<tr>
+			<th>不能包含：<span>使用正则表达式</span></th>
+			<td><input type="text" name="have_not" class="input" size="40" value="{{$data.have_not}}"/></td>
+		</tr>
+		<tr>
+			<th>标题文字替换：<span>有多个请用","隔开，一一对应</span></th>
+			<td>
+				将<textarea class="textarea" name="replace[replace_before]" cols="20" rows="3">{{$data.replace.replace_before}}</textarea>替换成
+				<textarea class="textarea" name="replace[replace_after]" cols="20" rows="3">{{$data.replace.replace_after}}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>入库栏目：<span>采集信息存入的栏目</span></th>
+			<td><select class="select" name="into_catid">
+				{{foreach from=$category item=v}}
+				<option value="{{$v.catid}}" {{if $v.catid == $data.into_catid}}selected{{/if}}>{{$v.name}}</option>
+				{{/foreach}}
+			</select></td>
+		</tr>
+		<!--<tr>
+			<th>是否入库：</th>
+			<td><input type="radio" value="1" name="into_is" {{if $data.into_is == 1}}checked{{/if}}/>直接入库 <input type="radio" value="0" name="into_is" {{if $data.into_is == 0}}checked{{/if}}/>暂不入库</td>
+		</tr>-->
+	</tbody>
+</table>
+<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none;">
+	<tbody>
+		<tr>
+			<th>标题匹配正则：<span>在匹配的部分换为[!--content--]<br/>如：&lt;ul&gt;&lt;li&gt;匹配内容&lt;/li&gt;&lt;/ul&gt;<br/>为：&lt;ul&gt;&lt;li&gt;[!--content--]&lt;/li&gt;&lt;/ul&gt;</span></th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[replace_title]">{{$data.replace.replace_title}}</textarea></td>
+		</tr>
+		<tr>
+			<th>标题过滤规则：<span>过滤掉不要的部分</span></th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[filter_title]">{{$data.replace.filter_title}}</textarea><input type="button" class="filter" value="添加过滤"/></td>
+		</tr>
+		<tr>
+			<th>发布时间匹配正则：<span>在匹配的部分换为[!--content--]<br/>如不提取，请为空</span></th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[replace_time]">{{$data.replace.replace_time}}</textarea></td>
+		</tr>
+		<tr>
+			<th>发布时间过滤规则：</th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[filter_time]">{{$data.replace.filter_time}}</textarea><input type="button" class="filter" value="添加过滤"/></td>
+		</tr>
+		<tr>
+			<th>信息来源匹配正则：</th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[replace_source]">{{$data.replace.replace_source}}</textarea></td>
+		</tr>
+		<tr>
+			<th>信息来源过滤规则：</th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[filter_source]">{{$data.replace.filter_source}}</textarea><input type="button" class="filter" value="添加过滤"/></td>
+		</tr>
+		<tr>
+			<th>正文匹配正则：</th>
+			<td><textarea class="textarea required" cols="50" rows="2" name="replace[replace_content]">{{$data.replace.replace_content}}</textarea></td>
+		</tr>
+		<tr>
+			<th>正文过滤规则：</th>
+			<td><textarea class="textarea" cols="50" rows="2" name="replace[filter_content]">{{$data.replace.filter_content}}</textarea><input type="button" class="filter" value="添加过滤"/></td>
+		</tr>
+	</tbody>
+</table>
+<table cellpadding="0" cellspacing="0">
+	<tfoot>
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td><label class="btn"><input type="submit"
+				name="submit" value="确定保存" class="submit" /></label></td>
+		</tr>
+	</tfoot>
+</table>
+
+
+
+<div id="filter_table">
+<table cellpadding="0" cellspacing="0" class="tabcontent filter_table"  style="width:400px;display:none;">
+	<input type="hidden" name="hidden_text" id="hidden_text" value=""/>
+	<tbody>
+	<tr>
+		<th colspan="4" style="text-align:center;"><b>选择需要要过滤的标签<b></th>
+		<th onclick="javascript:hidd(this,'no')" style="cursor:hand;" title="关闭">×</th>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input name="font1" type="checkbox" id="font1" value="&lt;a([^&gt;]*)&gt;(.*)&lt;/a&gt;" /> 超链接</td>
+		<td><input name="font7" type="checkbox" id="font7" value="&lt;object([^&gt;]*)&gt;(.*)&lt;/object&gt;" /> Object</td>
+		<td><input name="font2" type="checkbox" id="font2" value="&lt;script([^&gt;]*)&gt;(.*)&lt;/script&gt;" /> javascript脚本	</td>
+		<th></th>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input name="font8" type="checkbox" id="font8" value="&lt;embed([^&gt;]*)&gt;(.*)&lt;/embed&gt;" />	embed</td>
+		<td><input name="font3" type="checkbox" id="font3" value="&lt;!--(.*)--&gt;" />	&lt;!--()--&gt;</td>
+		<td><input name="font9" type="checkbox" id="font9" value="&lt;iframe([^&gt;]*)&gt;(.*)&lt;/iframe&gt;" /> iframe</td>
+		<th></th>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input name="font4" type="checkbox" id="font4" value="&lt;table([^&gt;]*)&gt;(.*)&lt;/table&gt;" />	table</td>
+		<td><input name="font10" type="checkbox" id="font10" value="&lt;param([^&gt;]*)&gt;(.*)&lt;/param&gt;" /> param</td>
+		<td><input name="font5" type="checkbox" id="font5" value="&lt;style([^&gt;]*)&gt;(.*)&lt;/style&gt;" />	style</td>
+		<th></th>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input name="font11" type="checkbox" id="font11" value="&lt;div([^.]*)&gt;" />	&lt;div([^.]*)&gt;</td>
+		<td><input name="font6" type="checkbox" id="font6" value="&lt;img([^&gt;]*)&gt;" />	img</td>
+		<td><input name="font12" type="checkbox" id="font12" value="&lt;/div&gt;" /> &lt;/div&gt;</td>
+		<th onclick="javascript:hidd(this,'yes')" style="cursor:hand;" title="确定">ok</th>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+</div>
+</div>
+<input type="hidden" name="c_id" value="{{$data.c_id}}" />
+<input type="hidden" name="forward" value="{{U url='fcollect/manage'}}"/>
+</form>
+
+
+
+<style>
+.parent{position:absolute;background-color:#ffffff;border:1px #999 solid;top:5px;left:5px;z-index:1;}
+.abs{position:absolute;}
+</style>
+<script type="text/javascript">
+jQuery.each(jQuery(".filter"),function (i,item){
+	jQuery(item).click(function(){
+		$(item).parent().addClass("abs");
+		$(item).parent().append("<div id='parent_div' class='parent'></div>");
+		$("#parent_div").html($("#filter_table").html());
+		//$("#parent_div").find("table").addClass("abs");
+		$("#parent_div").find("table").show();
+		obj = $("#parent_div").find("table").find("input[type=checkbox]");
+		obj.click(function(){
+			var v = "" ;
+			var val="";
+			for(i = 0; i < obj.length;i++){
+				if(obj[i].checked){
+					val = obj[i].value ;
+					v += "{fangfa}"+val +"{/fangfa}\r\n";
+				}
+			}
+			$("#parent_div").find("table").find("input[type=hidden]").val(v);
+		})
+	})
+});
+/*
+*/
+function hidd(obj,bool){
+	td_ojb = $(obj).parent().parent().parent().parent().parent();//得到表格单元格对象。
+	td_ojb.removeClass("abs");//取出td样式
+	if(bool == 'yes'){
+		v = td_ojb.find("input[type=hidden]").val();
+		td_ojb.find("textarea").val(v);
+	}
+	td_ojb.find("div").remove();//去除下级div标签
+}
+</script>
+{{include file="default/Public/footer.html"}}

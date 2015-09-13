@@ -1,0 +1,93 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fad/manage'}}" {{if $action_name=="manage"}} class="selected" rel="tabsContent1"{{/if}}>管理广告</a></li>
+			<li><a href="{{U url='fad/add' }}" {{if $action_name=="add"}} class="selected" rel="tabsContent1"{{/if}}>添加广告</a></li>
+			<li><a href="{{U url='fad/add' }}" {{if $action_name=="edit"}} class="selected" rel="tabsContent1"{{/if}}>编辑广告</a></li>
+		</ul>		
+	</div>
+</div>
+<script language="javascript">
+function alterUC(eID) {
+  setTimeout(function(){window.parent.mainCo && window.parent.mainCo();},200);
+  $("#table tbody").hide();
+  $("#"+eID).show();
+}
+
+$().ready(function(){
+	$.get("{{U url='fad/ajax_getform?is_ajax=1&form_id='}}"+$('#banner option:selected').val()+"&aid={{$data.aid}}",{},function(data){
+			$("#table").html(data);
+	});
+	$("#banner").change(function(){
+		$.get("{{U url='fad/ajax_getform?is_ajax=1&form_id='}}"+$('#banner').val()+"&aid={{$data.aid}}",{},function(data){
+			$("#table").html(data);
+		});
+	});
+})
+</script>
+<form action="{{U url='fad/edit?dosubmit=1'}}" method="post" name="myform">
+<div id="pageCo">
+	<div class="manageForm">
+		<table class="operateForm" cellspacing="0" cellpadding="0">         
+          <tr>
+            <th width="150">广告名称</th>
+            <td><input name="info[name]" type="text" class="input required" size="40" value="{{$data.name}}" /></td>
+          </tr>
+          <tr>
+            <th>广告类型<span>选择一种广告类型</span></th>
+            <td>
+            <select id="banner" name="info[type]">
+            	<option value="banner" {{if $data.type=='banner'}} selected="selected"{{/if}}>数字Banner轮播</option>
+                <!--<option value="banner_t" {{if $data.type=='banner_t'}}selected="selected"{{/if}}>缩略图Banner轮播</option>-->
+                <option value="image" {{if $data.type=='image'}}selected="selected"{{/if}}>图片</option>
+                <option value="flash" {{if $data.type=='flash'}}selected="selected"{{/if}}>FLASH</option>
+                <option value="html" {{if $data.type=='html'}}selected="selected"{{/if}}>文本</option>
+                <option value="link" {{if $data.type=='link'}}selected="selected"{{/if}}>文字链</option>
+            </select><font color="red">*</font>
+            <!--
+              <input id="banner" type='radio' name='info[type]' value='ad_banner_num' onclick="alterUC('bannerid')" {{if $data.type=='banner'}}checked{{/if}}/>
+              Banner轮播
+              <input id="banner_t" type='radio' name='info[type]' value='banner_t' onclick="alterUC('bannerid2')"  {{if $data.type=='banner_t'}}checked{{/if}}/>
+              缩略图Banner轮播
+              <input type='radio' name='info[type]' value='image' onclick="alterUC('imageid')" {{if $data.type=='image'}}checked{{/if}}/>
+              图片
+              <input type='radio' name='info[type]' value='flash' onclick="alterUC('flashid')" {{if $data.type=='flash'}}checked{{/if}}/>
+              FLASH
+              <input type='radio' name='info[type]' value='html' onclick="alterUC('textid')" {{if $data.type=='html'}}checked{{/if}}/>
+              文本
+              <input type='radio' name='info[type]' value='link' onclick="alterUC('codeid')" {{if $data.type=='link'}}checked{{/if}}/>
+              文字链 <font color="red">*</font>--></td>
+          </tr>
+          <tr>
+            <th>广告内容<span>文本模式支持html。</span></th>
+            <td>
+            <table cellpadding="0" cellspacing="0" id="table" >
+				
+              </table>
+              </td>
+          </tr>
+          <tr>
+            <th>发布日期</th>
+            <td>
+              <script language="javascript" src="{{$smarty.const._PUBLIC_}}js/calendar/WdatePicker.js"></script>
+              <input type="text" name="info[starttime]" id="fromdate" value="{{$data.starttime}}"  class="input Wdate" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" size="22" readonly>
+              <font color="red">*</font></td>
+          </tr>
+          <tr>
+            <th>结束日期</th>
+            <td><input type="text" name="info[endtime]" id="todate" value="{{$data.endtime}}" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="input Wdate" size="22" readonly>
+              <font color="red">*</font></td>
+          </tr>          
+		  <tfoot>
+		  	<th>&nbsp;</th>
+		  	<td><input type="hidden" name="forward" value="{{$forward}}">
+            <input type="hidden" name="info[aid]" value="{{$data.aid}}" />
+            <label class="btn"><input type="submit" class="submit" value="提交保存 "/></label>
+            <label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+		  </tfoot>
+        </table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

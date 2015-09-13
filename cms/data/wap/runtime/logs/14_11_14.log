@@ -1,0 +1,9 @@
+[ 2014-11-14T16:46:15+08:00 ] NOTIC: [2048] Declaration of FindexAction::redirect() should be compatible with that of Action::redirect() FindexAction.class.php 第 37 行.
+[ 2014-11-14T16:46:15+08:00 ] NOTIC: [2048] Only variables should be assigned by reference FbaseAction.class.php 第 135 行.
+[ 2014-11-14T16:46:15+08:00 ] NOTIC: [8] Undefined index: forward FbaseAction.class.php 第 137 行.
+[ 2014-11-14T16:46:16+08:00 ] SQL:  RunTime:0.015914s SQL = SHOW COLUMNS FROM fangfa_category
+[ 2014-11-14T16:46:16+08:00 ] SQL:  RunTime:0.000680s SQL = SELECT * FROM `fangfa_category` WHERE catid=18 LIMIT 1 
+[ 2014-11-14T16:46:17+08:00 ] SQL:  RunTime:0.015940s SQL = SHOW COLUMNS FROM fangfa_mobilemenu
+[ 2014-11-14T16:46:17+08:00 ] NOTIC: [8] Undefined variable: id function.ffwapmenu.php 第 24 行.
+[ 2014-11-14T16:46:17+08:00 ] SQL:  RunTime:0.000448s SQL = SELECT id,name,url,catid,description FROM `fangfa_mobilemenu` ORDER BY sort asc,create_time desc
+[ 2014-11-14T16:46:17+08:00 ] NOTIC: [8] Undefined index: data %%77^774^774BE9C9%%index.html.php 第 11 行.

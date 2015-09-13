@@ -1,0 +1,58 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fsurvey/add?catid=`$cat.catid`"}}'>添加问卷</a></li>
+		</ul>
+	</div>
+</div>
+<div id="pageCo">
+
+	<div class="listForm">
+		<form id="voteForm" method="post" action="__APP__">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th colspan="6">{{$subject.subject}}</th>
+				</tr>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th width="40">ID</th>
+					<th width="40">排序</th>
+					<th>标题</th>
+					<th width="100">添加时间</th>
+					<th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=d}}
+				<tr>
+					<td><input type="checkbox" rel="checkbox" name="surid[]" value="{{$d.surid}}" /></td>
+					<td>{{$d.id}}</td>
+					<td>{{$d.order}}</td>
+					<td>{{$d.subject}}<span class="green">{{if $d.type==1}}[多选]{{elseif $d.type == 0}}[单选]{{else}}[文本]{{/if}}</span></td>
+					<td>{{'Y-m-d'|date:$d.create_time}}</td>
+					<td><a href='{{U url="fsurvey/edit_question?surid=`$d.surid`&catid=`$cat.catid`"}}'>编辑</a> | 
+						{{if $d.status == '1'}}
+				    <a href='{{U url="fsurvey/edit_question?ajax=status&surid=`$d.surid`&status=0&catid=`$cat.catid`"}}'>禁用</a>
+				    {{else}}
+				    <a href='{{U url="fsurvey/edit_question?ajax=status&surid=`$d.surid`&status=1&catid=`$cat.catid`"}}' style="color:red;">启用</a>
+				    {{/if}}
+					</td>
+				</tr>
+				{{/foreach}}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6"><input type="submit" value="删除选中项" /></td>
+				</tr>
+			</tfoot>
+		</table>
+		<input type="hidden" name="foward" value='{{U URL="fsurvey/manage_subject?surid=`$surid`&catid=`$cat.catid`"}}' />
+		<input type="hidden" name="m" value="fsurvey" />
+		<input type="hidden" name="a" value="delete" />
+		<input type="hidden" name="dosubmit" value="1" />
+		<input type="hidden" name="catid" value="{{$cat.catid}}" />
+		</form>
+	</div>
+{{include file="default/Public/footer.html"}}

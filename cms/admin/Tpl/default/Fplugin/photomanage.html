@@ -1,0 +1,61 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">图片整合</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form method="post" action="{{U url='fplugin/index?dosubmit=1'}}" onsubmit="return isnumber();" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+                <tr><th colspan="4" style="text-align: left;">缩略图</th></tr>
+				<tr>
+                   
+			      <td colspan="4">
+                        {{foreach from=$imgs item=v}}
+                        <div style="padding:2px;border:1px solid #ccc;float:left;">
+                            <p style="text-align: center;"><img src="__PUBLIC__/uploads/{{$v.src}}" style="padding:2px;border:1px solid #ccc;max-width:190px" /></p>
+                            <p style="text-align: center;"><a href="__ROOT__/admin.php?m=fplugin&a=cutit&src={{$v.src}}&cid={{$cid}}&tablename={{$tablename}}&modelid={{$modelid}}&maxwidth={{$v.maxwidth}}&maxheight={{$v.maxheight}}">裁剪它！</a></p>
+                        </div>    
+                        {{/foreach}}
+                  </td>
+			    </tr>
+                {{if $photos}}
+                <tr><th colspan="4" style="text-align: left;">组图</th></tr>
+				<tr>
+                   
+			      <td colspan="4">
+                        {{foreach from=$photos item=v}}
+                        <div style="padding:2px;border:1px solid #ccc;float:left;">
+                            <p style="text-align: center;"><img src="__PUBLIC__/uploads/{{$v.src}}" style="padding:2px;border:1px solid #ccc;max-width:190px" /></p>
+                            <p style="text-align: center;"><a href="__ROOT__/admin.php?m=fplugin&a=cutit&src={{$v.src}}&cid={{$cid}}&tablename={{$tablename}}&modelid={{$modelid}}&maxwidth={{$v.maxwidth}}&maxheight={{$v.maxheight}}">裁剪它！</a></p>
+                        </div>    
+                        {{/foreach}}
+                  </td>
+			    </tr>
+                {{/if}}
+                {{if $contents}}
+                <tr><th colspan="4" style="text-align: left;">编辑器内图</th></tr>
+				<tr>
+                   
+			      <td colspan="4">
+                        {{foreach from=$contents item=v}}
+                        {{php}}dump($this->_tpl_vars[v]){{/php}}
+                        <div style="padding:2px;border:1px solid #ccc;float:left;">
+                            <p style="text-align: center;"><img src="__PUBLIC__/uploads/{{$v}}" style="padding:2px;border:1px solid #ccc;max-width:190px" /></p>
+                            <p style="text-align: center;"><a href="__ROOT__/admin.php?m=fplugin&a=cutit&src={{$v}}&cid={{$cid}}&tablename={{$tablename}}&modelid={{$modelid}}">裁剪它！</a></p>
+                        </div>    
+                        {{/foreach}} 
+                  </td>
+			    </tr>
+                {{/if}}                
+			</tbody>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

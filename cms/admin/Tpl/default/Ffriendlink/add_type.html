@@ -1,0 +1,39 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='ffriendlink/manage'}}">管理链接</a></li>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">添加分类</a></li>
+			<li><a href="{{U url='ffriendlink/manage_type'}}">管理分类</a></li>
+		</ul>		
+	</div>
+</div>
+<form name="myform" method="post" action="{{U url='ffriendlink/add_type?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+		            <th width="15%">分类名称</th>
+		            <td><input type="text" name="info[type_name]" class="required input"  title="【分类名称】必填" value="" style="width:300px;" /></td>
+		          </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+		            <td><input type="hidden" name="forward" value="{{U url='ffriendlink/manage_type'}}" />
+		              <input type="hidden" name="_tablename" value="friendlink_type" />
+		              <label class="btn">
+		              <input type="submit" name="submit" value="确 定" class="submit" />
+		              </label>
+		              <label class="btn">
+		              <input type="reset" name="reset" value="重 置" class="submit" />
+		              </label>
+		            </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,74 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fmobilemenu/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'id',
+			placeholder : '不可用',
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+});
+</script>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fmobilemenu/add"}}'>添加栏目</a></div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th width="40">排序</th>
+					<th width="35">ID</th>					
+					<th>栏目名称</th>										
+					<th width="90">创建时间</th>	
+					<th width="40">状态</th>	
+					<th width="230">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data item=v}}      
+		      <tr>
+		        <td align="center"><input type="checkbox" rel="checkbox" name="info[id][]" value="{{$v.id}}" /></td>
+		        <td class="editable_sort pointer" id="sort_{{$v.id}}">{{$v.sort}}</td>
+		        <td>{{$v.id|intval}}</td>
+		        <td>
+		        <span class="editable_title pointer" id="title_{{$v.cid}}">{{$v.name}}</span>		        
+		        </td>
+		        <td class="editable_updatetime pointer" id="time_{{$v.cid}}">{{'Y-m-d'|date:$v.create_time}}</td>
+		        <td>
+		        {{if $v.status=='0'}}
+		        <span class="red"><a>待审</span>
+		        {{/if}}
+		        {{if $v.status=='1'}}
+		        <span class="green">已审</span>
+		        {{/if}}
+		        </td>
+		        <td style="text-align:center;">
+
+		          <a href='{{U url="fmobilemenu/edit?id=`$v.id`"}}' title="编辑">编辑</a> |
+		          <a href='{{U url="fmobilemenu/delete?id=`$v.id`"}}' onclick="return window.confirm('此操作不可撤销，你确定要继续？');">删除</a>
+
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="8">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+
+</div>
+<input type="hidden" name="m" id="module" value="fmobilead" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,45 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="frbac/manage?appname=$appname"}}'>管理操作</a></li>
+			<li><a href='{{U url="frbac/add?appname=$appname"}}' {{if $action_name=="add"}}class="selected" rel="tabsContent1"{{/if}}>注册操作</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form name="myform" method="post" action='{{U url="frbac/add?dosubmit=1&appname=$appname"}}' >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="180">操作名称<span></span></th>
+			      <td><input type="text" name="info[name]" maxlength="20" title="【操作名称】必填" class="required input" size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>所属应用<span></span></th>
+			      <td>{{if $appname == 'admin'}}后台{{else}}会员{{/if}}<input type="hidden" name="info[appname]" value="{{$appname}}"></td>
+			    </tr>
+			    <tr>
+			      <th>模块文件<span>实体的模块文件名称—英文字符</span></th>
+			      <td><input type="text" name="info[controller]" maxlength="20" title="【模块名称】必填" class="required input" size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>操作动作<span>实际的操作动作名称—英文字符</span></th>
+			      <td><input type="text" name="info[action]" maxlength="32" title="【操作动作】必填" class="required input" size="40"/></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td><input type="hidden" name="forward" value="{{$forward}}">
+			        <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

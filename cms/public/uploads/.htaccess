@@ -1,0 +1,4 @@
+<FilesMatch "\.(?i:bak|php|cgi|pl|py|asp|aspx|phpx|php3)$">
+order deny,allow  
+deny from all  
+</FilesMatch> 

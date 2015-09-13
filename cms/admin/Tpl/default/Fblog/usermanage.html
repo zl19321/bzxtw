@@ -1,0 +1,55 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fblog/usermanage'}}" {{if $action_name=="usermanage"}} class="selected"{{/if}}>管理微博</a></li>
+			<li><a href="{{U url='fblog/manage' }}" {{if $action_name=="manage"}} class="selected"{{/if}}>微博转发</a></li>
+		</ul>		
+	</div>
+</div>
+		<table id="areablog" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="35">排序</th>
+			        <th>微博名称</th>
+			        <th width="70">微博类型</th>
+			        <th width="200">授权过期时间</th>
+			        <th width="70">状态</th>
+			        <th width="70">删除</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$userlist item=v key=k}}
+				<tr>
+				        <td width="35">{{$k+1}}</td>
+				        <td>{{$v.name}}</td>
+				        <td width="70">{{$v.type}}</td>
+						<td width="200">{{'Y-m-d H:i:s'|date:$v.datelimit}}</td>
+						<td width="70">
+						 {{if $v.state eq 1}}
+						<a href='{{U url="fblog/usermanage?act=update&id=`$v.id`&state=0&type=`$v.type`"}}'><img src="{{$smarty.const._PUBLIC_}}images/yes.png"></a>
+						{{else}}
+						<a href='{{U url="fblog/usermanage?act=update&id=`$v.id`&state=1&type=`$v.type`"}}'><img src="{{$smarty.const._PUBLIC_}}images/no.png"></a>
+						{{/if}}
+						</td>
+						<td width="70"><a href='{{U url="fblog/usermanage?act=del&id=`$v.id`"}}'>删除</a></td>
+						</tr>
+				{{/foreach}}			
+			</tbody>
+		</table>	
+		   <div id="bloglogin">
+           <a href="#" onclick='toQzoneLogin()'><img src="{{$smarty.const._PUBLIC_}}images/add_tence.jpg"></a>
+           <a href="#" onclick='toWeiboLogin()'><img src="{{$smarty.const._PUBLIC_}}images/add_sina.jpg"/></a>
+           </div>
+<script type="text/javascript">
+function toQzoneLogin()
+{
+	var A=window.open("plugins/tecent/qq_login.php","TencentLogin","width=600,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+}
+
+function toWeiboLogin()
+{
+	$.post("plugins/sina/login.php",'',function(data) {window.location.href = data;},'txt'); 
+}
+</script>
+{{include file="default/Public/footer.html"}}

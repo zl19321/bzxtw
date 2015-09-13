@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fangfa CMS {{$version}} - 后台管理</title>
+<link type="text/css" rel="stylesheet"
+	href="{{$smarty.const._PUBLIC_}}style/base.css" />
+<style>
+#header {
+	background: #151519;
+	width: 100%;
+	height: 60px;
+}
+
+#logo {
+	float: left;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.login {
+	float: right;
+	margin-top: 25px;
+}
+
+.login li {
+	display: inline;
+	margin-right: 10px;
+}
+
+.clear {
+	clear: both;
+}
+
+#wpcontent {
+	width: 100%;
+	margin-left: 100px;
+}
+
+#mainnav {
+	width: 90px;
+	height: 400px;
+	border: solid 1px green;
+	margin-left: -100px;
+	float: left;
+}
+
+#content {
+	width: 100%;
+}
+
+iframe {
+	height: 100%;
+	width: 99.99%;
+	z-index: 10;
+}
+</style>
+</head>
+<body>
+<div id="header"><a id="logo" href="#"><img
+	src="{{$smarty.const._PUBLIC_}}images/logo.gif" alt="方法CMS系统" /></a>
+<ul class="login">
+	<li>您好：{{$userData.username}} ，欢迎使用Fangfa CMS {{$version}}！</li>
+	<li><a href="#">帮助中心</a></li>
+	<li><a href="{{U url='flogin/logout'}}">注销登录</a></li>
+</ul>
+<div class="clear"></div>
+</div>
+<!--header-->
+
+<div id="wpcontent">
+<div id="mainnav">
+<ul class="pageMenu">
+	{{foreach from=$topMenus item=v}}
+	<li>
+	<div id="browser{{$v.menuid}}" class="filetree"></div>
+	</li>
+	{{/foreach}}
+</ul>
+</div>
+<!--mainnav-->
+
+<div id="content">
+<div class="iframe"><iframe id="mainFrame" name="mainFrame"
+	frameborder="0" src="{{U url='findex/home'}}"></iframe></div>
+</div>
+
+</div>
+<!--wpcontent-->
+
+
+<!--script-->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="{{$smarty.const._PUBLIC_}}js/jquery.treeview_min.js"></script>
+<script>
+    $(document).ready(function(){
+      //载入菜单
+	  {{foreach from=$topMenus item=v}}
+	  $("#browser{{$v.menuid}}").treeview({
+		  url:'{{U url="findex/index?ajax=getmenu&menuid=`$v.menuid`"}}'
+	  });
+	  {{/foreach}}
+	
+	  $("#browser{{$topMenus.0.menuid}}").show();
+	  $("#folder{{$topMenus.0.menuid}}").addClass("select");
+	
+	  (function(){
+		  var Nav=(function(){
+    		  var b=[],n=[];
+			  return {
+			    add:function(link){b.unshift(link);n.length=0;},
+			    back:function(){if(b.length>1){var curr=b.shift();n.unshift(curr);return b[0];}},
+			    next:function(){if(n.length>0){var curr=n.shift();b.unshift(curr);return curr;}}
+			  };
+		  })();
+		
+		var $frame=$("#mainFrame");
+		Nav.add($frame.attr("src"));
+		
+		$(".file a").live("click",function(){ Nav.add($(this).attr("href"));});
+	    $("#back").click(function(){$frame.attr("src",Nav.back());});
+	    $("#next").click(function(){$frame.attr("src",Nav.next());});
+	  })();
+    });
+  </script>
+</body>
+</html>

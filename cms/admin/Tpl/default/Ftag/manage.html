@@ -1,0 +1,59 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable").editable("{{U url='ftag/edit?ajax=savename'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可编辑排序",
+			name			: 'name',
+			id				: 'tagid',
+			placeholder : '不可用',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="ftag/add"}}' {{if $action_name=="add"}}class="selected"{{/if}}>添加TAG</a></li>
+			<li><a href='{{U url="ftag/manage"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理TAG</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form name="myform" method="post" action="#"> 
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th>名称</th>
+				    <th width="150">访问次数</th>
+				    <th width="150">引用次数</th>
+				    <th width="250">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach item=v from=$data.info}}  
+				  <tr>
+				    <td><span class="editable pointer" id="tag_{{$v.tagid}}">{{$v.name}}</span></td>
+				    <td>{{$v.count}}</td>
+				    <td>{{$v.hits}}</td>
+				    <td>
+				    <a href='{{U url="ftag/edit?tagid=`$v.tagid`"}}'>修改</a> | 
+				    <a href="javascript:confirmurl('{{U url="ftag/delete?tagid=`$v.tagid`"}}', '此操作不可恢复，确认删除TAG“{{$v.name}}”吗?')">删除</a>
+				    </td>
+				  </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

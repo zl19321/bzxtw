@@ -1,0 +1,13 @@
+<html>
+<head></head>
+<body>
+{{ffwapmenu   pagesize="2" sort="sort asc,create_time desc"  to="data"}}
+<ul>
+{{foreach from=$data item=v}}
+<li>
+<a href="{{$v.url}}">{{$v.name}}</a>
+</li>
+{{/foreach}}
+</ul>
+</body>
+</html>

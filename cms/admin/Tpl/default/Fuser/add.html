@@ -1,0 +1,110 @@
+{{include file="default/Public/header.html"}}
+
+{{if 0}}
+<!--需要先选择用户模型，在选择角色时使用以下代码-->
+<script language="javascript">
+$().ready(function (){
+	$('#modelid').change(function (){
+		$.post(
+			"{{U url='fuser/add?ajax=getrole'}}",
+			{
+				modelid:$('#modelid').val(),
+			},
+			function (data) //回传函数
+			{
+				$('#showrole').html(data);
+			}
+		);
+	});
+});
+</script>
+{{/if}}
+
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+		{{if $step>1}}
+			<li><a href='#' class="selected" rel="tabsContent1"><span>基本信息</span></a></li>
+			<li><a href='#' rel="tabsContent2"><span>扩展信息</span></a></li>
+		{{else}}
+			<li><a href='javascript:void(0);' {{if $action_name=="add"}}class="selected"{{/if}} rel="tabsContent1">添加会员</a></li>
+			<li><a href='{{U url="fuser/manage"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理会员</a></li>
+		{{/if}}
+		</ul>
+	</div>
+</div>
+
+{{if $step>1}}
+<form class="validate" method="post" action='{{U url="fuser/add?step=2&moduleid=$moduleid"}}'>
+<div id="pageCo">
+	<div class="manageForm">
+		{{foreach from=$form_data item=card key=id}}
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent{{$id}}" {{if $id>1}} style="display:none"{{/if}}>
+			<tbody>
+				{{foreach from=$card item=v}}
+				<tr>
+					<th width="150">{{$v.name}}<span>{{$v.tips}}</span></th>
+					<td>{{$v.form}}</td>
+				</tr>
+				{{/foreach}}
+			</tbody>
+		</table>
+		{{/foreach}}
+		<table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<tr>
+					<th width="150">
+						<input type="hidden" name="forward" value="{{$forward}}">
+						<input type="hidden" name="info[isadmin]" value="0">
+						<input type="hidden" name="info[role_id]" value="{{$role_id}}">
+					</th>
+					<td>
+						<label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label>
+						<label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{else}}
+<form class="validate" method="post" action='{{U url="fuser/add?step=1&moduleid=$moduleid"}}'>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				{{if 0}}
+				<!--需要先选择用户模型，在选择角色时使用以下代码-->
+			    <tr>
+			      <th width="150">会员角色<span>请先给会员分配一个角色</span></th>
+			      <td>{{php}}echo Html::select('modelid', $this->_tpl_vars['models'],'','title="【所属会员模型】必须选择" class="required"'){{/php}}<span id="showrole"></span></td>
+			    </tr>
+			    {{/if}}
+			    <tr>
+			      <th width="150">会员角色<span>请先给会员分配一个角色</span></th>
+			      <td>
+			      <select name="role_id">
+			      	{{foreach from=$roles item=v}}
+					  <option value="{{$v.role_id}}">{{$v.nickname}}</option>
+					{{/foreach}}
+			      </select>
+			      </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th width="150"></th>
+			      <td>
+			        <label class="btn"><input type="submit" name="submit" value="下一步" class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label>
+			      </td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{/if}}
+
+{{include file='default/Public/footer.html'}}

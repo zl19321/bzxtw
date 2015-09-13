@@ -1,0 +1,8 @@
+<script type="text/javascript" src="__ROOT__/min/?b=admin/Public&f=js/validation/jquery.validate.js,js/jquery.dialog.js,js/page.js"></script>
+{{if !empty($note)}}
+<script language="javascript">
+JqueryDialog.OpenMessage('{{$note.title}}','{{$note.content}}',400,150, false, false, true);
+</script>
+{{/if}}
+</body>
+</html>

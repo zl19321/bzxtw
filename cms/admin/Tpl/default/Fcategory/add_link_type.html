@@ -1,0 +1,86 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+$().ready(function (){
+	$("#myform").validate({
+		errorContainer: $('#messageContainer'),
+		errorLabelContainer: $("ol", $('#messageContainer')),
+		wrapper: 'li'
+	});
+	
+	$("#name").blur(function(){
+		var name = $("#name").val();
+		$.get("/admin.php?m=fcategory&a=add&ajax=getpin&word="+name,{},function(data){
+			if(data){
+				$("#url").val(data);
+			}
+		})
+	});
+});
+</script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/insert/jquery.caretInsert.min.js"></script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="#" class="selected" rel="tabsContent1">基本信息</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/add?type=link'}}" enctype="multipart/form-data">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width='150'>上级栏目</th>
+			      <td><input type="hidden" name="info[parentid]" value="{{$parent_data.catid}}">
+			        {{if empty($parent_data.name) }} 无 {{else}} {{$parent_data.name}} {{/if}}</td>
+			    </tr>
+			    <tr>
+			      <th width='150'>栏目名称<span>填写栏目显示的名称</span></th>
+			      <td><input name='info[name]' type='text' id='name' maxlength='50' size="40" class="required input" title="请填写栏目名称" value="" /></td>
+			    </tr>
+                <tr>
+			      <th width='150'>栏目别名<span>填写栏目显示的别名</span></th>
+			      <td><input name='info[ename]' type='text' id='ename' maxlength='50' size="40" class="input" value="" /></td>
+			    </tr>
+			    <tr>
+			      <th width='150'>栏目图片<span>栏目导图</span></th>
+			      <td>
+			      <input name="thumb_img" type="file" class="file" />
+			      <input name="info[thumb]" type="hidden" value="" />
+			      </td>
+			    </tr>
+			    <tr title="请填写完整链接，包括 &quot; http://&quot;前缀！">
+			      <th width='150'>链接地址<span>完整绝对链接，不含最后的"/"!如要指向本域名下栏目，用HTTP_SERVER代替，比如：HTTP_SERVER/about.html</span></th>
+			      <td><input name='info[url]' type='text' id='url' maxlength='100' size="40" class="required input" title="链接地址不能为空" value="" /></td>
+			    </tr>
+                <tr>
+                    <th>栏目介绍<span>栏目的简要介绍</span></th>
+                    <td><textarea name='info[description]' id='description' cols="50" rows="3" class="textarea" ></textarea></td>
+                </tr>
+			    <tr>
+			      <th width='150'>是否锁定<span>锁定可防止误删</span></th>
+			      <td><input name='info[islock]' type='checkbox' value="1" checked="checked" /></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+			    <tr>
+			      <th>&nbsp;</th>
+			      <td>
+                  <input type="hidden" name="dosubmit" value="1" />
+                  <input name="forward" type="hidden" value="{{$forward}}" />
+					  <input name="step" type="hidden" value="3" />
+			        <input name="info[type]" type="hidden" value="link" />       
+			        <input name="info[ishtml]" type="hidden" value="{{$model_data.module.ishtml}}" />
+			         <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+				</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

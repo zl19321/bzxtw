@@ -1,0 +1,48 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fset/arg&do=add'}}">新增参数</a></li>
+			<li><a href="{{U url='fset/arg&do=manage'}}">管理参数</a></li>
+			<li><a href="#" class="selected" rel="tabsContent1">编辑参数</a></li>
+		</ul>		
+	</div>
+</div>
+<form class="validate" action="{{U url='fset/arg?do=edit&dosubmit=1'}}" method="post">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="150">参数名称<span>只能为英文</span></th>
+			      <td><input name="info[var]" type="text" maxlength="60"  size="40" class="required input" value="{{$data.var}}"  /></td>
+			    </tr>
+			    <tr>
+			      <th>参数值<span>可以显示在页面上的任意信息</span></th>
+			      <td><textarea name="info[value]" class="textarea" cols="38" rows="5">{{$data.value}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>说明<span>备注信息</span></th>
+			      <td><textarea name="info[remark]" class="textarea" cols="38" rows="5">{{$data.remark}}</textarea></td>
+			    </tr>
+			     <tr>
+			      <th>所属组<span>将参数进行分组，用于归类，例:sysset为全局</span></th>
+			      <td>
+			      <input name="info[key]" type="text" class="input" value="{{$data.key}}"  size="40"/>
+			      </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td><input type="hidden" name="forward" value='{{U url="fset/arg?do=manage"}}' />
+			        <input type="hidden" name="_tablename" value="setting" />
+			        <label class="btn"><input type="submit" name="dosubmit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,313 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+$().ready(function (){
+	var power_checkbox = $(".actions_list input[type='checkbox']");
+	var now_id = 0;
+	power_checkbox.click(function (){
+		var role_id = $("#role_id").val();
+		if(!role_id>0) {
+			alert('用户角色读取错误~！');
+			return ;
+		}
+		var url = '{{U url="frbac/power?dosubmit=1&role_id="}}'+role_id;
+		var thisobj = $(this);
+		if($(this).attr('checked') == true) {
+			var data = 'appname='+thisobj.attr('appname')+'&controller='+thisobj.attr('controller')+'&action='+thisobj.val()+'&do=add';			
+		} else {
+			var data = 'appname='+thisobj.attr('appname')+'&controller='+thisobj.attr('controller')+'&action='+thisobj.val()+'&do=remove';			
+		}		
+		$.ajax({
+			url:url,
+			data:data,
+			cache:false,
+			type:'post',
+			success:function (msg){				
+				if(msg == 'e') {
+					alert('参数错误，数据发生异常，请刷新页面重新操作~！');
+					if(thisobj.attr('checked') == true) {
+							thisobj.attr('checked',false);
+					} else {
+						  thisobj.attr('checked',true);
+					}
+				} else if(msg == 'false'){
+					alert('保存失败');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+				}
+			},
+			error:function (xhr, msg, errorThrown){
+				alert('数据保存错误，请刷新页面重新授权~！');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+			},
+			complete:function (){
+				$("#working_gif_"+now_id).remove();				
+			},			
+			beforeSend:function (xhr){
+				now_id ++;
+				thisobj.parent().append('<img src="{{$smarty.const._PUBLIC_}}images/working.gif" id="working_gif_'+now_id+'" />');				
+			}
+		});
+	});
+	
+	var category_checkbox = $(".actions_category input[type='checkbox']");
+	var now_id = 0;
+	category_checkbox.click(function (){
+		var role_id = $("#role_id").val();
+		if(!role_id>0) {
+			alert('用户角色读取错误~！');
+			return ;
+		}
+		var url = '{{U url="frbac/power?dosubmit=2&role_id="}}'+role_id;
+		var thisobj = $(this);
+		cat_id = thisobj.parent().parent().parent().parent().parent().parent().attr("id");
+		
+		if($(this).attr('checked') == true) {
+			var data = 'cat_id='+cat_id+'&field='+thisobj.attr("name")+'&action='+thisobj.val()+'&do=add';			
+		} else {
+			var data = 'cat_id='+cat_id+'&field='+thisobj.attr("name")+'&action='+thisobj.val()+'&do=remove';			
+		}
+		$.ajax({
+			url:url,
+			data:data,
+			cache:false,
+			type:'post',
+			success:function (msg){				
+				if(msg == 'e') {
+					alert('参数错误，数据发生异常，请刷新页面重新操作~！');
+					if(thisobj.attr('checked') == true) {
+							thisobj.attr('checked',false);
+					} else {
+						  thisobj.attr('checked',true);
+					}
+				} else if(msg == 'false'){
+					alert('保存失败');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+				}
+			},
+			error:function (xhr, msg, errorThrown){
+				alert('数据保存错误，请刷新页面重新授权~！');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+			},
+			complete:function (){
+				$("#working_gif_"+now_id).remove();				
+			},			
+			beforeSend:function (xhr){
+				now_id ++;
+				thisobj.parent().append('<img src="{{$smarty.const._PUBLIC_}}images/working.gif" id="working_gif_'+now_id+'" />');				
+			}
+		});
+	});
+// input[type='checkbox']
+	var fk=$("input[name='fuckAll']");
+	fk.click(function (){
+		// alert(1);
+		var role_id = $("#role_id").val();
+		if(!role_id>0) {
+			alert('用户角色读取错误~！');
+			return ;
+		}
+		var url = '{{U url="frbac/power?dosubmit=3&role_id="}}'+role_id;
+		var thisobj = $(this);
+		var appname=thisobj.val();
+		if($(this).attr('checked') == true) {
+			var data = 'role_id='+role_id+'&appname='+appname+'&do=add';			
+		} else {
+			var  data = 'role_id='+role_id+'&appname='+appname+'&do=remove';			
+		}
+		$.ajax({
+			url:url,
+			data:data,
+			cache:false,
+			type:'post',
+			success:function (msg){				
+				if(msg == 'e') {
+					alert('参数错误，数据发生异常，请刷新页面重新操作~！');
+					if(thisobj.attr('checked') == true) {
+							thisobj.attr('checked',false);
+					} else {
+						  thisobj.attr('checked',true);
+					}
+				} else if(msg == 'false'){
+					alert('保存失败');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+				}else{
+					window.location.reload();
+				}
+			},
+			error:function (xhr, msg, errorThrown){
+				alert('数据保存错误，请刷新页面重新授权~！');
+					if(thisobj.attr('checked') == true) {
+						thisobj.attr('checked',false);
+					} else {
+						thisobj.attr('checked',true);
+					}
+			},
+			complete:function (){
+				$("#working_gif_"+now_id).remove();				
+			},			
+			beforeSend:function (xhr){
+				now_id ++;
+				thisobj.parent().append('<img src="{{$smarty.const._PUBLIC_}}images/working.gif" id="working_gif_'+now_id+'" />');				
+			}
+		});
+	});
+
+	//勾选
+	var fuckAdmin=false;
+	var fuckFront=false;
+	$("#box1 input[type='checkbox']").each(function(){
+	   if($(this).attr("checked")==false){
+	     	return false;
+	   }else{
+	   		fuckAdmin=true;
+	   }
+	  
+	})
+	$("#box2 input[type='checkbox']").each(function(){
+	   if($(this).attr("checked")==false){
+	     	return false;
+	   }else{
+	   		fuckFront=true;
+	   }
+	  
+	})
+	// alert(fuckAdmin+'---'+fuckFront);
+	// alert($("#fuckAdmin"));
+	if(fuckAdmin){
+		$("#fuckAdmin").attr('checked',true);
+	}
+	if(fuckFront){
+		$("#fuckFront").attr('checked',true);
+	}
+});
+
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">编辑权限</a></li>
+			<li><a href='{{U url="fcache/act?isadmin=$isadmin"}}' >更新缓存</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form id="power_form" method="post" action="{{U url='frbac/power?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <td colspan="2"><h2>编辑角色权限(勾选以后会自动保权限信息)</h2></td>
+			    </tr>
+				<tr>
+			      <td width="90">角色名称:</td>
+			      <td>{{$role_data.nickname}}</td>
+			    </tr>
+			    <tr>
+			      <td>所属应用:</td>
+			      <td id="box">        
+			        <a href="#box1">后台</a>
+			        <a href="#box2">前台</a>
+			        <a href="#box3">栏目</a>
+			      </td>
+			    </tr>
+			    <tr>
+			    	<td>批量操作:</td>
+			    	<td>
+			    		<input type="checkbox"  value="admin" name="fuckAll" id="fuckAdmin" />全选后台  
+			    		<input type="checkbox"  value="front" name="fuckAll" id="fuckFront" />全选前台
+			    	</td>
+			    </tr>
+			    <tr>
+			      <td valign="top">编辑授权:</td>
+			      <td>
+			      <table class="actions_list" cellpadding="0" cellspacing="1" id="box1">
+			      {{foreach from=$data.admin item=v key=k}}      
+			      <tr>
+			        <th width="20%">{{$v.contorllername}}<span>{{$k}}</span></span></th>
+			        <td>
+			        <ul>
+			        {{foreach from=$v.info item=v2}}
+			          <li><input type="checkbox" name="info[{{$v2.controller}}][]" appname="{{$v2.appname}}" controller="{{$v2.controller}}" value="{{$v2.action}}" {{if in_array($role_data.name,$v2.allow)}}checked="checked"{{/if}} />{{$v2.name}}</li>
+			        {{/foreach}}
+			        </ul>
+			        </td>
+			      </tr>      
+			     {{/foreach}}
+			     </table>
+			     <table class="actions_list" cellpadding="0" cellspacing="1" id="box2">
+			     {{foreach from=$data.front item=v key=k}}      
+			      <tr>
+			        <th width="20%">{{$v.contorllername}}<span>{{$k}}</span></span></th>
+			        <td>
+			        <ul>
+			        {{foreach from=$v.info item=v2}}
+			          <li><input type="checkbox" name="info[{{$v2.controller}}][]" appname="{{$v2.appname}}" controller="{{$v2.controller}}" value="{{$v2.action}}" {{if in_array($role_data.name,$v2.allow)}}checked="checked"{{/if}} />{{$v2.name}}</li>
+			        {{/foreach}}
+			        </ul>
+			        </td>
+			      </tr>      
+			     {{/foreach}}
+			      </table>
+			      <div class="listForm">
+				      <table class="actions_category" cellpadding="0" cellspacing="0" id="box3">
+				      <thead>
+				    	  <tr><th>编号</th><th> 名称</th><th>栏目目录</th><th>操作</th></tr>
+				      </thead>
+				      <tbody id="rule">
+					  {{foreach from=$category item=v3}}
+					      <tr >
+						      <td>{{$v3.id}}</td>
+						      <td>{{$v3.name}}</td>
+						      <td>{{$v3.url}}</td>
+						      <td><a href="#rule{{$v3.id}}">展开</td>
+						      
+					      </tr>
+					      <tr id="rule{{$v3.id}}">
+						      <td colspan="4">
+						      	{{$v3.setting}}
+						      </td>
+					      </tr>
+					  {{/foreach}}
+					  </tbody>
+				      </table>
+			      </div>
+			      </div> 
+			      </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td width="90" ></td>
+					<td><input name="role_id" id="role_id" type="hidden" value="{{$role_data.role_id}}" /></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+<script type="text/javascript" src="admin/Public/js/jquery.idTabs.min.js"></script>
+<script type="text/javascript">
+   $("#box").idTabs();
+   $("#rule").idTabs();
+</script>
+{{include file="default/Public/footer.html"}}

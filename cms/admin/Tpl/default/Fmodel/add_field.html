@@ -1,0 +1,166 @@
+{{include file="default/Public/header.html"}}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#formtype").change(function(){
+		if($("#formtype").val() == 'select'){
+			$("#field_name").val('classify_select');
+			$("#field_name").attr('readonly','readonly');
+		}else{
+			$("#field_name").val('');
+			$("#field_name").attr('readonly','');
+		}
+	});
+})
+</script>
+<div id="pageTop">
+	<div class="tabs">
+		<ul>
+			<li><a href='{{U url="fmodel/list_field?modelid=`$modelid`"}}' {{if $action_name=="list_field"}}class="selected" rel="tabsContent1"{{/if}}>管理字段</a></li>
+			<li><a href='{{U url="fmodel/add_field?modelid=`$modelid`"}}' {{if $action_name=="add_field"}}class="selected" rel="tabsContent1"{{/if}}>添加字段</a></li>
+			<li><a href="{{U url='fmodel/manage'}}" {{if $action_name=="manage"}}class="selected" rel="tabsContent1"{{/if}}>管理模型</a></li>
+			<li><a href="{{U url='fmodel/add_model'}}" {{if $action_name=="add_model"}}class="selected" rel="tabsContent1"{{/if}}>新增模型</a></li>
+			<li></li>
+		</ul>
+	</div>
+</div>
+<form class="validate" action="{{U url='fmodel/add_field?dosubmit=1'}}" method="post" name="myform" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent">
+			<tbody>
+				<tr>
+			      <th width="20%">字段名
+			        <span>只能由英文字母和数字组成，并且仅能字母开头，2~20个字</span></th>
+			      <td><input type="text" name="info[field]" id="field_name" size="20" value="{{$data.field}}" {{if !empty($data.field) }} readonly="readonly"{{/if}}  class="required input" {{if empty($data.field) }} remote='{{U url="fmodel/add_field?modelid=`$modelid`&ajax=check"}}' {{/if}} maxlength="20" minlength="2" title="[字段名]必须填写规范，且不能是已经存于该模型中的字段名" class="input"/></td>
+			    </tr>
+			    <tr>
+			      <th>字段别名
+			        <span>例如：文章标题</span></th>
+			      <td><input name="info[name]" type="text" value="{{$data.name}}"  size="30"  title="[字段别名]字符长度范围必须为1到20位"  class="required input" maxlength="20" class="input"/></td>
+			    </tr>
+			    <tr>
+			      <th>字段提示
+			        <span>显示在字段别名下方作为表单输入提示</span></th>
+			      <td><textarea name="info[tips]" rows="2" cols="40" id="tips" class="textarea">{{$data.tips}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>字段类型<span></span></th>
+			      <td><select name="info[formtype]" id="formtype" onchange="$('#setting').load('{{U url="fmodel/add_field?ajax=setting&modelid=`$modelid`&type="}}'+this.value);setTimeout(function(){window.parent.mainCo && window.parent.mainCo();},200);" {{if !empty($data.formtype) }}disabled="disabled"{{/if}}  class="required" title="必须选择字段所属的[字段类型]">
+			          <option value="">请选择</option> 
+			          <option value="input" {{if $data.formtype=='input'}}selected="selected"{{/if}}>单行文本</option>
+			          <option value="textarea" {{if $data.formtype=='textarea'}}selected="selected"{{/if}}>多行文本</option>
+			          <option value="box" {{if $data.formtype=='box'}}selected="selected"{{/if}}>选项</option>
+			          {{if $data.formtype=='title'}}<option value="title" selected="selected">标题</option>{{/if}}
+			          {{if $data.formtype=='tag'}}<option value="tag" selected="selected">TAG标签</option>{{/if}}
+			          {{if $data.formtype=='attr'}}<option value="attr" selected="selected">文档属性</option>{{/if}}
+			          <option value="catid" {{if $data.formtype=='catid'}}selected="selected"{{/if}}>栏目</option>
+			          <option value="number" {{if $data.formtype=='number'}}selected="selected"{{/if}}>数字</option>
+			          <option value="editor" {{if $data.formtype=='editor'}}selected="selected"{{/if}}>编辑器</option>
+			          <option value="datetime" {{if $data.formtype=='datetime'}}selected="selected"{{/if}}>日期和时间</option>
+<!--			          <option value="style" {{if $data.formtype=='style'}}selected="selected"{{/if}}>颜色和字型</option>-->
+			          <option value="thumb" {{if $data.formtype=='thumb'}}selected="selected"{{/if}}>单图片</option>
+			          <option value="images" {{if $data.formtype=='images'}}selected="selected"{{/if}}>多图片</option>
+			          <option value="file" {{if $data.formtype=='file'}}selected="selected"{{/if}}>单文件上传</option>
+			          <option value="upload" {{if $data.formtype=='upload'}}selected="selected"{{/if}}>多文件上传</option>
+<!--			      <option value="position" {{if $data.formtype=='position'}}selected="selected"{{/if}}>推荐位</option>-->
+			          {{if $data.formtype=='template'}}<option value="template" selected="selected">模板</option>{{/if}}
+			          <option value="download" {{if $data.formtype=='download'}}selected="selected"{{/if}}>文件下载</option>
+			          <option value="video" {{if $data.formtype=='video'}}selected="selected"{{/if}}>视频播放</option>
+					  <option value="map" {{if $data.formtype=='map'}} selected="selected"{{/if}}>百度地图</option>
+                      <option value="select" {{if $data.formtype=='select'}} selected="selected"{{/if}}>联动分类</option>
+			        </select></td>
+			    </tr>
+			    <tr>
+			      <th>相关参数
+			        <span>设置表单相关属性</span></th>
+			      <td><div id="setting"></div>
+			      <script language="javascript">
+							{{if $data.fieldid}}							
+							$('#setting').load('{{U url="fmodel/add_field"}}', {'ajax':'setting', 'modelid':'{{$modelid}}', 'fieldid': {{$data.fieldid}}, 'type':$('#formtype').val()});
+							{{elseif $data.copy_fieldid}}
+							$('#setting').load('{{U url="fmodel/add_field"}}', {'ajax':'setting', 'modelid':'{{$modelid}}', 'fieldid':'{{$data.copy_fieldid}}', 'type':$('#formtype').val()});
+							{else}
+							 $('#setting').load('{{U url="fmodel/add_field"}}', {'ajax':'setting', 'modelid':'{{$modelid}}',  'type':$('#formtype').val()});
+							{{/if}}
+							setTimeout(function(){window.parent.mainCo && window.parent.mainCo()},500);
+			      </script></td>
+			    </tr>
+			    <tr>
+			      <th>表单附加属性
+			        <span>可以通过此处加入javascript事件</span></th>
+			      <td><input type="text" name="info[formattribute]"  value="{{$data.formattribute}}" maxlength="200" title="[表单附加属性]不能超过200个字符"  class="input" style="width:250px;"/></td>
+			    </tr>
+			    <tr>
+			      <th>元素样式名
+			        <span>定义表单元素class名称</span></th>
+			      <td><input type="text" name="info[css]"  value="{{$data.css}}" maxlength="50"  title="[元素样式名]不能超过50个字符"  class="input" style="width:250px;"/></td>
+			    </tr>
+			    <tr>
+			      <th>父容器样式名
+			        <span>定义表单元素的父容器的class名称</span></th>
+			      <td><input type="text" name="info[parent_css]" value="{{$data.parent_css}}" maxlength="50"  title="[父容器样式名]不能超过50个字符" class="input" style="width:250px;"/></td>
+			    </tr>
+			    <tr>
+			      <th>是否必填项
+			        <span>该属性是否是必填项</span></th>
+			      <td> 是
+			        <input type="radio" name="info[required]"  value="1" {{if $data.required == '1'}}checked{{/if}} class="required" title="[是否必填项]必选" />
+			                      否
+			        <input type="radio" name="info[required]"  value="0" {{if $data.required == '0' || !isset($data.required) }}checked{{/if}} /></td>
+			    </tr>
+			    <tr>
+			      <th>字符长度取值范围
+			        <span>系统将在表单提交时检测数据长度范围是否符合要求，如果不想限制长度请留空</span></th>
+			      <td>最小值：
+			        <input type="text" name="info[minlength]" value="{{$data.minlength}}"  id="minlength"  size="5" />
+			        最大值：
+			        <input type="text" name="info[maxlength]" value="{{$data.maxlength}}"  id="maxlength"  size="5" /></td>
+			    </tr>
+			    <tr>
+			      <th>数据校验正则
+			        <span>系统将通过此正则校验表单提交的数据合法性，如果不想校验数据请留空</span></th>
+			      <td><input type="text" name="info[pattern]" id="pattern" value="{{$data.pattern}}" maxlength="200"  title="[数据校验正则]不能超过200个字符" />
+			        <select name="pattern_select" onchange="$('#pattern').val(this.value);" >
+			          <option value="">常用正则</option>
+			          <option value="/^[0-9.-]+$/" {{if $data.pattern == '/^[0-9.-]+$/'}}selected{{/if}}>数字</option>
+			          <option value="/^[0-9-]+$/" {{if $data.pattern == '/^[0-9-]+$/'}}selected{{/if}}>整数</option>
+			          <option value="/^[a-z]+$/i" {{if $data.pattern == '/^[a-z]+$/i'}}selected{{/if}}>字母</option>
+			          <option value="/^[0-9a-z]+$/i" {{if $data.pattern == '/^[0-9a-z]+$/i'}}selected{{/if}}>数字+字母</option>
+			          <option value="/^[0-9a-z_\-]+$/i" {{if $data.pattern == '/^[0-9a-z_\-]+$/i'}}selected{{/if}}>数字+字母+下划线+减号</option>
+			          <option value="/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/" {{if $data.pattern == '/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/'}}selected{{/if}}>E-mail</option>
+			          <option value="/^[0-9]{5,12}$/" {{if $data.pattern == '/^[0-9]{5,12}$/'}}selected{{/if}}>QQ</option>
+			          <option value="/^http:\/\//" {{if $data.pattern == '/^http:\/\//'}}selected{{/if}}>超级链接</option>
+			          <option value="/^(13|15|18)[0-9]{9}$/" {{if $data.pattern == '/^(13|15|18)[0-9]{9}$/'}}selected{{/if}}>手机号码</option>
+			          <option value="/^[0-9-]{6,13}$/" {{if $data.pattern == '/^[0-9-]{6,13}$/'}}selected{{/if}}>电话号码</option>
+			          <option value="/^[0-9]{6}$/" {{if $data.pattern == '/^[0-9]{6}$/'}}selected{{/if}}>邮政编码</option>
+			        </select></td>
+			    </tr>
+			    <tr>
+			      <th>数据校验未通过的提示信息
+			        <span>当表单数据不满足正在校验时的系统提示信息</span></th>
+			      <td><input type="text" name="info[errortips]" value="{{$data.errortips}}" maxlength="200" title="[数据校验未通过的提示信息]不能超过200个字符"  class="input"/></td>
+			    </tr>
+			    <tr>
+			      <th>所属信息组
+			        <span>非基础信息将会显示在高级选项里面</span></th>
+			      <td> 基础
+			        <input name="info[card]" type="radio" value="1" {{if $data.card == '1' || !isset($data.card) }} checked="checked"{{/if}} class="required" title="[所属信息组]必选"/>
+			        高级
+			        <input name="info[card]" type="radio" value="2" {{if $data.card == '2'}} checked="checked"{{/if}}  /></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th>&nbsp;</th>
+			      <td><input type="hidden" name="forward" value='{{U url="fmodel/list_field?modelid=`$modelid`"}}' />
+			        <input type="hidden" name="info[fieldid]" value="{{$data.fieldid}}" />
+			        <input type="hidden" name="modelid" value="{{$modelid}}" />
+			        <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,50 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+  <div class="tabs">
+    <ul>
+      <li><a href="javascript:void(0);" class="selected" rel="tabsContent1">批量生成二维码</a></li>
+    </ul>
+  </div>
+</div>
+<form name="myform" method="post" action="{{U url='fbrcode/batch'}}" class="validate">
+  <div id="pageCo">
+    <div class="manageForm">
+      <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+        <tbody>
+          <tr>
+            <th width="10%">操作说明：</th>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <th width="10%">&nbsp;</th>
+            <td>系统设置->网站配置->附件设置 启用二维码，设置二维码图片尺寸。</td>
+          </tr>
+          <tr>
+            <th width="10%">&nbsp;</th>
+            <td>(尺寸：1)生成的二维码图片大约为28px*28px，选择其它尺寸宽高则乘以其倍数。</td>
+          </tr>
+		  <tr>
+            <th width="10%">&nbsp;</th>
+            <td>模型 文章发布，产品展示，图片欣赏，文件下载，视频播放，电子报刊，电子杂志 已添加二维码功能。</td>
+          </tr>
+          <tr>
+            <th width="10%">&nbsp;</th>
+            <td><strong>批量功能：</strong><内容管理>数据迁移或者集中生成二维码。</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>&nbsp; </th>
+            <td>
+              <label class="btn">
+              <input type="button" name="submit" value="确 定" class="submit" id="batch"/>
+              </label>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+<script>$("#batch").click(function(e){$.get("{{U url='fbrcode/batch'}}",{ajax: "1"},function(data){alert(data)});});</script>
+</form>
+{{include file="default/Public/footer.html"}}

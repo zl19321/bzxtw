@@ -1,0 +1,70 @@
+{{include file="default/Public/header.html"}}
+<script type="text/javascript">
+function changeStatus(job_apply_id, obj) 
+{
+	$.getJSON('{{U url="fjob/resume_edit?ajax=1"}}', {catid:{{$catid}}, job_apply_id:job_apply_id, status:$(obj).val()}, function(data){
+		if(data=="ok") {
+			$('#status_' + job_apply_id).html($(obj).val());
+			$(obj).nextAll('span').html("状态更新成功！").show().fadeOut(4000);
+		}
+		else $(obj).nextAll('span').html("状态更新失败！").show().fadeOut(4000);
+	});
+}
+</script>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+					<tr>
+	  				<th width="20%" align="right">姓名:</th>
+	  				<td width="30%">{{$data.user_name}}</td>
+	  				<th width="20%" align="right">年龄:</th>
+	  				<td width="30%">{{if $data.user_age}}{{$data.user_age}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th width="20%" align="right">性别:</th>
+	  				<td>{{if $data.user_sex}}{{$data.user_sex}}{{else}}&nbsp;{{/if}}</td>
+	  				<th width="20%" align="right">身份证:</th>
+	  				<td>{{if $data.user_card}}{{$data.user_card}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">联系电话:</th>
+	  				<td>{{if $data.user_phone}}{{$data.user_phone}}{{else}}&nbsp;{{/if}}</td>
+	  				<th align="right">联系IM:</th>
+	  				<td>{{if $data.user_im}}{{$data.user_im}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">联系邮箱:</th>
+	  				<td>{{if $data.user_email}}{{$data.user_email}}{{else}}&nbsp;{{/if}}</td>
+	  				<th align="right">现在住址:</th>
+	  				<td>{{if $data.user_address}}{{$data.user_address}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">到岗时间:</th>
+	  				<td>{{if $data.end_time}}{{$data.end_time}}{{else}}&nbsp;{{/if}}</td>
+	  				<th align="right">学历:</th>
+	  				<td>{{if $data.user_education}}{{$data.user_education}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">简历:</th>
+	  				<td>{{if $data.filename}}<a href="__PUBLIC__/uploads/{{$data.filename}}">下载</a>{{else}}无{{/if}}</td>
+	  				<th align="right">投递时间:</th>
+	  				<td>{{"Y-m-d H:i"|date:$data.create_time}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">教育培训经历:</th>
+	  				<td colspan="3">{{if $data.education_training}}{{$data.education_training}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th align="right">工作经历:</th>
+	  				<td colspan="3">{{if $data.work_experience}}{{$data.work_experience}}{{else}}&nbsp;{{/if}}</td>
+	  			</tr>
+	  			<tr>
+	  				<th>简历状态:</th>
+	  				<td colspan="4"><select name="status" onchange="changeStatus({{$data.id}}, this);">{{html_options options=$status selected=$data.status}}</select><span style="color:red;"></span></td>
+	  			</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>
+{{include file="default/Public/footer.html"}}

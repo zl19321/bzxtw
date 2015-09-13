@@ -1,0 +1,178 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='factivity/add?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='javascript:;'  class="selected" rel="tabsContent1" ><span>基本信息</span></a></li>
+            <li><a href='javascript:;' rel="tabsContent2"><span>高级选项</span></a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+	<script language="javascript" src="admin/Public/js/calendar/WdatePicker.js"></script>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1" >
+	    <tbody>	      
+	      <tr>
+	        <th width="150">活动名称<span>字数长度在1~60个字间</span></th>
+	        <td>
+			   <input name="info[title]" type="text" value=""   class=" input  required "  maxlength="60"  errortips="标题在1~60个字间"  size="50"  id="title_3" />
+	        </td>
+	      </tr>	
+		  <!-- 新增加活动的开始时间和结束时间字段 -->
+		  	      <tr>
+	        <th width="150">活动开始时间</th>
+	        <td>			  
+				<input value=""  class="Wdate required" type="text" name="info[in_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">活动结束时间</th>
+	        <td>
+			  <input value=""  class="Wdate required" type="text" name="info[out_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+		  	      <tr>
+	        <th width="150">活动报名开始时间</th>
+	        <td>			  
+				<input value=""  class="Wdate required" type="text" name="info[start_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">活动报名最后截止时间</th>
+	        <td>
+			  <input value=""  class="Wdate required" type="text" name="info[end_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+		  <!-- 仿造新闻模块图片上传功能，实现图片上传功能 -->
+	      <tr>
+	        <th width="150">活动海报<span>可从本机上传或者从站内选择</span></th>
+	        <td>
+				<label><input type="text" name="info[thumb]" value="" id="tb_input5"  class=" input "  maxlength="255"  size="50"  style="width:260px" /></label>
+				<label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=fupload&a=fieldupload&fieldid=52&opener_id=tb_input5&height=250&width=500" title="从电脑上传图片" class="notips" id="upload_img_5" value="上传图片" /></label>
+				<label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=ffiles&a=images&fieldid=52&opener_id=tb_input5&height=450&width=700" title ="站内图片库"  class="notips" id="choose_img_5" value="站内选择" /></label>		
+	        </td>
+	      </tr>
+		  <!-- 新增加活动组织方,承办方,地点等新字段 -->
+		      <tr>
+	        <th width="150">活动组织方</th>
+	        <td>
+			   <input name="info[zuzhifang]" type="text" value=""   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>	
+		  	      <tr>
+	        <th width="150">活动承办方</th>
+	        <td>
+			   <input name="info[chengbanfang]" type="text" value=""   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		  	  	      <tr>
+	        <th width="150">活动地点</th>
+	        <td>
+			   <input name="info[address]" type="text" value=""   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		   <tr>
+	      <th width="150">文档属性<span></span></th>
+			<td>
+			<input type="checkbox" name="info[attr][]" value="top"  /> 首页置顶
+			<input type="checkbox" name="info[attr][]" value="hot"  /> 热点
+			<input type="checkbox" name="info[attr][]" value="scroll"  />图片轮播
+			</td>
+		  </tr>
+	      <tr>
+	        <th width="150">活动简介</th>
+	        <td>
+			      <textarea name="info[description]"  cols="60"  rows="5"   class=" textarea required"  maxlength="200"  errortips="不能超过200个字"  ></textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">活动详细内容</th>
+	        <td>
+	        {{ffeditor name='info[content]' toolbar='advanced' width=550 height=360}}
+	        </td>
+	      </tr>	 
+		  <!-- 新增加会员参与功能 -->
+		  	<tr>
+			<th>是否会员才能报名</th>
+					<td><input name="info[allowguest]" type="radio" value="1" {{if $data.allowguest == 1}}checked{{/if}} />是&nbsp;&nbsp;
+     			<input name="info[allowguest]" type="radio" value="0" {{if $data.allowguest == 0}}checked{{/if}} />否</td>
+				</tr>
+				<tr>
+				<th>状态<span>默认发布，也可以不发布</span></th>
+				<td>
+<input id="info_status_0" class=" required " type="radio" maxlength="255" checked="" value="9" name="info[status]">
+<label for="info_status_0">发布</label>
+<input id="info_status_1" class=" required " type="radio" maxlength="255" value="0" name="info[status]">
+<label for="info_status_1">待审</label>
+</td>
+				</tr>
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none;">
+	    <tbody>
+	      <tr>
+	        <th width="150">SEO标题<span>默认同标题，也可自定义</span></th>
+	        <td>
+			  <input name="info[seotitle]" type="text" value=""   class=" input "  maxlength="255"  errortips="不能超过100个字"  size="60"  />
+	        </td>
+	      </tr>
+	        <tr>
+	        <th width="150">SEO关键字<span>默认同TAG，也可自定义</span></th>
+	        <td>
+			 <textarea name="info[seokeywords]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过200个字"  ></textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">SEO描述<span>默认同摘要，也可自定义</span></th>
+	        <td>
+	          <textarea name="info[seodescription]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过250个字"  ></textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">链接地址<span>默认自动生成，不包括".html"后缀，不可改</span></th>
+	        <td>
+			  <input name="info[url]" type="text" value=""   class=" input "  maxlength="255"  errortips="不能是纯数字"  size="60"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">排序<span>默认为 1，越小越靠前</span></th>
+	        <td>
+	          <input name="info[sort]" type="text" value="1"   class="input"  maxlength="255"  size="6"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">模板<span>默认使用栏目模板，也可以从模板库中选择</span></th>
+	        <td>			      
+				<label><input type="text" name="info[template]" value="" id="tb_input15"  class=" input "  maxlength="255"  size="50"  /></label>
+				<label><input type="button" class="dialog" alt="/admin.php?m=ffiles&a=tpl&fieldid=15&opener_id=tb_input15&height=300&width=500" title="模板库" id="upload_img_15" value="选择模板" /></label>			
+				
+	        </td>
+	      </tr>	      	
+	      <!-- <tr>
+	        <th width="150">添加时间<span>默认当前时间</span></th>
+	        <td>			  
+				<input value=""  class="Wdate" type="text" name="info[create_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">更新时间<span>默认最后更新时间</span></th>
+	        <td>
+			  <input value=""  class="Wdate" type="text" name="info[update_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>-->
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0">
+         <tfoot>
+			<tr>
+				<th width="150">&nbsp;</th>
+				<td><label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		  </tfoot>
+		</table>		
+	</div>	
+</div>
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

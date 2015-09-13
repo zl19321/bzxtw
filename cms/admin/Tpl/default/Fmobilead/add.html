@@ -1,0 +1,74 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+
+function choice_change(){
+    
+    $.post('admin.php?m=fmobilead&a=ajaxSetting',{classes:$("#classes").val()},function(data){
+        $("#ad").html(data);
+    });
+            
+    
+}
+
+</script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/insert/jquery.caretInsert.min.js"></script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:;" class="selected" rel="tabsContent1">基本信息</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fmobilead/add?dosubmit=1'}}" enctype="multipart/form-data" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+		      <tr>
+		        <th width='150'>广告类型</th>
+		        <td>
+                    <select name="info[classes]" id="classes" onchange="choice_change();">
+                        <option value="0">-选择需要绑定的广告类型-</option>
+                        {{foreach from=$classes item=v key=k}}
+                            <option value="{{$k}}">{{$v}}</option>
+                        {{/foreach}}
+                    </select>
+                </td>
+		      </tr>
+              
+              <tr>
+		        <th>广告<span></span></th>
+		        <td id="ad">请选择广告类型</td>
+		      </tr>
+
+		      <tr>
+		        <th>广告名称<span>显示在后台，方便查询</span></th>
+		        <td><input type="text" name="info[name]" id="info_name" class="required input" title="手机广告名称不能为空！" />
+		          </td>
+		      </tr>
+              
+              <tr>
+		        <th>过期时间<span>设置广告的过期时间</span></th>
+		        <td><script src="admin/Public/js/calendar/WdatePicker.js" language="javascript"></script>
+                    <input class="Wdate" type="text" onfocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="info[out_time]" value=""/>
+		          </td>
+		      </tr>
+
+		    </tbody>
+		</table>
+
+		<table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<th width="150">&nbsp;</th>
+				<td><input name="forward" type="hidden" value="{{$forward}}" />
+		        <label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+		        <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label></td>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

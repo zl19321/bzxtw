@@ -1,0 +1,41 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fprofile/edit"}}' {{if $action_name=="edit"}}class="selected"{{/if}}>修改资料</a></li>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">修改密码</a></li>
+		</ul>		
+	</div>
+</div>
+<form class="validate" action="{{U url='fprofile/pwd?do=update&dosubmit=1' }}" method="post" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+					<th width="20%"><label for="old_pwd">当前密码：</label></th>
+					<td><input type="password" name="old_password" id="old_password" value="" class="required input" minlength="6" maxlength="20" /></td>
+				</tr>
+				<tr>
+					<th><label for="password">新密码：</label></th>
+					<td><input type="password" name="password" id="password" class="required input" value="" minlength="6" maxlength="20" /></td>
+				</tr>
+				<tr>
+					<th><label for="confirm_password">再次输入新密码：</label></th>
+					<td><input type="password" name="confirm_password" id="confirm_password" class="required input" value="" equalTo="#password" /></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+						<label class="btn"><input class="submit" type="submit" value="提交保存" /></label>
+						<label class="btn"><input class="submit" type="reset" value="重 置" /></label>
+					 </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

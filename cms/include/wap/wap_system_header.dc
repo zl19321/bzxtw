@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="__WAP__/css/public.css" />
+<link rel="stylesheet" type="text/css" href="__WAP__/css/style.css" />
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+<meta name="MobileOptimized" content="240"/>
+<meta name="format-detection" content="telephone=no" />
+<title>{{$seo.seotitle}}</title>
+<meta name="description" content="{{$seo.seodescription}}" />
+<meta name="keywords" content="{{$seo.seokeywords}}" />
+</head>
+<body>
+
+    <div class="header">
+        <a href="__ROOT__/" class="logo"><img src="__WAP__/img/logo.jpg" /></a>
+        <ul class="nav">
+            {{ffwapmenu to=wap_headerlist}}
+            <li><a href="__ROOT__/" class="on">首页</a></li>
+            {{foreach from=$wap_headerlist item=v}}
+                <li><a href="{{$v.url}}" class="on">{{$v.name}}</a></li>
+            {{/foreach}}
+        </ul>
+    </div>

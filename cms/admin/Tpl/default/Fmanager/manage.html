@@ -1,0 +1,94 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<!--<div class="addBtn"><a href="{{U url='fmanager/add' }}">添加管理员</a></div>-->
+	<div class="cate">
+		{{foreach item=v from=$roles }}
+	    <a href="{{U url="fmanager/manage?role_id=`$v.role_id`" }}" {{if $in.role_id==$v.role_id}}class="selected"{{/if}}>{{$v.nickname}}</a>|
+	    {{/foreach}}
+	    <a href="{{U url='fmanager/manage'}}" {{if !$in.role_id}}class="selected"{{/if}}>所有管理员</a>
+	</div>
+	<div class="search">
+		<form action="{{U url='fmanager/manage'}}" method="post">
+			<select name="type">
+		        <option value="user_id">管理员ID</option>
+		        <option value="username">管理员名称</option>
+		        <option value="rolename">角色标识</option>
+		        <option value="rolenickname">角色名称</option>
+		      </select>
+		    <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+			<button type="submit"></button>
+		</form>
+	</div>
+</div>
+
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40" title="全/反选"><input type="checkbox" name="checkAll" /></th>
+				    <th width="55">管理员ID</th>
+				    <th width="90">管理员名称</th>
+				    <th width="90">所属角色标识</th>
+				    <th width="100">所属角色名称</th>
+				    <th width="150">注册时间</th>
+				    <th width="150">最后登录</th>
+				    <th width="60">状态</th>
+				    <th width="80">管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{foreach from=$data.info item=v}}
+				    {{if $v.user_id==1}} <!--超级管理员信息，只有自己能修改-->
+				    <tr>
+				      <td>&nbsp;</td>
+				      <td>{{$v.user_id}}</td>
+				      <td>{{$v.username}}</td>
+				      <td>{{$v.rolename}}</td>
+				      <td>{{$v.rolenickname}}</td>
+				      <td>{{'Y-m-d H:i:s'|date:$v.create_time}}</td>
+				      <td title="最后登录地址:{{$v.last_login_location}}&#13;&#10;登录IP:{{$v.last_login_ip}}&#13;&#10;登录次数：{{$v.login_count}}">{{'Y-m-d H:i:s'|date:$v.last_login_time}}&nbsp;</td>
+				      <td><font color="#999999">正常</font></td>
+				      <td>
+				      {{php}} if($_SESSION['userdata']['username'] == 'admin') { {{/php}}
+				       <a href='{{U url="fmanager/edit?user_id=`$v.user_id`"}}'>修改</a> | 
+				      {{php}} } else { {{/php}}
+				       <font color="#999999">修改</font> | 
+				      {{php}} } {{/php}}
+				      <font color="#999999">删除</font></td>
+				    </tr>  
+				    {{else}}<!--非超级管理员管理员信息-->
+				    <tr>
+				      <td><input type="checkbox" name="user_id[]" /></td>
+				      <td>{{$v.user_id}}</td>
+				      <td><a href='{{U url="fmanager/edit?user_id=`$v.user_id`"}}' title="编辑管理员信息">{{$v.username}}</a></td>
+				      <td>{{$v.rolename}}</td>
+				      <td>{{$v.rolenickname}}</td>
+				      <td>{{'Y-m-d H:i:s'|date:$v.create_time}}</td>
+				      <td title="最后登录地址:{{$v.last_login_location}}&#13;&#10;登录IP:{{$v.last_login_ip}}&#13;&#10;登录次数：{{$v.login_count}}">{{'Y-m-d H:i:s'|date:$v.last_login_time}}&nbsp;</td>
+				      <td>
+				          {{if $v.status<=0}}
+				              <a href='{{U url="fmanager/edit?do=status&status=1&user_id=`$v.user_id`"}}' style="color:#F00" title="点击解锁该管理员">解锁</a>
+				          {{else}}
+				              <a href='{{U url="fmanager/edit?do=status&status=0&user_id=`$v.user_id`"}}' title="点击锁定该管理员">正常</a>
+				          {{/if}}
+				      </td>  
+				      <td>
+				      <a href='{{U url="fmanager/edit?user_id=`$v.user_id`"}}'>修改</a> | 
+				      <a href='{{U url="fmanager/delete?user_id=`$v.user_id`"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该管理员？');" title="删除管理员，操作不可撤销">删除</a></td>
+				    </tr>  
+				    {{/if}}
+				    {{foreachelse}}
+				    <tr>
+				    	<td colspan="10" style="text-align:center;">没有数据！</td>
+				    </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

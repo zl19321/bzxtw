@@ -1,0 +1,86 @@
+{{include file="default/Public/header.html"}}
+{{if !$total}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fhtml/index"}}' {{if $action_name=="index"}}class="selected" rel="tabsContent1"{{/if}}>更新首页</a></li>
+			<li><a href='{{U url="fhtml/category"}}' {{if $action_name=="category"}}class="selected" rel="tabsContent1"{{/if}}>更新栏目页</a></li>
+			<li><a href='{{U url="fhtml/show"}}' {{if $action_name=="show"}}class="selected" rel="tabsContent1"{{/if}}>更新详细页</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form action="{{U url='fhtml/show'}}" method="post" name="myform">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="150">选择栏目<span>按住“Ctrl”或“Shift”键可以多选，按住“Ctrl”可取消选择</span></th>
+			      <td><select name='catids[]' id='catids'  multiple="multiple"  style="height:300px;width:250px;">
+			                  <option value="0">所有栏目</option>
+			                 {{$html}}
+			                </select></td>
+			    </tr>
+			    <tr>
+			      <th width="150">起始ID</th> 
+			      <td>开始：<input type="text" name="startid" value="" size="6" /> 结束:<input type="text" name="endid" value="" size="6" /></td>
+			    </tr>
+			    <tr>
+			      <th width="150">档案发布时间</th> 
+			      <td><input type="checkbox" name="seltime" value="1" onclick="$(this).siblings('div').toggle();" />启用时间筛选
+			              	<div style="display:none;">
+			              		<script type="text/javascript" src="{{$smarty.const._PUBLIC_}}js/calendar/WdatePicker.js"></script>
+			              		开始：<input name="starttime" id="starttime" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',maxDate:'#F{$dp.$D(\'endtime\')||\'2020-10-01\'}'})"/> 
+								结束：<input name="endtime" id="endtime" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'starttime\')}',maxDate:'2020-10-01'})"/>
+			              	</div></td>
+			    </tr>
+			    <tr>
+			      <th width="150">每轮更新页数</th> 
+			      <td><input type="text" name="pagesize" value="50" size="4"></td>
+			    </tr>
+			    <tr>
+			      <th>&nbsp;</th>
+			      <td>
+			        <input type="hidden" name="forward" value="{{$forward}}">
+			        <input type="hidden" name="dosubmit" value="1">
+			        <label class="btn"><input type="submit"  name="dosubmit" value="更 新" class="submit" /></label>
+			     </td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>	
+</div>
+</form>
+
+{{else}}
+
+<script type="text/javascript">
+$(function(){
+	setTimeout("$('#doCleanHtml').submit()", 1000);
+});
+</script>
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="message">
+			<ul class="l"><img src="{{$smarty.const._PUBLIC_}}images/message_pic_01.jpg" /></ul>
+			<ul class="r">
+				<li><span class="green">正在更新HTML文件。。。已更新 {{$complete}} / {{$total}}</span></li>
+				<li class="btn">
+				<form action="{{U url='fhtml/show'}}" method="POST" id="doCleanHtml">
+				{{foreach from=$content_list item=content}}
+					<input type="hidden" name="content_list[]" value="{{$content.url}}" />
+				{{/foreach}}
+				<input type="hidden" name="pagesize" value="{{$pagesize}}" />
+				<input type="hidden" name="complete" value="{{$complete}}" />
+				<input type="hidden" name="total" value="{{$total}}" />
+				<input type="hidden" name="dosubmit" value="1" />
+				</form>
+				</li>
+			</ul>
+			<ul class="clearit"></ul>
+		</div>
+	</div>	
+</div>
+{{/if}}
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,47 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fdb/backup'}}" {{if $action_name=="backup"}}class="selected" rel="tabsContent1"{{/if}}>数据备份</a></li>
+			<li><a href="{{U url='fdb/restore'}}" {{if $action_name=="restore"}}class="selected" rel="tabsContent1"{{/if}}>还原数据</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr align="left">
+                    <th width="10%" style="text-align:left;">名 称</th>
+                    <th width="30%" style="text-align:left;">分 卷</th>
+                    <th width="100" style="text-align:left;">备份日期</th>
+                    <th style="text-align:left;">操　作</th>
+                </tr>
+				{{foreach from=$filelists key=gkey item=gfile}}
+				  <tr>
+				  	<td>{{$gkey}}</td>
+				  	<td align="center">共{{$gfile|@count}}卷</td>
+				  	<td>&nbsp;</td>
+				  	<td><a href='{{U url="fdb/del?dosubmit=1&prefix=$gkey"}}' onclick="var r = confirm('确认要删除此备份？'); return r;">删除</a>
+				  	 | <a href='{{U url="fdb/restore?dosubmit=1&prefix=$gkey"}}' onclick="var r = confirm('还原会覆盖现在数据库记录，确认要还原此备份？'); return r;" target="stafrm">还原此备份</a></td>
+				  </tr>
+				  {{foreach from=$gfile item=file}}
+				  <tr>
+				    <td width="30px" align="center">&nbsp;&nbsp;-</td>
+				    <td width="120px" align="center">{{$file.name}}</td>
+				    <td width="180px" align="center">{{$file.mtime}}</td>
+				    <td>{{$file.size}}</td>
+				  </tr>
+				 {{/foreach}}
+				{{/foreach}}
+				<tr>
+            		<th style="text-align:center;" colspan="4">运行状态</th>
+            	</tr>
+				<tr>
+					<td colspan="4" style="width:500px; heigth:200px; border:1px solid #ddd;"><iframe name="stafrm" frameborder="0" id="stafrm" width="100%" height="100%"></iframe></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,75 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='fcollect/show?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href='#' class="selected" ><span>来源信息</span></a></li>
+</ul>
+</div>
+</div>
+<div id="pageCo">
+<div class="manageForm">
+<table cellpadding="0" cellspacing="0" class="tabcontent">
+	<tbody>
+		<tr>
+			<th>标题：</th>
+			<td><input type="text" class="input" name="info[title]" value="{{$data.title}}" size="70"/> </td>
+		</tr>
+		<tr>
+			<th>链接：</th>
+			<td><input type="text" class="input" name="info[link]" value="{{$data.link}}" size="70"/></td>
+		</tr>
+		<!--<tr>
+			<th>图片：</th>
+			<td><img src="{{$data.thumb}}" width="100" height="100"/><br/>
+				<input type="text" class="input" name="info[thumb]" value="{{$data.thumb}}" size="70"/></td>
+		</tr>-->
+		<tr>
+			<th>发布时间：</th>
+			<td><script language="javascript" src="admin/Public/js/calendar/WdatePicker.js"></script>
+			<input value="{{$data.create_time|date_format:'%Y-%m-%d'}}"  class="Wdate" type="text" name="info[create_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/></td>
+		</tr>
+		<tr>
+			<th>信息来源：</th>
+			<td><input type="text" class="input" name="info[source]" value="{{$data.source}}" size="12"/></td>
+		</tr>
+		<tr>
+			<th>正文：</th>
+			<td>
+			<script type="text/javascript" src="__ROOT__/public/editor/kindeditor/kindeditor.js"></script>
+			<textarea id="content_info_content" name="info[content]"  class=""  style="width:550px;height:250px;visibility:hidden;">{{$data.content}}</textarea>
+			<script type="text/javascript">
+            KE.show({
+            	id : 'content_info_content',
+            	allowFileManager : true,
+            	urlType : 'domain'
+            });
+            </script>
+			</td>
+		</tr>
+		<tr>
+			<th>是否导入：<span>已导入的数据将不再重复导入</span></th>
+			<td>
+			<input type="radio" name="info[status]" value="1" {{if $data.status == 1}}checked{{/if}}/>是
+			<input type="radio" name="info[status]" value="0" {{if $data.status == 0}}checked{{/if}}/>否
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table cellpadding="0" cellspacing="0">
+	<tfoot>
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td>
+				<label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label>
+				<label class="btn"><input type="button" name="back" value="返回" class="submit" onclick="javascript:location='__ROOT__/admin.php?m=fcollect&a=collect_page&pid={{$data.pid}}'"/></label>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+</div>
+<input type="hidden" name="pid" value="{{$data.pid}}" />
+<input type="hidden" name="c_id" value="{{$data.c_id}}" />
+</form>
+{{include file="default/Public/footer.html"}}

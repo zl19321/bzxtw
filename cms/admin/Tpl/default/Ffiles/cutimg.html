@@ -1,0 +1,96 @@
+<html>
+<head>
+<title title="图片裁剪">图片库</title>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/jquery-1.4.2.min.js"></script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/jcrop/jquery.Jcrop.min.js"></script>
+<link rel="stylesheet" href="{{$smarty.const._PUBLIC_}}js/jcrop/css/jquery.Jcrop.css" type="text/css" />
+<script language="Javascript">
+var jcrop_api;
+$().ready(function (){
+	jcrop_api = $.Jcrop('#cropbox',{
+		aspectRatio: 0,
+		onSelect: updateCoords,
+		onChange: showCoords
+	});			
+});
+
+function updateCoords(c)
+{
+	$('#x').val(c.x);
+	$('#y').val(c.y);
+	$('#w').val(c.w);
+	$('#h').val(c.h);
+};
+
+function showCoords(c)
+{
+	$('#w').val(c.w);
+	$('#h').val(c.h);
+};
+
+function beginCut()
+{	
+	if (parseInt($('#w').val()))
+	{		
+		if(!window.confirm('此操作不可撤销，确认裁剪?') )  return false;
+		$.ajax({
+			url:'{{U url="ffiles/images?do=cutimg&dosubmit=1&file=`$file`"}}',
+			data:'x='+$('#x').val()+'&y='+$('#y').val()+'&w='+$('#w').val()+'&h='+$('#h').val(),
+			cache:false,
+			type:'post',
+			success:function(msg){
+				$("#working_gif").remove();				
+				if(msg == 'n') { //操作失败
+					alert('裁剪失败');
+				} else { //操作成功
+                    //alert(msg);
+					window.location.reload();
+				}				
+			},
+			beforeSend:function () {
+				$(".cropbox_img").after('<img src="{{$smarty.const._PUBLIC_}}images/working.gif" id="working_gif" />');
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(textStatus);
+				$("#working_gif").remove();
+			}
+		});
+		return true;
+	} else {
+		alert('请选择一个裁剪区域！');	
+		return false;
+	}
+};
+</script>
+</head>
+<body>
+<style type="text/css">
+#outer{}
+#outer h2{ font-weight:normal; padding:5px 10px; background:#f2f2f2; height:25px}
+#outer h2 a{ float:left}
+#outer h2 label{ float:right}
+#outer h2 label input{ line-height:14px; height:19px; width:50px; margin:0px 5px}
+#outer .jcExample { border:0px; clear:both}
+#outer .jcExample h1{ font-weight:normal; padding:5px 10px}
+#outer .jcExample h1 span{ color:green}
+</style>
+<div id="outer">
+  <h2>
+  	<a href="javascript:history.go(-1);"><< 返回站内图片库</a>
+  	<label>宽度（W）<input type="text" id="w" name="w" />高度（H）<input type="text" id="h" name="h" /></label>		
+  </h2>
+  <div class="jcExample">    
+    <div class="article">
+      <h1 id="h1">图片裁剪 - <Span>{{$file}}</Span></h1>
+      <!-- This is the image we're attaching Jcrop to -->
+      <img src="__PUBLIC__/{{$fileurl}}" id="cropbox" class="cropbox_img" />    
+    </div>
+    <input type="hidden" id="x" name="x" />
+    <input type="hidden" id="y" name="y" />
+    <input type="hidden" id="w" name="w" />
+    <input type="hidden" id="h" name="h" />
+    <input type="submit" value="开始裁剪" onClick="beginCut();" style="padding:2px 5px; margin-top:5px"/>
+  </div>
+</div>
+</body>
+</html>

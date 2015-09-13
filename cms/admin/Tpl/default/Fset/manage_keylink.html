@@ -1,0 +1,84 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable_word").editable("{{U url='fset/keylink?do=edit&ajax=saveword'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可快速编辑",
+			name			: 'word',
+			id				: 'id',
+			placeholder : '',
+			width: 30,
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"			
+	});
+	$(".editable_url").editable("{{U url='fset/keylink?do=edit&ajax=saveurl'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可快速编辑",
+			name			: 'url',
+			id				: 'id',
+			placeholder : '',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"			
+	});
+	$(".editable_sort").editable("{{U url='fset/keylink?do=edit&ajax=savesort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可快速编辑",
+			name			: 'sort',
+			id				: 'id',
+			placeholder : '',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"			
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="addBtn"><a href="{{U url='fset/keylink&do=add'}}">新增关键词链接</a></div>
+	<div class="search">
+		<form method="post" action="{{U url='fset/keylink?do=manage&dosubmit=1'}}" >
+          <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+		  <button type="submit"></button>
+        </form>
+	</div>
+</div>
+<form name="myform" method="post" action="#">
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40">ID</th>
+			        <th width="40">序</th>
+			        <th width="200">关键词</th>
+			        <th>链接地址</th>
+			        <th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v}}	
+				    <tr>
+				      <td>{{$v.id}}</td>
+				      <td class="pointer editable_sort" id="sort_{{$v.id}}">{{$v.sort}}</td>
+				      <td><span class="pointer editable_word" id="word_{{$v.id}}">{{$v.word}}</span></td>
+				      <td><span class="pointer editable_url" id="url_{{$v.id}}">{{$v.url}}</span></td>
+				      <td>
+				      <a href='{{U url="fset/keylink?do=edit&id=`$v.id`"}}'>修改</a> |
+				      <a href="javascript:confirmurl('{{U url="fset/keylink?do=delete&id=`$v.id`"}}', '此操作不可恢复，确认删除关键词链接“{{$v.word}}”吗?')">删除</a>
+				      </td>
+				    </tr>
+				    {{foreachelse}}
+				    <tr><td colspan="5">暂无记录！</td></tr>
+				    {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

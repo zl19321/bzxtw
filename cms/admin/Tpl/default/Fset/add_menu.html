@@ -1,0 +1,97 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+function getchild(parentid) {	
+$.ajax({
+	  url: '{{U url='fset/menu?ajax=getchild&do=add'}}',
+	  data: "parentid="+parentid,
+	  cache: false,
+	  success: function(html)  {
+		  parentid == 0 ?  $('#parent').html(html) : $('#parent').append(html); 
+		  $("#parentid").val(parentid);
+	  }
+	});
+}
+{{if !$parent_data.menuid}}
+$().ready(function () {
+	getchild(0);
+});
+{{/if}}
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fset/menu?do=add'}}" class="selected" rel="tabsContent1">新增菜单</a></li>
+			<li><a href="{{U url='fset/menu?do=manage'}}">管理菜单</a></li>
+			<li><a href="{{U url='fcache/menu'}}">更新缓存</a></li>
+		</ul>
+	</div>
+</div>
+
+<form class="validate" action="{{U url='fset/menu?do=add&dosubmit=1'}}" method="post" id="myForm">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="20%">上级菜单</th>
+			      <td><input name="info[parentid]" id="parentid" type="hidden" value="{{$parent_data.menuid|intval}}">
+			        <span id="parent">
+			        {{$parent_data.name}}
+			        </span> <a href="javascript:;" onclick="javascript:getchild(0);$('#parentname').hide();">重选</a></td>
+			    </tr>
+			    <tr>
+			      <th>菜单名称</th>
+			      <td><input name="info[name]" type="text" value=""  maxlength="20"  class="required input"  size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>链接地址</th>
+			      <td><input name="info[url]" type="text" value="" maxlength="100" class="input"  size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>打开窗口</th>
+			      <td><select name="info[target]" id="target" >
+			          <option value="mainFrame" selected>右窗口</option>
+			          <option value="_self" >当前窗口</option>
+			          <option value="_blank" >新窗口</option>
+			          <option value="top" >上窗口</option>
+			          <option value="left" >左窗口</option>          
+			        </select></td>
+			    </tr>
+			    <tr>
+			      <th>菜单标识</th>
+			      <td><input name="info[key]" type="text" value="" maxlength="100" class="input"  size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>默认状态</th>
+			      <td>
+			      <input type="radio" name="info[isopen]" value="1" /> 展开
+			      <input type="radio" name="info[isopen]" value="0"  checked="checked"/> 收缩
+			      </td>
+			    </tr>   
+			    <tr>
+			      <th>浏览权限<span>选择对那些角色可见</span></th>
+			      <td>
+			      {{foreach from=$roles item=v}}
+			        <span style="width:100px">
+			        <label>
+			          <input type="checkbox" name="info[rolenames][]" id="roleid_{{$v.role_id}}" value="{{$v.name}}" checked="checked" />
+			          {{$v.nickname}}</label>
+			        </span> 
+			       {{/foreach}}
+			      </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td><input type="hidden" name="forward" value="{{$forward}}" />
+			        <input type="hidden" name="_tablename" value="menu" />
+			        <label class="btn"><input type="submit" class="submit" value="提交保存 "/></label>
+							<label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

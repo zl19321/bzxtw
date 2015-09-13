@@ -1,0 +1,117 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fjob/manage?catid=`$catid`"}}'>职位列表</a></li>
+			<li><a href='{{U url="fjob/add?catid=`$catid`"}}' {{if $action_name=="add"}}class="selected" rel="tabsContent1"{{/if}}>添加职位</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form name="myform" method="post" action="{{U url='fjob/add?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+		            <th>职位名称：</th>
+		            <td colspan="3"><input type="text" name="info[title]" class="required input" title="【职位名称】必填" value="" style="width:300px" /></td>
+		          </tr>
+		          <tr>
+		            <th width="20%">所属部门：</th>
+		            <td width="30%"><input type="text" name="info[department]" class="required input" title="【所属部门】必填" value="" style="width:120px;" /></td>
+		            <th width="20%">薪资待遇：</th>
+		            <td width="30%"><input type="text" name="info[guerdon]" class="required input" title="【薪资待遇】必填" value="面议" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>性别要求：</th>
+		            <td><input type="radio" name="info[user_sex]" value="男" />男 <input type="radio" name="info[user_sex]" value="女" />女 <input type="radio" name="info[user_sex]" value="不限" checked />不限</td>
+		            <th>年龄要求：</th>
+		            <td><input type="text" name="info[user_age]" class="input" value="" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>招聘人数：</th>
+		            <td><input type="text" name="info[job_number]" class="required input" value="10" title="【招聘人数】必填" style="width:60px;" />人</td>
+		            <th>学历要求：</th>
+		            <td><input type="text" name="info[degree]" class="input" value="" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>工作地点：</th>
+		            <td><input type="text" name="info[place]" class="required input" title="【工作地点】必填" value="" style="width:120px;" /></td>
+		            <th>职业经验：</th>
+		            <td><input type="text" name="info[experience]" class="required input" value="不限" title="【职业经验】必填" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>结束时间：</th>
+		            <td colspan="3">
+		            <script language="javascript" src="__ROOT__/admin/public/js/calendar/WdatePicker.js"></script>
+		            <input type="text" name="info[end_time]" class="Wdate required input" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})" title="【结束时间】必填" value="{{$end_time}}" /></td>
+		          </tr>
+		          <tr>
+		            <th>职位说明：</th>
+		            <td colspan="3">{{$editer_html}}</td>
+		          </tr>
+		          <tr>
+		            <th colspan="4" style="text-align:center;"><b>联络方式</b></th>
+		          </tr>
+		          <tr>
+		            <th>联系人：</th>
+		            <td><input type="text" name="info[linkman]" class="required input" title="【联系人】必填" value="" style="width:120px;" /></td>
+		            <th>QQ或MSN：</th>
+		            <td><input type="text" name="info[im]" class="input" value="" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>招聘电话：</th>
+		            <td><input type="text" name="info[tel]" class="input" value="" style="width:120px;" /></td>
+		            <th>招聘邮箱：</th>
+		            <td><input type="text" name="info[email]" class="input" value="" style="width:120px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>面试地址：</th>
+		            <td colspan="3"><input type="text" name="info[address]" class="required input" title="【面试地址】必填" value="" style="width:300px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>空白简历：</th>
+		            <td colspan="3">
+		            	<input type="text" maxlength="255" class="" id="tb_job" value="" name="info[filename]" style="width:400px;">
+		            	<input type="button" value="上传附件" id="upload_filename" class="dialog" alt='{{U url="fupload/commonUpload?_tablename=job&opener_id=tb_job&height=300&width=450&upload_allowext=doc|zip|tar|txt"}}'>
+		            </td>
+		          </tr>
+		          <tr>
+		            <th>排序</th>
+		            <td colspan="3"><input type="text" name="info[sort]" value="1" size="4" /></td>
+		          </tr>
+		          <tr>
+		            <th>审核</th>
+		            <td colspan="3"><label>
+		              <input type="radio" name="info[status]" value="1" {{if $data.status==1}}checked{{/if}} />
+		              已审</label>
+		              <label>
+		              <input type="radio" name="info[status]" value="0" {{if $data.status!=1}}checked{{/if}} />
+		              待审</label>
+		              </td>
+		          </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+		            <td><input type="hidden" name="forward" value="{{U url='fjob/manage'}}&catid={{$catid}}" />
+		              <input type="hidden" name="_tablename" value="job" />
+		              <input type="hidden" name="info[user_id]" value="{{$userData.user_id}}" />
+		              <input type="hidden" name="info[username]" value="{{$userData.username}}" />
+		              <input type="hidden" name="info[catid]" value="{{$catid}}" />
+		              <input type="hidden" name="catid" value="{{$catid}}" />
+		              <label class="btn">
+		              <input type="submit" name="submit" value="确 定" class="submit" />
+		              </label>
+		              <label class="btn">
+		              <input type="reset" name="reset" value="重 置" class="submit" />
+		              </label>
+		            </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

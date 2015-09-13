@@ -1,0 +1,20 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='fcollect/add?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href='#' class="selected" ><span>信息采集</span></a></li>
+</ul>
+</div>
+</div>
+<div id="pageCo">
+<div class="manageForm">
+结点采集中，请耐心等待。<br/>
+<iframe width="99%" height="350" frameborder="0" scrolling="auto" name="ifreams" style="border:1px #D8D8D8 solid;"></iframe>
+</div>
+</div>
+</form>
+<script>
+setTimeout(function(){window.open("__ROOT__/admin.php?m=fcollect&a=starturl&c_id={{$c_id}}","ifreams","")},100)
+</script>
+{{include file="default/Public/footer.html"}}

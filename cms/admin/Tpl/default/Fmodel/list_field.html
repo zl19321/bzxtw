@@ -1,0 +1,117 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fmodel/add_field?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'fieldid',
+			placeholder : '不可用',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+	//排序
+	$(".editable_name").editable("{{U url='fmodel/add_field?ajax=savename'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'name',
+			id				: 'fieldid',
+			placeholder : '不可用',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs">
+		<ul>
+			<li><a href='{{U url="fmodel/list_field?modelid=`$modelid`"}}' {{if $action_name=="list_field"}}class="selected" rel="tabsContent1"{{/if}}>管理字段</a></li>
+			<li><a href='{{U url="fmodel/add_field?modelid=`$modelid`"}}' {{if $action_name=="add_field"}}class="selected" rel="tabsContent1"{{/if}}>添加字段</a></li>
+			<li><a href="{{U url='fmodel/manage'}}" {{if $action_name=="manage"}}class="selected" rel="tabsContent1"{{/if}}>管理模型</a></li>
+			<li><a href="{{U url='fmodel/add_model'}}" {{if $action_name=="add_model"}}class="selected" rel="tabsContent1"{{/if}}>新增模型</a></li>
+			<li></li>
+		</ul>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th>排序</th>
+				    <th>字段名</th>
+				    <th>别名</th>    
+				    <th>类型</th>
+				    <th>组</th>
+				    <th>系统</th>
+                    <th>列表显示</th>
+				    <th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v key=k}}
+				  <tr>
+				    <td width="30" class="editable_sort pointer" id="field_{{$v.fieldid}}">{{$v.sort}}</td>
+				    <td width="150">{{$v.field}}</td>
+				    <td><span class="editable_name pointer" id="name_{{$v.fieldid}}">{{$v.name}}</span></td>
+				    <td width="120">{{php}}echo Field::name($this->_tpl_vars['v']['formtype']){{/php}}</td>
+				    <td width="30">{{if $v.card=='1'}}基本{{elseif $v.card=='2'}}高级{{/if}}</td>    
+				    <td width="30">
+				    {{if $v.systype>0}}
+				    <font color="red"><img src="admin/Public/images/yes.png" style="margin-left:5px;" /></font>
+				    {{else}}
+				    &nbsp;
+				    {{/if}}
+				    </td>   
+                    <!--fangfa 2012-12-29 新增副表列表显示功能-->
+                    <td width="50">
+                    {{if $v.systype>0}}
+                        <img src="admin/Public/images/yes.png" style="margin-left:12px;" />
+                    {{else}}
+                        {{if $v.listshow>0}}
+                        <a href='{{U url="fmodel/list_field?list_show=0&fieldid=`$v.fieldid`&modelid=`$v.modelid`"}}'>
+                            <img src="admin/Public/images/yes.png" style="margin-left:12px;" />
+                        </a>
+                        {{else}}
+                        <a href='{{U url="fmodel/list_field?list_show=1&fieldid=`$v.fieldid`&modelid=`$v.modelid`"}}'>
+                            <img src="admin/Public/images/no.png" style="margin-left:12px;" />
+                        </a>
+                        {{/if}}
+                    {{/if}}
+                    </td>
+				    <td width="160" >
+				     {{if $v.systype == 2}}
+				        <span style="color:gray;">修改 | 复制 | 禁用 | 删除 </span>
+				     {{else}}
+				        <a href='{{U url="fmodel/add_field?fieldid=`$v.fieldid`"}}'>修改</a> |                   
+				        <a href='{{U url="fmodel/add_field?copy_fieldid=`$v.fieldid`"}}'>复制</a> | 
+				        {{if $v.status>0}}
+				        <a href='{{U url="fmodel/status_field?status=0&fieldid=`$v.fieldid`"}}'>禁用</a> |
+				        {{else}}
+				        <a href='{{U url="fmodel/status_field?status=1&fieldid=`$v.fieldid`"}}' style="color:red;">启用</a> | 
+				        {{/if}}
+				        
+				        {{if $v.systype>0}}
+				        <font color="gray">删除</font>
+				         {{else}}     	
+				        <a href='{{U url="fmodel/del_field?fieldid=`$v.fieldid`"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该字段？');">删除</a>
+				        {{/if}}
+				     {{/if}}        	  
+				    </td>
+				  </tr>
+				  {{foreachelse}}
+				  <tr><td colspan="7">暂无记录！</td></tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,116 @@
+{{include file="default/Public/header.html"}}
+<script>
+    //全选
+    function checkall(){
+        $("#catidtd input[type=checkbox]").attr('checked',true);
+    }
+    //反选
+    function uncheckall(){
+        $("#catidtd input[type=checkbox]").each(function(){
+            if($(this).attr('checked') == true){
+                $(this).attr('checked',false);
+            }else{
+                $(this).attr('checked',true);
+            }
+        })
+    }
+    
+
+function onlyNum(e) {
+ //ASCII码：数字0-9（48~57） 数字健盘区0-9（96~105） 退格键（8） 删除键（46）
+ if(isFirefox = navigator.userAgent.indexOf("Firefox") > 0){  //FF
+  if(!((e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || (e.which==8) || (e.which==46))){
+  $("#sizenumber").val('');  
+  return false; 
+  }
+ } else {
+  if(!((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || (event.keyCode==8) || (event.keyCode==46))){
+  $("#sizenumber").val('');  
+  event.returnValue = false;    
+  }
+
+ }
+}
+
+function isnumber(){
+    if($("#sizenumber").attr('disabled') == false){
+        if(isNaN($("#sizenumber").val())){
+             $("#sizenumber").val('');  
+             return false;
+        }
+        if($("#sizenumber").val() < 30 || $("#sizenumber").val() > 100 ){
+             $("#sizenumber").val('');  
+             return false;
+        }
+    }
+}
+
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">临时数据插入</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form method="post" action="{{U url='fplugin/testdata?dosubmit=1'}}" onsubmit="return isnumber();" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th style="width:150px;">需要添加临时数据的栏目</th>
+			      <td colspan="3">
+                    <input type="checkbox" onchange="checkall();" />全选 &nbsp;&nbsp;<input type="checkbox" onchange="uncheckall();"  />反选<br/>
+                    <span id="catidtd">
+                    {{foreach from=$categoryArr item=v}}
+                        <span style="width:150px;display:block;float:left;"><input type="checkbox" name="catid[]" value="{{$v.catid}}" />{{$v.name}}</span>
+                    {{/foreach}}
+                    </span>
+                  </td>
+			      
+			    </tr>
+			    <tr>
+			      <th style="text-align:center" colspan="4">配置项</th>
+			    </tr>
+			    <tr>
+			      <th>所选栏目需要插入的数据量</th>
+			      <td colspan="3"><input type="radio" value="30" name="size" checked="checked" onchange="$('#sizenumber').attr('disabled',true);" />30条 <input type="radio" value="100" name="size" onchange="$('#sizenumber').attr('disabled',true);" />100条  <input type="radio" value="diy" name="size" onchange="$('#sizenumber').attr('disabled',false);" />自定义(数量不得低于30条且不得超过100条)：<input type="text" style="width:50px" class="input" id="sizenumber" name="sizenumber" disabled="true" onkeydown="return onlyNum(event);" onblur="isnumber();"  /></td>
+			    </tr>
+			    <tr>
+			      <th>自定义文档属性</th>
+			      <td colspan="3">
+                    <input type="checkbox" value="top" name="attr[]" />置顶
+                    <input type="checkbox" value="hot" name="attr[]" />热点
+                    <input type="checkbox" value="scroll" name="attr[]" />图片轮播
+                    每个属性生成数量：     
+                    <select name="attrsize">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+                  </td>
+			    </tr>
+			    <tr>
+			      <th>是否随机添加图片</th>
+			      <td colspan="3">
+                    <input type="radio" name="randomthumb" value="1" />是
+                    <input type="radio" name="randomthumb" checked="checked" value="0" />否
+                    <br />
+                    如果自定义文档属性中勾选了图片轮播，勾选图片轮播的图都会自动带图
+                  </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+				  <th>&nbsp;</th>
+				  <td>
+				    <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+				    <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

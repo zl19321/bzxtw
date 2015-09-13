@@ -1,0 +1,56 @@
+{{include file="default/Public/header.html"}}
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fmobilead/add"}}'>添加广告</a></div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="35">ID</th>					
+					<th>广告名称</th>										
+					<th width="90">创建时间</th>	
+                    <th width="90">到期时间</th>
+					<th width="230">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data item=v}}      
+		      <tr>
+		        <td>{{$v.aid|intval}}</td>
+		        <td>
+		        <span class="editable_title pointer" id="title_{{$v.aid}}">
+                {{$v.name}}<hr />
+                {{$v.notes}}
+                </span>		        
+		        </td>
+		        <td class="editable_updatetime pointer">{{'Y-m-d'|date:$v.create_time}}</td>
+                <td class="editable_updatetime pointer">{{'Y-m-d'|date:$v.out_time}}</td>
+		        <td style="text-align:center;">
+
+		          <a href="{{U url="fmobilead/edit?aid=`$v.aid`"}}" title="编辑">编辑</a> |
+		          <a href='{{U url="fmobilead/delete?aid=`$v.aid`"}}' onClick="return window.confirm('此操作不可撤销，你确定要继续？');">删除</a>
+
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td align="center" colspan="5">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+
+</div>
+<input type="hidden" name="m" id="module" value="fmobilemenu" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="newsid" value="{{$newsid}}" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}
+<style>
+    
+    img{width:50%;}
+
+</style>

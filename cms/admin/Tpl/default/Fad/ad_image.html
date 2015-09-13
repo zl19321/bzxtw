@@ -1,0 +1,23 @@
+<!--图片-->
+<tbody id="imageid">
+                  <tr>
+                    <td style="border:0;">
+                    宽 * 高：<input type="text" name="info[image][setting][imagewidth]" size="4" class="input" value="{{$data.setting.imagewidth}}"/>*  <input type="text" name="info[image][setting][imageheight]" size="4" class="input"  value="{{$data.setting.imageheight}}"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="border:0;"> 
+                      上传图片：
+                      <input type="text" name="info[image][setting][image]" id="imageImg" value="{{$data.setting.image}}" size="40" class="input" />
+                      <label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=imageImg&height=250&width=500&upload_allowext=png|jpg|gif|bmp" title="从电脑上传图片" class="notips" value="上传图片" /></label>
+					  <label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=ffiles&a=images&opener_id=imageImg&height=450&width=700" title ="站内图片库"  class="notips" value="站内选择" /></label>
+                      <font color="red">*</font><br/>
+                      图片提示：
+                      <input type="text" name="info[image][setting][alt]" class="input" size="40" value="{{$data.setting.alt}}" />
+                      <br/>
+                      链接地址：
+                      <input name="info[image][setting][link]" type="text" size="40" class="input" id='linkurl' value="{{$data.setting.link}}" />
+                      <font color="red">*</font><br />
+                      </td>
+                  </tr>
+                </tbody>

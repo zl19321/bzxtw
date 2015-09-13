@@ -1,0 +1,68 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable_sort").editable("{{U url='fset/menu?do=edit&ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可编辑排序",
+			name			: 'sort',
+			id				: 'menuid',
+			placeholder : '大于1',
+			width: 30,
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fset/menu?do=add'}}">新增菜单</a></li>
+			<li><a href="{{U url='fset/menu?do=manage'}}" class="selected" rel="tabsContent1">管理菜单</a></li>
+			<li><a href="{{U url='fcache/menu'}}">更新缓存</a></li>
+		</ul>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40">排序</th>
+					  <th width="50">ID</th>
+					  <th><a href="{{U url="fset/menu?do=manage&parentid=`$menu.parentid`"}}">&nbsp;&nbsp;上一级</a>&nbsp;&nbsp;名称</th>
+					  <th width="100">打开窗口</th>
+					  <th width="260">管理操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v}}
+				<tr>
+				  <td class="editable_sort pointer" id="menu_{{$v.menuid}}">{{$v.sort|intval}}</td>
+				  <td>{{$v.menuid|intval}}</td>
+				  <td><a href='{{U url="fset/menu?do=manage&parentid=`$v.menuid`"}}'>{{$v.name}}</a></td>
+				  <td>{{$TARGET[$v.target]}}</td>
+				  <td>
+				  <a href='{{U url="fset/menu?do=add&parentid=`$v.menuid`"}}'>添加子菜单</a> | 
+				  <a href='{{U url="fset/menu?do=manage&parentid=`$v.menuid`"}}'>子菜单</a> | 
+				  <a href='{{U url="fset/menu?do=edit&menuid=`$v.menuid`&parentid=`$parentid`"}}'>修改</a> | 
+				  {{if $v.issystem}}
+				  <font color="#999999">删除</font>
+				  {{else}}
+				  <a href="javascript:confirmurl('{{U url="fset/menu?do=delete&menuid=`$v.menuid`&forward="}}'+escape('{{U url="fset/menu?do=manage&parentid=`$parentid`"}}'), '确认删除菜单“{{$v.name}}”吗')">删除</a> 
+				  {{/if}}
+				  </td>
+				</tr>
+				{{foreachelse}}
+				<tr><td colspan="6">暂无记录！</td></tr>
+				{{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

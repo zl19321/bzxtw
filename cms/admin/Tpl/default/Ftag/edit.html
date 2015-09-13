@@ -1,0 +1,35 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="ftag/add"}}' {{if $action_name=="add"}}class="selected"{{/if}}>添加TAG</a></li>
+			<li><a href='{{U url="ftag/manage"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理TAG</a></li>
+			<li><a href='javascript:void(0);' {{if $action_name=="edit"}}class="selected"{{/if}} rel="tabsContent1">编辑TAG</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form action="{{U url='ftag/edit?dosubmit=1'}}" method="post">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="100">TAG名称<span></span></th>
+			      <td><input name="info[name]" type="text" value="{{$data.name}}"  maxlength="20" title="【TAG名称】必填"  class="required" /></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td><input type="hidden" name="forward" value="{{$forward}}" />
+			        <input type="hidden" name="info[tagid]" value="{{$data.tagid}}" />
+			        <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

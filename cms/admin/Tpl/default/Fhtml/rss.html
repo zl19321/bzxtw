@@ -1,0 +1,41 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href="{{U url='fhtml/sitemaps'}}" {{if $action_name==
+		'sitemaps'}}class="selected" rel="tabsContent1"{{/if}}>百度/谷歌地图</a></li>
+	<li><a href="{{U url='fhtml/rss'}}" {{if $action_name==
+		'rss'}}class="selected" rel="tabsContent1"{{/if}}>RSS</a></li>
+</ul>
+</div>
+</div>
+
+<form action="{{U url='fhtml/rss'}}" method="post" name="myform">
+<div id="pageCo">
+<div class="manageForm">
+<table cellpadding="0" cellspacing="0" class="tabcontent"
+	id="tabsContent1">
+	<tbody>
+		<tr>
+			<th colspan="2" style="text-align: center;"><strong>生成
+			RSS</strong></th>
+		</tr>
+		<tr>
+			<th width="150">生成数量:</th>
+			<td><input type="text" name="num" value="20" size="4"></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="hidden" name="forward"
+				value="{{U url='fhtml/rss'}}"> <input type="hidden"
+				name="dosubmit" value="1"> <label class="btn"><input
+				type="submit" name="dosubmit" value="点击更新" class="submit" /></label></td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

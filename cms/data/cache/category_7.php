@@ -1,0 +1,66 @@
+<?php
+return array (
+  'catid' => '7',
+  'modelid' => '0',
+  'type' => 'link',
+  'controller' => ' ',
+  'parentid' => '0',
+  'name' => '学生园地',
+  'ename' => 'STUDENT',
+  'thumb' => 'images/2015/07/20150727235318187.jpg',
+  'catdir' => NULL,
+  'description' => '',
+  'seotitle' => NULL,
+  'seokeywords' => NULL,
+  'seodescription' => NULL,
+  'url' => '/cms/student_star/',
+  'template' => NULL,
+  'permissions' => NULL,
+  'setting' => NULL,
+  'ishtml' => '0',
+  'islock' => '1',
+  'sort' => '6',
+  'cattype' => 'cat',
+  'topcatid' => '7',
+  'parentidarr' => 
+  array (
+  ),
+  'childrenidarr' => 
+  array (
+    0 => '25',
+    1 => '55',
+    2 => '56',
+    3 => '57',
+    4 => '58',
+    5 => '59',
+    6 => '60',
+    7 => '61',
+    8 => '62',
+    9 => '114',
+    10 => '64',
+  ),
+  'parentids' => '',
+  'childrenids' => '25,55,56,57,58,59,60,61,62,114,64',
+  'parentidarr_self' => 
+  array (
+    0 => '7',
+  ),
+  'childrenidarr_self' => 
+  array (
+    0 => '7',
+    1 => '25',
+    2 => '55',
+    3 => '56',
+    4 => '57',
+    5 => '58',
+    6 => '59',
+    7 => '60',
+    8 => '61',
+    9 => '62',
+    10 => '114',
+    11 => '64',
+  ),
+  'parentids_self' => '7',
+  'childrenids_self' => '7,25,55,56,57,58,59,60,61,62,114,64',
+);
+?>

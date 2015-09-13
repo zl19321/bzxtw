@@ -1,0 +1,11 @@
+#防止目录浏览
+Options All -Indexes
+DirectoryIndex index.php
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteBase http://www.zhanglei.com/LQJZ/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(visit|im|min|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+</IfModule>

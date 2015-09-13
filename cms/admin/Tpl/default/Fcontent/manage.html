@@ -1,0 +1,210 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fcontent/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'cid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+	//标题
+	$(".editable_title").editable("{{U url='fcontent/edit?ajax=savetitle'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+     		tooltip   : "点击可快速编辑标题",
+			name			: 'title',
+			id				: 'cid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+	//更新时间
+	$(".editable_updatetime").editable("{{U url='fcontent/edit?ajax=updatetime'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可快速编辑时间",
+			name			: 'updatetime',
+			id				: 'cid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+	//栏目
+	//$(".editable_category").editable("{{U url='fcontent/edit?ajax=category'}}",{
+	//		indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+    //  tooltip   : "点击可快速移动到同类型其他栏目",
+	//		name			: 'new_catid',
+	//		id				: 'cid',
+	//		type			: 'select',
+    //			placeholder : '不可用',
+    //			data			: '{{$cat_json}}',
+    //			submitdata : {"catid":'{{$cat.catid}}'},
+    //			select	  : true,
+    //			event	  : "click",
+    //			onblur : "submit"
+    //	});
+	//标记为，表单提交
+	$("#flagto").change(function (){
+		var flagto_length = $("input[name='info[cid][]']:checked").length;
+		if(flagto_length > 0 && $(this).val()!='flagto') {
+			$('#action').val('edit');
+			$('#do').val('status');
+			$('#myform').submit();
+		} else { //提示并还原下拉菜单
+			if($(this).val() != 'flagto') {
+				alert("未选择操作项！");
+			}	
+			$(this).val('flagto');
+		}
+	});
+	//移动到，表单提交
+	$("#moveto").change(function (){
+		var moveto_length = $("input[name='info[cid][]']:checked").length;
+		if(moveto_length > 0 && $(this).val()!='moveto') {
+			if($(this).val() == '-1') {  //移动到回收站
+					$('#action').val('edit');
+					$('#do').val('recycle');
+			} else {  //移动至其他栏目
+					$('#action').val('edit');
+					$('#do').val('moveto');
+			}
+			$('#myform').submit();
+		} else { //提示并还原下拉菜单			
+			if($(this).val() != 'moveto') {
+				alert("未选择操作项！");
+			}	
+			$(this).val('moveto');
+		}
+	});
+});
+</script>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fcontent/add?catid=`$cat.catid`"}}'>发布内容</a></div>
+	<div class="cate">
+      <a href='{{U url="fcontent/manage?catid=`$cat.catid`"}}' {{if $in.status == ''}}class="selected"{{/if}}>全部</a>|
+      <a href='{{U url="fcontent/manage?status=9&catid=`$cat.catid`"}}' {{if $in.status==9}}class="selected"{{/if}}>已审</a>|
+      <a href='{{U url="fcontent/manage?status=0&catid=`$cat.catid`"}}' {{if $in.status == 0 && $in.status!=''}}class="selected"{{/if}}>待审</a>|
+      <a href='{{U url="fcontent/manage?status=-1&catid=`$cat.catid`"}}' {{if $in.status==-1}}class="selected"{{/if}}>回收站</a>
+      {{if $status=='-1'}}
+        {{if count($data.info)>0}}
+        |<a href='{{U url="fcontent/delete?status=-1&cid=all&catid=`$cat.catid`"}}' onClick="return window.confirm('此操作不可撤销，确定要清空回收站？');" class="green">[清空回收站]</a>
+        {{/if}}
+      {{/if}}
+	</div>
+	<div class="batch">
+		{{if $status!='-1'}}
+      <select name="dostatus" id="flagto">
+        <option value="flagto">标记为...</option>
+        <option value="9">已审核</option>
+        <option value="0">待审核</option>
+      </select>
+			<select name="moveto" id="moveto">
+        <option value="moveto">移动到...</option>
+        {{$category_tree}}
+        <option style="background:#CCC" value="-1">回收站</option>
+      </select>
+       {{/if}}
+	</div>
+	<div class="search">
+		<select name='field'>
+          <option value='title'  >标题</option>
+          <option value='username'  >用户名</option>
+          <option value='user_id'  >用户ID</option>
+          <option value='cid'  >ID</option>
+        </select>
+        <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th width="40">排序</th>
+					<th width="35">ID</th>					
+					<th>标题</th>										
+					<th width="90">更新时间</th>
+					<th width="80">发布人</th>	
+					<th width="40">状态</th>	
+					<th width="230">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}      
+		      <tr>
+		        <td align="center"><input type="checkbox" rel="checkbox" name="info[cid][]" value="{{$v.cid}}" /></td>
+		        <td class="editable_sort pointer" id="sort_{{$v.cid}}">{{$v.sort}}</td>
+		        <td>{{$v.cid|intval}}</td>
+		        <td>
+		        <span class="editable_title pointer" id="title_{{$v.cid}}">{{$v.title}}</span>		        
+		        {{if in_array('top',$v.attr)}}
+		        [<span class="green">顶</span>] 
+		        {{/if}}
+		        {{if in_array('hot',$v.attr)}}
+		        [<span class="red">热</span>] 
+		        {{/if}}
+		        {{if !empty($v.thumb)}}
+		        [<span class="blue">图</span>]
+		        {{/if}}        
+		        </td>
+		        <td class="editable_updatetime pointer" id="time_{{$v.cid}}">{{'Y-m-d'|date:$v.update_time}}</td>
+		        <td>{{$v.username}}</td>
+		        <td>
+		        {{if $v.status=='0'}}
+		        <span class="red">待审</span>
+		        {{/if}}
+		        {{if $v.status=='9'}}
+		        <span class="green">已审</span>
+		        {{/if}}
+		        {{if $v.status=='-1'}}
+		        <span class="red">回收站</span>
+		        {{/if}}
+		        </td>
+		        <td>
+		          {{if $v.status=='-1'}}
+		          <a href="{{U url="fcontent/edit?do=restore&cid=`$v.cid`&catid=`$cat.catid`"}}" title="从回收站还原">还原</a> |
+		          <a href='{{U url="fcontent/delete?cid=`$v.cid`&catid=`$cat.catid`"}}' onClick="return window.confirm('此操作不可撤销，你确定要继续？');">彻底删除</a>
+		          {{else}}
+		          <a href="{{$v.url}}" title="访问" target="_blank">查看</a> | 
+                  <a href='{{U url="fcontent/edit?cid=`$v.cid`&catid=`$cat.catid`"}}' title="更新内容">编辑</a> | 
+                  <a href="{{U url="fcontent/edit?do=recycle&cid=`$v.cid`&catid=`$cat.catid`"}}" title="移动至回收站" onClick="return window.confirm('此操作不可撤销，你确定要继续？');">删除</a> | 
+                      {{if $is_comment}}
+                        <a href="{{U url="fcomment/manage?newsid=`$v.cid`&flag=111"}}" title="查看评论">评论</a> |
+                      {{/if}} 
+                      {{if $is_cut}}
+                        <a href="{{U url="fplugin/photomanage?cid=`$v.cid`&tablename=`$cat.model.tablename`&modelid=`$cat.modelid`"}}" title="图片裁剪">图片裁剪</a>
+    		          {{/if}}
+                  {{/if}} 
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="8">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fcontent" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="newsid" value="{{$newsid}}" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

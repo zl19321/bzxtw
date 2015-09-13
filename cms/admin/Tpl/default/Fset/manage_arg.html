@@ -1,0 +1,79 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable_value").editable("{{U url='fset/arg?do=edit&ajax=savevalue'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑",
+			name			: 'value',
+			id				: 'var',
+			placeholder : '',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"			
+	});
+});
+function order(val){
+	self.location="{{U url='fset/arg?do=manage&dosubmit=1&orderkey='}}"+val;
+}
+</script>
+<div id="pageTop">
+	<div class="addBtn">
+    <a href="{{U url='fset/arg&do=add'}}">新增参数</a>
+    </div>
+    <div style="margin:auto; margin-left:10px; line-height:27px; width:auto; float:left;">
+    筛选参数：<select onchange="order(this.value);">
+    	<option value="">ALL</option>
+    	{{foreach from=$group item=i key=k}}
+    	<option value="{{$i}}" {{if $i==$orderkey}}selected{{/if}}>{{$i}}</option>
+        {{/foreach}}
+    </select>
+    </div>
+	<div class="search">
+		<form method="post" action="{{U url='fset/arg?do=manage&dosubmit=1'}}" >
+			<select name="field">
+				<option value="var" {{if $search.field == 'var'}}selected{{/if}}>参数名称</option>
+				<option value="key" {{if $search.field == 'key'}}selected{{/if}}>参数分组</option>
+			</select>
+			<input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+	        <button type="submit"></button>
+		</form>
+	</div>
+</div>
+
+<form name="myform" method="post" action="#">
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="100">参数名称</th>
+				    <th>参数值</th>				    
+				    <th width="80">所属组</th>
+				    <th width="100">说明</th>
+				    <th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach item=v from=$data.info}}
+			    <tr>
+			      <td>{{$v.var}}</td>
+			      <td><span class="editable_value pointer" id="value_{{$v.var}}">{{$v.value}}</span></td>
+			      <td>{{$v.key}}</td>
+			      <td>{{$v.remark}}</td>
+			      <td>
+			      <a href='{{U url="fset/arg?do=edit&var=`$v.var`"}}'>修改</a> | 
+			      <a href="javascript:confirmurl('{{U url="fset/arg?do=delete&var=`$v.var`"}}', '此操作不可恢复，确认删除参数“{{$v.var}}”吗?')">删除</a>
+			      </td>
+			    </tr>
+			    {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,50 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmember/add_group?moduleid=$moduleid"}}' {{if $action_name=="add_group"}}class="selected"{{/if}} rel="tabsContent1">添加会员角色</a></li>
+			<li><a href='{{U url="fmember/manage_group?moduleid=$moduleid"}}' {{if $action_name=="manage_group"}}class="selected"{{/if}}>管理会员角色</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form class="validate" method="post" action='{{U url="fmember/add_group?dosubmit=1&moduleid=$moduleid"}}' >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="150">会员角色标识<span>会员角色标识，唯一，只能由字母组成，例如：register</span></th> 
+			      <td><input type="text" name="info[name]" maxlength="50" title="【会员角色标识】只能是字母，且不能重复" remote="{{U url='frole/add?ajax=checkname'}}" class="required input" size="40" /></td>
+			    </tr>
+			    <tr>
+			      <th>会员角色名称<span>会员角色别名，例如：注册会员</span></th>
+			      <td><input type="text" name="info[nickname]"  maxlength="50" title="【会员角色别名】必填" class="required input" size="40" /></td>
+			    </tr>
+			    <tr>
+			      <th>会员角色描述</th>
+			      <td><textarea name="info[remark]" id="remark" class="textarea" cols="50" rows="3"></textarea></td>
+			    </tr>
+			    <tr>
+			      <th>所属会员模型<span></span></th>
+			      <td>{{php}}echo Html::select('info[modelid]', $this->_tpl_vars['models'],'','title="必须选择所属会员模型" class="required"'){{/php}}</td>
+			    </tr>
+			    <tr>
+			      <th>状态<span></span></th>
+			      <td>{{php}}echo Html::radio_group('info[status]',array(array('title'=>'启用','value'=>'1'),array('title'=>'禁用','value'=>'0')),1,'class="required" title="[状态]必选" ') {{/php}}</td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td>
+			        <input type="hidden" name="forward" value="{{$forward}}">
+			        <label class="btn"><input type="submit" class="submit" value="提交保存 "/></label>
+			        <label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

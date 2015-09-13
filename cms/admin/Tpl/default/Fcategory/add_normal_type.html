@@ -1,0 +1,135 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+$().ready(function (){
+	$("#myform").validate({
+		errorContainer: $('#messageContainer'),
+		errorLabelContainer: $("ol", $('#messageContainer')),
+		wrapper: 'li'
+	});
+	
+	$("#name").blur(function(){
+		var name = $("#name").val();
+		$.get("/admin.php?m=fcategory&a=add&ajax=getpin&word="+name,{},function(data){
+			if(data){
+				$("#catdir").val(data);
+			}
+		})
+	});
+});
+</script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/insert/jquery.caretInsert.min.js"></script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:;" class="selected" rel="tabsContent1">基本信息</a></li>
+			<li><a href="javascript:;" rel="tabsContent2">高级信息</a></li>
+			{{$otherHtml.head}}
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/add?type=normal&dosubmit=1'}}" enctype="multipart/form-data" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+		      <tr>
+		        <th width='150'>上级栏目</th>
+		        <td><input type="hidden" name="info[parentid]" value="{{$parent_data.catid|intval}}" class="input" />
+		          {{if empty($parent_data.name) }} 无 {{else}} {{$parent_data.name}} {{/if}}</td>
+		      </tr>
+		      <tr>
+		        <th>绑定模型<span>栏目的内部类型</span></th>
+		        <td><input type="hidden" name="info[modelid]" value="{{$model_data.modelid}}" />
+		          {{$model_data.name}}</td>
+		      </tr>
+		      <tr>
+		        <th>栏目名称<span>填写栏目显示的名称</span></th>
+		        <td><input name='info[name]' type='text' id='name' maxlength='50' size="40" class="required input"  value="" title="请填写栏目显示的名称"  /></td>
+		      </tr>
+              <tr>
+                <th width='150'>栏目别名<span>填写栏目显示的别名</span></th>
+                <td><input name='info[ename]' type='text' id='ename' maxlength='50' size="40" class="input" value="" /></td>
+              </tr>              
+		      <tr>
+		        <th>栏目目录<span>栏目所使用的目录</span></th>
+		        <td>
+		          <input name='info[catdir]' type='text' id='catdir' maxlength='50' size="40" class="required input"  remote='{{U url="fcategory/add?ajax=checkdir&info[parentid]=`$parent_data.parentid`"}}' value="{{$data.catdir}}"  title="[栏目目录]不能以&quot;f&quot;开头，不能重复，只能包含英文半角字母、数字、下划线以及减号"/>          
+		        </td>
+		      </tr>
+		      <tr>
+		        <th>栏目图片<span>栏目导图</span></th>
+		        <td>
+		          <input name="thumb_img" type="file" class="file" />
+		          <input name="info[thumb]" type="hidden" value="" /></td>
+		      </tr>
+		      <tr>
+		        <th>栏目介绍<span>栏目的简要介绍</span></th>
+		        <td><textarea name='info[description]' id='description' cols="50" rows="3" class="textarea" ></textarea></td>
+		      </tr>
+		    <tr>
+		      <th>是否锁定<span>锁定可防止误删</span></th>
+		      <td><input name='info[islock]' type='checkbox' value="1" checked="checked" /></td>
+		    </tr>
+		    </tbody>
+		</table>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none">			
+			<tbody>
+				{{if $model_data.module.ishtml>0 }}
+			      <!--非静态模型不能绑定二级域名-->
+			      <tr title=" 包括： &quot;http://&quot;前缀，如果父目录已经绑定了，并且本栏目与父栏目在同一个域名下，则不需要填写！">
+			        <th width="150">链接地址
+			          <span>除非需要绑定二级域名，否则此处不需要填写。</span></th>
+			        <td><input name='info[url]' type='text' id='domain' value='' maxlength='60' size="40"  title="" class="input"/>
+			          例如：http://seo.fangfacms.com </td>
+			      </tr>
+			      {{else}}
+			      <tr style="display:none;">
+			        <th width="150">&nbsp;</th>
+			        <td><input name='info[url]' type='hidden' id='domain' value='' size="40" maxlength='60' title=""/>
+			         </td>
+			      </tr>
+			      {{/if}}
+			      <tr title="默认同栏目标题">
+			        <th>Meta Title
+			          <span>针对搜索引擎设置的标题</span></th>
+			        <td>
+			          <textarea name='info[seotitle]' type='text' id='seotitle' cols="50" rows="3" maxlength='60' title="META Title不能超过60个字符" class="textarea"></textarea>
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seotitle'}}
+			         </td>
+			      </tr>
+			      <tr title="默认同栏目名称">
+			        <th>Meta Keywords
+			          <span>针对搜索引擎设置的关键词</span></th>
+			        <td><textarea name='info[seokeywords]' id='seokeywords' cols="50" rows="3"  title="META Keywords不能超过200个字符" class="textarea"></textarea>
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seokeywords'}}
+			          </td>
+			      </tr>
+			      <tr title="默认同栏目介绍">
+			        <th>Meta Description
+			          <span>针对搜索引擎设置的网页描述</span></th>
+			        <td><textarea name='info[seodescription]' id='seodescription' cols="50" rows="3"  maxlength="250"  title="META Description不能超过250个字符" class="textarea"></textarea>
+			          <div class="jsinset"> 
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seodescription'}}
+			          </div></td>
+			      </tr>
+			</tbody>
+		</table>
+		{{$otherHtml.body}}
+		<table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<th width="150">&nbsp;</th>
+				<td><input name="forward" type="hidden" value="{{$forward}}" />
+				    <input name="step" type="hidden" value="3" />
+		        <input name="info[type]" type="hidden" value="normal" />
+		        <input name="info[ishtml]" type="hidden" value="{{$model_data.module.ishtml|intval}}" />
+		        <label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+		        <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label></td>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

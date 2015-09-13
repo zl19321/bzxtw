@@ -1,0 +1,164 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='fsalenet/edit?dosubmit=1'}}">
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='javascript:;'  class="selected" rel="tabsContent1" ><span>基本信息</span></a></li>
+            <li><a href='javascript:;' rel="tabsContent2"><span>高级选项</span></a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+	<script language="javascript" src="admin/Public/js/calendar/WdatePicker.js"></script>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1" >
+	    <tbody>
+		 <input type="hidden" value="1" name="info[scatid]" />
+		  <!--
+		  <tr>
+	        <th width="150">省份<span>选择营销所在的省份</span></th>
+	        <td>
+				<select name="info[scatid]">
+				{{foreach from=$cate_data item=v}}
+				<option value="{{$v.scategoryid}}" {{if $v.scategoryid == $data.scatid}}selected=selected{{/if}}>{{$v.name}}</option>
+				{{/foreach}}
+				</select>
+	        </td>
+	      </tr>-->
+		  <tr>
+	        <th width="150">名称</th>
+	        <td>
+				<input name="info[name]" type="text" value="{{$data.name}}"   class=" input  required "  maxlength="60"  errortips="标题在1~60个字间"  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		   <tr>
+	        <th width="150">选择省份</th>
+	        <td>
+		        <select name="info[scatid]" id="province">
+
+		        {{foreach from=$province item=v}}
+		        <option value="{{$v.id}}">{{$v.name}}</option>
+		        {{/foreach}}
+		        </select>
+                <script>
+                
+                    $(function(){
+                        
+                        $("#province").val({{$data.province}});
+                        
+                    })
+                
+                </script>
+	        </td>
+	      </tr>
+	      
+	      <tr>
+	        <th width="150">营销区域<span>字数长度在1~60个字间<br>如——成都市</span></th>
+	        <td>
+			   <input name="info[title]" type="text" value="{{$data.title}}"   class=" input  required "  maxlength="60"  errortips="标题在1~60个字间"  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		  <tr>
+	        <th width="150">地址</th>
+	        <td>
+			   <input name="info[address]" type="text" value="{{$data.address}}"   class=" input  required " errortips="地址不能为空"  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">联系电话</th>
+	        <td>
+			   <input name="info[phone]" type="text" value="{{$data.phone}}"   class=" input  required " errortips="联系电话不能为空"  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+	      <!--<tr>
+	        <th width="150">营销范围<span>默认国内</span></th>
+	        <td>
+			   <input name="info[type]" type="radio" value="1" {{if $data.type == '1' }}checked{{/if}}/>国内&nbsp;&nbsp;
+			   <input name="info[type]" type="radio" value="2" {{if $data.type == '2' }}checked{{/if}}/>国外
+	        </td>
+	      </tr>-->
+	      <tr>
+	        <th width="150">审核<span>默认审核</span></th>
+	        <td>
+			   <input name="info[status]" type="radio" value="1" {{if $data.status == '1' }}checked{{/if}}/>通过&nbsp;&nbsp;
+			   <input name="info[status]" type="radio" value="0" {{if $data.status == '0' }}checked{{/if}}/>待审
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">正文内容<span>主体详细内容</span></th>
+	        <td>
+	        {{ffeditor name='info[content]' value=$data.content toolbar='advanced' width=550 height=360}}
+	        </td>
+	      </tr>	   
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none;">
+	    <tbody>
+	      <tr>
+	        <th width="150">SEO标题<span>默认同标题，也可自定义</span></th>
+	        <td>
+			  <input name="info[seotitle]" type="text" value="{{$data.seotitle}}"   class=" input "  maxlength="255"  errortips="不能超过100个字"  size="60"  />
+	        </td>
+	      </tr>
+	        <tr>
+	        <th width="150">SEO关键字<span>默认同TAG，也可自定义</span></th>
+	        <td>
+			 <textarea name="info[seokeywords]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过200个字"  >{{$data.seokeywords}}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">SEO描述<span>默认同摘要，也可自定义</span></th>
+	        <td>
+	          <textarea name="info[seodescription]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过250个字"  >{{$data.seodescription}}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">链接地址<span>默认自动生成，不包括".html"后缀，不可改</span></th>
+	        <td>
+			  <input name="info[url]" type="text" value="{{$data.url}}"   class=" input "  maxlength="255"  errortips="不能是纯数字"  size="60"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">排序<span>默认为 1，越小越靠前</span></th>
+	        <td>
+	          <input name="info[sort]" type="text" value="{{$data.sort}}"   class=" sort "  maxlength="255"  size="6"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">模板<span>默认使用栏目模板，也可以从模板库中选择</span></th>
+	        <td>			      
+				<label><input type="text" name="info[template]" value="{{$data.template}}" id="tb_input15"  class=" input "  maxlength="255"  size="50"  /></label>
+				<label><input type="button" class="dialog" alt="/admin.php?m=ffiles&a=tpl&fieldid=15&opener_id=tb_input15&height=300&width=500" title="模板库" id="upload_img_15" value="选择模板" /></label>			
+				
+	        </td>
+	      </tr>	      	
+	      <!-- <tr>
+	        <th width="150">添加时间<span>默认当前时间</span></th>
+	        <td>			  
+				<input value=""  class="Wdate" type="text" name="info[create_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">更新时间<span>默认最后更新时间</span></th>
+	        <td>
+			  <input value=""  class="Wdate" type="text" name="info[update_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>-->
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0">
+         <tfoot>
+			<tr>
+				<th width="150">&nbsp;</th>
+				<td><label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		  </tfoot>
+		</table>		
+	</div>	
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" />
+<input type="hidden" name="info[sid]" value="{{$data.sid}}" />
+<input type="hidden" name="sid" value="{{$data.sid}}" />
+<input type="hidden" name="catid" id="catid" value="{{$data.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

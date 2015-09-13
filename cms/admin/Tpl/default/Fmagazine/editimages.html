@@ -1,0 +1,100 @@
+{{include file="default/Public/header.html"}}
+<style >
+.manageForm table td,.manageForm table th {
+	padding: 0px;
+}
+</style>
+<form method="post" action="{{U url='fmagazine/editimages?dosubmit=1'}}" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+	<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1" style="width:95%">
+		<input type="hidden" name="Magazine_issnID" id="Magazine_issnID" value="{{$data.id}}" />
+		<input type="hidden" name="Magazine_mapurl" id="Magazine_mapurl" value='{{$data.images}}' />
+		<input type="hidden" name="Magazine_maphtml" id="Magazine_maphtml" value='{{$data.img_map}}' />
+		<tbody>
+			<tr>
+				<td width="0" rowspan="3" valign="top" ><div id="pic_container"></div></td>
+				<td id="button_container"  height="20">( “+”为增加热区，“-”为删除，“0”为预览 )</td>
+			</tr>
+			<tr>
+				<td id="form_container" valign="top"></td>
+			</tr>
+			<tr>
+				<td>
+				<textarea id="html_container" name="html_container" style="width:390px; height:200px;" class="textarea">{{$data.img_map}}</textarea>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1" style="width:95%">
+		<tfoot>
+			<tr>
+				<td width="250">&nbsp;</td>
+				<td><label class="btn"><input type="submit"	name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		</tfoot>
+	</table>
+	</div>
+</div>
+<input type="hidden" name="info[id]" id="info_id" value="{{$data.id}}" />
+<input type="hidden" name="type" value="image"/>
+<input type="hidden" name="catid" id="catid" value="{{$data.catid}}" />
+<input type="hidden" name="info[catid]" id="info_catid" value="{{$data.catid}}" />
+<input type="hidden" name="forward" value="__ROOT__/admin.php?m=fmagazine&a=editimages&id={{$data.id}}&catid={{$data.catid}}" />
+</form>
+<script type="text/javascript" src="admin/Public/js/imgmapeditor/imgmapeditor.js"></script>
+
+<script type="text/javascript">
+var myimgmap = new imgmap({
+	mode : "editor",
+	button_container: document.getElementById('button_container'),
+	imgroot: 'admin/Public/images/',
+	buttons : ['add','delete','preview'],
+	hreflinks : [{'id':1,'url':'http://www.fangfacms.com','title':'fangfacms'}],
+	custom_callbacks : {
+		'onHtml' : function() {htmlShow();}
+	},
+	pic_container: document.getElementById('pic_container'),
+	html_container: document.getElementById('html_container'),
+	form_container: document.getElementById('form_container'),
+	bounding_box : true
+});
+function htmlShow() {
+	document.getElementById('html_container').focus();
+}
+function toggleBoundingBox(obj) {
+	//console.log(obj.checked);
+	myimgmap.config.bounding_box = obj.checked;
+	myimgmap.relaxAllAreas();
+}
+
+function GetNews(id){
+	$.get('__ROOT__/admin.php?m=fmagazine&a=editimages&do=image&catid=' + $("#catid").val(),function(data){
+		eval('myimgmap.config.hreflinks = '+data);
+	});
+}
+function loadImageMap()
+{
+	if($('#Magazine_mapurl').val() != ''){
+		myimgmap.loadImage($('#Magazine_mapurl').val());
+		myimgmap.setMapHTML($('#Magazine_maphtml').val());
+	}
+	else{
+		myimgmap.loadImage('');
+	}
+}
+GetNews( $('#Magazine_issnID').val() );
+setTimeout("loadImageMap()",1500); 
+$(function (){
+	var image = new Image();
+	image.src = $("#Magazine_mapurl").val();
+	image.onreadystatechange = function(){
+		if (image.readyState=="complete") {
+			//image.height;
+			$("#tabsContent1").css("height",image.height);
+			//alert(["图片大小是:",image.width,image.height]);
+		}
+	}
+})
+</script>
+{{include file="default/Public/footer.html"}}

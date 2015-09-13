@@ -1,0 +1,64 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable").editable("{{U url='ftpl/edit?ajax=savetplnote'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可编辑",
+			name			: 'note',
+			id				: 'filename',
+			placeholder : '错误',
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="ftpl/manage"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理模板</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="200" class="btn">文件名</th>
+					<th class="btn">描述</th>
+					<th width="150" class="btn">修改时间</th>
+					<th width="80">操　作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+					<td colspan="5">当前模板位置：<b class="green">主题 / {{$theme}} {{$folder}}</b> {{if !empty($pfolder)}}<a href='{{U url="ftpl/manage?folder=`$pfolder`"}}'><img src="{{$smarty.const._PUBLIC_}}images/dir2.gif" />上级目录</a>{{else}}<a href='{{U url="ftpl/manage"}}'><img src="{{$smarty.const._PUBLIC_}}images/dir2.gif" />上级目录</a>{{/if}}</td>
+				</tr>
+		        {{foreach from=$data item=v}}
+		        {{if $v.isDir}}
+		        <tr>				  
+						  <td><img src="{{$smarty.const._PUBLIC_}}images/dir.gif" /> <a href="{{U url="ftpl/manage?folder=`$folder`/`$v.filename`"}}">{{$v.filename}}</a></td>
+						  <td>文件夹</td>
+						  <td>&nbsp;</td>
+						  <td><a href="{{U url="ftpl/manage?folder=`$folder`/`$v.filename`"}}">展开</a></td>
+						</tr>	
+		        {{else}}
+		        <tr>				  
+						  <td><img src="{{$smarty.const._PUBLIC_}}images/file.gif" /> {{$v.filename}}</td>
+						  <td><span class="editable pointer" id="tpl_{{$folder}}/{{$v.filename}}">{{if !empty($v.note)}}{{$v.note}}{{else}}暂无描述{{/if}}</span></td>
+						  <td>{{'Y-m-d H:i:s'|date:$v.mtime}}</td>
+						  <td><a href="{{U url="ftpl/edit?filename=`$folder`/`$v.filename`"}}">编辑</a> | <a href="{{U url="ftpl/delete?filename=`$folder`/`$v.filename`"}}" onClick="return window.confirm('此操作不可撤销，你确定要删除该文件?');">删除</a> </td>
+						</tr>
+		        {{/if}}
+			{{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,37 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+$(function(){
+	//$("#menus").find("ul").css("width","200px");
+})
+</script>
+<style>
+#menus ul{ padding:0px; margin:0px 0px 0px 10px; border-left:1px #ccc solid;border-top:1px #ccc solid; border-bottom:1px #ccc solid;  }
+body{Overflow:auto;}
+</style>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">编辑角色菜单</a></li>
+		</ul>		
+	</div>
+</div>
+<form id="power_form" method="post" action="{{U url='frbac/savemenu?dosubmit=1'}}" >
+<input type="hidden" name="role_id" value="{{$role.role_id}}" />
+<div id="pageCo">
+	<div class="manageForm">
+		<h2><font color="Green">{{$role.nickname}}</font>菜单设置</h2>
+		{{$menu_tpl}}
+		<input type="submit" name="butt" value="提交" class="Submit"/>
+	</div>	
+</div>
+</form>
+
+{{include file="default/Public/footer.html"}}
+<script type="text/javascript">
+$(function (){
+	$(".manageForm").css( "overflow-x","scroll" );
+	$("input[type='checkbox']").click(function(){
+		$(this).parent().find("input").attr("checked",this.checked);
+	});
+})
+</script>

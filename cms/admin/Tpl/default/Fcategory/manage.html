@@ -1,0 +1,50 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable_sort").editable("{{U url='fcategory/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可编辑排序",
+			name			: 'sort',
+			id				: 'catid',
+			placeholder : '不可用',
+			width:  20,
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fcategory/manage'}}" {{if $action_name=="manage"}} class="selected"{{/if}}>管理栏目</a></li>
+			<li><a href="{{U url='fcategory/add' }}" {{if $action_name=="add"}} class="selected"{{/if}}>添加栏目</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="20">序</th>
+			        <th width="20">ID</th>
+			        <th width="180">栏目名称</th>
+			        <th>栏目链接</th>
+			        <th width="70">栏目类型</th>
+			        <th width="70">绑定模型</th>
+			        <th width="200">管理操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{$html}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

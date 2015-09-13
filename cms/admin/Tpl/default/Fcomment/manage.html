@@ -1,0 +1,78 @@
+{{include file="default/Public/header.html"}}
+<script type="text/javascript">
+function del()
+{
+	if($(':checkbox:checked[name="info[id][]"]').length > 0)
+	$('#commentForm').submit();
+}
+</script>
+<form name="search" class="filter" method="POST" action="{{U url='fcomment/manage'}}" target="_self">
+<div id="pageTop">
+	<div class="delBtn">
+		<a href="javascript:void(0);" onclick="del(); return false;">删除</a>
+	</div>
+	<div class="batch">
+		<select name="status" onchange="$('.filter').submit();">
+		  	<option value="all">状态过滤</option>
+	      	{{html_options options=$status selected=$in.status}}
+	      </select>&nbsp;
+	</div>
+	<div class="search">
+		<select name='field'>
+			  	<option value="comment" name="评论内容">评论内容</option>
+              </select>
+	          <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+	          <input type="hidden" name="catid" value="{{$in.catid}}" />
+	          <button type="submit"></button>
+	</div>
+</div>
+</form>
+
+<form id="commentForm" method="post" action="__APP__">
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="30" align="center"><input type="checkbox" name="checkAll" /></th>
+				    <th width="15" align="center">ID</th>
+				    <th>评论内容</th>
+				    <th width="80">评论时间</th>
+				    <th width="30">审核</th>
+				    <th width="70">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v}}
+				  <tr>
+				    <td width="30" align="center"><input type="checkbox" name="info[id][]" value="{{$v.id}}" rel="checkbox"/></td>
+				    <td width="15">{{$v.id}}</td>
+				    <td>{{$v.comment|mb_substr:0:30:'utf-8'}}</td>
+				    <td width="100">{{$v.create_time|date_format:"%Y-%m-%d"}}</td>
+				    <td width="30">{{if $v.status == '1'}}
+				    <a href='{{U url="fcomment/check?id=`$v.id`&status=0&catid=`$in.catid`"}}' class="green">已审</a>
+				    {{else}}
+				    <a href='{{U url="fcomment/check?id=`$v.id`&status=1&catid=`$in.catid`"}}' class="red">待审</a>
+				    {{/if}}</td>  
+				    <td width=70>
+				    <a href='{{U url="fcomment/edit?id=`$v.id`&catid=`$cat.catid`&flag=`$flag`"}}'>回复</a> | 
+				    <a href='{{U url="fcomment/delete?&id=`$v.id`&catid=`$cat.catid`"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该模块在系统的注册信息？');">删除</a></td>
+				  </tr>
+				  {{foreachelse}}
+				  <tr>
+				  	<td colspan="6" align="center"> 暂时没有数据！</td>
+				  </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" value="fcomment" />
+<input type="hidden" name="a" value="delete" />
+<input type="hidden" name="catid" value="{{$in.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

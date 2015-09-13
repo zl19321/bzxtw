@@ -1,0 +1,63 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fmagazine/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'mid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+});
+</script>
+
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmagazine/manage?catid=`$cat.catid`"}}' {{if $action_name == "manage"}}class="selected"{{/if}}>管理杂志</a></li>
+			<li><a href='{{U url="fmagazine/add?catid=`$cat.catid`"}}' {{if $action_name == "add"}}class="selected"{{/if}}>新添杂志</a></li>
+			<li><a href='{{U url="fmagazine/page_manage?catid=`$cat.catid`"}}' {{if $action_name == "article"}}class="selected"{{/if}}>管理文章</a></li>
+			<li><a href='{{U url="fmagazine/page_add?catid=`$cat.catid`"}}' {{if $action_name == "article_add"}}class="selected"{{/if}}>新添文章</a></li>
+		</ul>		
+	</div>
+</div>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+ 
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<!--<th width="20"><input type="checkbox" name="checkAll" /></th>-->
+					<th width="40">排序</th>
+					<th width="35">ID</th>					
+					<th>标题</th>
+					<th width="100">发布时间</th>
+					<th width="100">更新时间</th>
+					<th width="170">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{$html}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fcontent" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="newsid" value="{{$newsid}}" >
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

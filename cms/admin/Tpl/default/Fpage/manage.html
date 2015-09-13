@@ -1,0 +1,24 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href="javascript:;" class="selected" rel="tabsContent1">{{$cat.name}}</a></li>
+</ul>
+</div>
+</div>
+<form method="post" action="{{U url='fpage/manage?dosubmit=1'}}">
+<div id="pageCo">
+<div class="pageManage">
+<ul>
+	<li>{{ffeditor name='info[content]' value=$data.content
+	toolbar='advanced' width=750 height=360}}</li>
+	<li><label class="btn"><input type="submit" name="submit"
+		value="确定保存" class="submit" /></label></li>
+</ul>
+</div>
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" /> <input
+	type="hidden" name="catid" id="catid" value="{{$cat.catid}}" /> <input
+	type="hidden" name="info[pageid]" id="info_pageid"
+	value="{{$data.pageid}}" /></form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,114 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/insert/jquery.caretInsert.min.js"></script>
+<script language="javascript">
+$().ready(function (){
+	$("form").validate({
+		errorContainer: $('#messageContainer'),
+		errorLabelContainer: $("ol", $('#messageContainer')),
+		wrapper: 'li'
+	});
+	
+	$("#name").blur(function(){
+		var name = $("#name").val();
+		$.get("/admin.php?m=fcategory&a=add&ajax=getpin&word="+name,{},function(data){
+			if(data){
+				$("#url").val(data);
+			}
+		})
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:;" class="selected" rel="tabsContent1">基本信息</a></li>
+			<li><a href="javascript:;" rel="tabsContent2">高级信息</a></li>
+			{{$otherHtml.head}}
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/add?type=page&dosubmit=1'}}" enctype="multipart/form-data" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			        <th width='150'>上级栏目</th>
+			        <td><input type="hidden" name="info[parentid]" value="{{$parent_data.catid|intval}}">
+			          {{if empty($parent_data.name) }} 无 {{else}} {{$parent_data.name}} {{/if}}</td>
+			      </tr>
+			      <tr>
+			        <th>页面名称<span>页面上显示的名称</span></th>
+			        <td><input name='info[name]' type='text' id='name' size="40"  maxlength='50' class="required input"  value="" title="请填写页面的显示名称" /></td>
+			      </tr>
+                  <tr>
+                    <th width='150'>栏目别名<span>填写栏目显示的别名</span></th>
+                    <td><input name='info[ename]' type='text' id='ename' maxlength='50' size="40" class="input" value="" /></td>
+                  </tr>  
+			      <tr>
+			        <th>页面链接<span>不包括 &quot;.html&quot;后缀,<br />只允许字母或数字</span></th>
+			        <td>
+			        <input name='info[url]' id="url" type='text' maxlength='50'  size="40" remote='{{U  url="fcategory/add?ajax=checkdir&info[parentid]=`$parent_data.parentid`"}}&info[type]=page' class="required input" value="" title="请填写规范的链接名称，且不要和其他栏目重复，只能包含字母或数字" />
+			        </td>
+			      </tr>
+			      <tr>
+			        <th>页面图片<span>页面链接图片</span></th>
+			        <td>
+			          <input name="thumb_img" type="file" class="file" />
+			          <input name="info[thumb]" type="hidden" value="" /></td>
+			      </tr>
+			      <tr>
+			        <th>页面介绍<span>页面的简要介绍</span></th>
+			        <td><textarea name='info[description]' cols="50" rows="3" id='description' class="textarea" ></textarea></td>
+			      </tr>
+			      <tr>
+			        <th>是否锁定<span>锁定可防止误删</span></th>
+			        <td><input name='info[islock]' type='checkbox' value="1" checked="checked" /></td>
+			    </tr>
+			</tbody>
+		</table>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none">
+			<tbody>
+				<tr title="默认同页面标题">
+			        <th width="150">Meta Title
+			          <span>针对搜索引擎设置的标题</span></th>
+			        <td><textarea name='info[seotitle]' type='text' cols="50" rows="3" id='seotitle' maxlength='60' title="META Title不能超过60个字符" class="textarea" ></textarea>
+							{{include file='default/Fcategory/page_type_seo.html' inid='seotitle'}}</td>
+			      </tr>
+			      <tr title="默认同页面名称">
+			        <th>Meta Keywords
+			          <span>针对搜索引擎设置的关键词</span></th>
+			        <td><textarea name='info[seokeywords]' id='seokeywords' cols="50" rows="3" maxlength="200" title="META Keywords不能超过200个字符" class="textarea" ></textarea>
+			        {{include file='default/Fcategory/page_type_seo.html' inid='seokeywords'}}
+			        </td>
+			      </tr>
+			      <tr title="默认同页面介绍">
+			        <th>Meta Description
+			         <span>针对搜索引擎设置的网页描述</span></th>
+			        <td><textarea name='info[seodescription]' id='seodescription' cols="50" rows="3" maxlength="250" title="META Description不能超过250个字符" class="textarea" ></textarea>
+			        {{include file='default/Fcategory/page_type_seo.html' inid='seodescription'}}
+			        </td>
+			      </tr>
+			</tbody>
+		</table>
+		{{$otherHtml.body}}
+		<table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<tr>
+					<td width="150"></td>
+					<td><input name="forward" type="hidden" value="{{$forward}}" />
+					<input name="step" type="hidden" value="3" />
+			        <input name="info[type]" type="hidden" value="page" />
+			        <input name="info[ishtml]" type="hidden" value="1" />
+			        <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

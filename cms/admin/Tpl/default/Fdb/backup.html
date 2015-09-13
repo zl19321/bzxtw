@@ -1,0 +1,105 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fdb/backup'}}" {{if $action_name=="backup"}}class="selected" rel="tabsContent1"{{/if}}>数据备份</a></li>
+			<li><a href="{{U url='fdb/restore'}}" {{if $action_name=="restore"}}class="selected" rel="tabsContent1"{{/if}}>还原数据</a></li>
+		</ul>		
+	</div>
+</div>
+<form id="backupForm" method="POST" action="{{U url='fdb/backup?doSubmit=1'}}" target="stafrm">
+<div id="pageCo">
+	<div class="manageForm listForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+					<th width="20px" style="text-align:left;"><input type="checkbox" name="checkAll" /></th>
+                    <th width="10%" style="text-align:left;">表 名</th>
+                    <th width="100" style="text-align:left;">记 录 数</th>
+                    <th style="text-align:left;">操　作</th>
+				</tr>
+				{{foreach from=$fangfaSysTables item=fTable}}
+					<tr>
+						<td><input type="checkbox" rel="checkbox" name="tableName[]" value="{{$fTable.name}}" /></td>
+						<td>{{$fTable.name}}</td>
+						<td>{{$fTable.count}}</td>
+						{{assign var="tableName" value=$fTable.name}}
+						<td><a class="dialog" alt='{{U url="fdb/optimize?table_list=$tableName&width=400&height=200"}}' title="优化数据表 {{$fTable.name}}" href="javascript:;">优化</a>
+							 | <a class="dialog" alt='{{U url="fdb/repair?table_list=$tableName&width=400&height=200"}}' title="修复数据表 {{$fTable.name}}" href="javascript:;">修复</a>
+							 | <a class="dialog" alt='{{U url="fdb/viewinfo?tablename=$tableName&width=700&height=400"}}' title="结构数据表 {{$fTable.name}}" href="javascript:;">结构</a></td>
+					</tr>
+					{{/foreach}}
+					<tr>
+					    <th><input type="checkbox" name="checkAll" /></th>
+						<th colspan="3" style="text-align:center;"><h3>其他数据表</h3></th>
+					</tr>
+					{{foreach from=$otherTables item=oTable}}
+					<tr>
+						<td><input type="checkbox" rel="checkbox" name="tableName[]" value="{{$oTable.name}}" /></td>
+						<td>{{$oTable.name}}</td>
+						<td>{{$oTable.count}}</td>
+						{{assign var="tableName" value=$oTable.name}}
+						<td><a class="dialog" alt='{{U url="fdb/optimize?table_list=$tableName&width=400&height=200"}}' title="优化数据表 {{$tableName}}" href="javascript:;">优化</a>
+							 | <a class="dialog" alt='{{U url="fdb/repair?table_list=$tableName&width=400&height=200"}}' title="修复数据表 {{$tableName}}" href="javascript:;">修复</a>
+							 | <a class="dialog" alt='{{U url="fdb/viewinfo?tablename=$tableName&width=700&height=400"}}' title="结构数据表 {{$tableName}}" href="javascript:;">结构</a></td>
+					</tr>
+					{{foreachelse}}
+					<tr>
+					<td colspan="4" align="center">空</td>
+					</tr>
+					{{/foreach}}
+					<tr>
+						<td colspan="4">
+							<input type="button" value="优化" onclick="backupFormSubmit('optimize');" /> 
+							<input type="button" value="修复" onclick="backupFormSubmit('repair');" /></td>
+					</tr>
+					<tr>
+						<th colspan="4" align="left" style="text-align:left;">数据库备份选项</th>
+					</tr>
+					<tr>
+						<th colspan="2">当面数据库版本</td>
+						<td colspan="2">{{$mysqlVersion}}</td>
+					</tr>
+					<tr>
+						<th colspan="2">分卷大小</td>
+						<td colspan="2"><input name="fsize" type="text" id="fsize" value="2048" size="8" /> K&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="left"><input type="button" class="submit" value="开始备份" onclick="backupFormSubmit('backup');"/></td>
+					</tr>
+					<tr>
+						<th colspan="4" style="text-align:left;">运行状态</th>
+					</tr>
+					<tr>
+						<td colspan="4" style="heigth:200px; border:1px solid #ddd;"><iframe name="stafrm" frameborder="0" id="stafrm" width="100%" height="100%"></iframe></td>
+					</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>
+<input type="hidden" name="do" value="" />
+<input type="hidden" name="table_list" value="" />
+</form>
+<script type="text/javascript">
+function backupFormSubmit(act){
+	var table_list = getCheckedList();
+	if(table_list.length > 0) {
+		$('#backupForm :input[name="do"]').val(act);
+		$('#backupForm :input[name="table_list"]').val(table_list.join(','));
+		$('#backupForm').submit();
+	} else{
+		alert('请先勾选您要操作的表！');
+		return false;
+	}
+}
+//获取已选择的表
+function getCheckedList()
+{
+	var table_list = new Array();
+	$(':checkbox[name*="tableName"][checked=true]').each(function(i){
+		table_list.push($(this).val());
+	});
+	return table_list;
+}
+</script>
+{{include file="default/Public/footer.html"}}

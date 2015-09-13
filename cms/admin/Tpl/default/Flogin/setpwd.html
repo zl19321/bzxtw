@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{$companyname}} - 重置密码</title>
+<link type="text/css" rel="stylesheet"
+	href="{{$smarty.const._PUBLIC_}}style/login.css" />
+<script type="text/javascript"
+	src="__ROOT__/min/?b=admin/Public/js&amp;f=jquery-1.4.2.min.js,validation/jquery.validate.js,form/jquery.form.js"></script>
+
+<script type="text/javascript">
+
+function refresh(){ //重载验证码
+	var timenow = new Date().getTime();
+	$('#verifyImg').attr("src","{{U url='flogin/verify?t='}}"+timenow);
+}
+</script>
+
+<script type="text/javascript">
+$().ready(function () {
+	//表单焦点事件
+	
+	$(".refresh").live('click', function(){
+		refresh();
+		return false;
+	});
+	$(".input").eq(0).focus();
+	
+	$('.input').focus(function(){
+		$(this).addClass("inputHighlight")
+	}).blur(function(){
+		$(this).removeClass("inputHighlight")
+	});	
+	
+	$("#submit").hover(function(){
+        $(this).addClass('submitHover');
+	}, function(){
+        $(this).removeClass('submitHover');
+ 	});	
+    
+
+    var i=1;
+	$('#myForm').validate({
+		submitHandler: function(form) {
+			$(form).ajaxSubmit({
+				beforeSubmit:function (){
+					$("#promptLayer").fadeIn("slow");
+					$("#promptLayer").html("<div class='loading'>数据提交中，请稍后...</div>");
+					return true;
+				},
+				success: function (msg){
+					//alert(msg);
+					var response = eval("("+msg+")");
+					if(response.code == 'y') {//密码重置成功
+						setTimeout(function(){$("#promptLayer").html("<div class='suc'><font color='#007C0C'>"+response.text+"</font></div>");},500);
+						setTimeout(function(){$("#promptLayer").fadeOut("slow");},500);
+						setTimeout(function(){window.location.href="{{U url='findex/index'}}";},1000);
+					} else {
+						setTimeout(function(){$("#promptLayer").html("<div class='err'><font color='#ee0000'>"+response.text+"</font></div>");},500);
+						if(i==1){
+							 $("#codes").html("验证码<br /><input type='text' name='info[verify]' class='input required' maxlength='4' minlength='4' size='10' tabindex='3' title='[*请输入四位验证码]' /><img class='refresh' id='verifyImg' src='{{U url='flogin/verify'}}'  alt='验证码' align='absmiddle' />");	
+							i=0;								 
+						};
+						setTimeout(function(){$("#promptLayer").fadeOut("fast");},2000);				
+		
+						if(response.text=="请正确输入新密码！"){							
+							$(".input").eq(0).focus();	
+						}if(response.text=="请正确输入确认密码！"){							
+							$(".input").eq(1).focus();	
+						}else if(response.text=="验证码错误！"){
+							$(".input").eq(2).focus();	
+							$(".input").eq(2).addClass("inputHighlight");
+							$('.input').eq(2).focus(function(){
+								$(this).addClass("inputHighlight")
+							}).blur(function(){
+								$(this).removeClass("inputHighlight")
+							});	
+						};
+					}
+				}, 
+				resetForm: false,
+				timeout: 5000   
+			});
+		}
+	});	
+})
+</script>
+</head>
+
+<body>
+<div id="promptLayer"></div>
+<div id="loginTop"><a href="/">网站首页</a></div>
+<div id="logo"><a href="/"><img
+	src="{{$smarty.const._PUBLIC_}}images/logo.gif" /></a></div>
+<div id="setpwd">
+<form id="myForm" name="setpwd"
+	action="{{U url='flogin/setpwd?ajax=1&dosubmit=1'}}" method="post">
+<ul>
+	<li>用户名 {{$username}}<input type="hidden" name="code" id="code"
+		value="{{$code}}" /></li>
+	<li>新密码<br />
+	<input type="password" name="info[password]" id="password" tabindex="1"
+		class="input required" size="30" title="[*请输入正确的密码]" /></li>
+	<li>确认密码<br />
+	<input type="password" name="info[new_password]" id="new_password"
+		tabindex="2" class="input required" size="30" title="[*请输入正确的密码]"
+		equalTo="#password" /></li>
+	<li id="codes">{{if $verify}} 验证码<br />
+	<input type="text" name="info[verify]" class="input required"
+		maxlength="4" minlength="4" size="10" tabindex="3" title="[*请输入四位验证码]" />
+	<img class="refresh" id="verifyImg" src="{{U url='flogin/verify'}}"
+		alt="验证码" align="absmiddle" /> {{/if}}</li>
+	<li class="submit"><em><input type="submit" value="重置密码"
+		id="submit" /></em></li>
+</ul>
+</form>
+</div>
+<div id="getPassword"><a href="?m=flogin&a=index">登陆</a></div>
+</body>
+</html>

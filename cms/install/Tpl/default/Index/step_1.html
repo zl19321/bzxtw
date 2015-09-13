@@ -1,0 +1,36 @@
+<?php require_cache(APP_PATH . '/Tpl/default/header.html'); ?>
+  <div id="wrapper">
+	<div id="menu">
+	  <h3>安装步骤</h3>
+	  <ul>
+	    <li class='<?php echo $step==1 ? "active" : ""; ?>'>安装介绍</li>
+	    <li class='<?php echo $step==2 ? "active" : ""; ?>'>环境检测</li>
+	    <li class='<?php echo $step==3 ? "active" : ""; ?>'>系统设置</li>
+	    <li class='<?php echo $step==4 ? "active" : ""; ?>'>正在安装</li>
+	    <li class='<?php echo $step==5 ? "active" : ""; ?>'>安装完成</li>
+	  </ul>
+	</div><!--menu-->
+	
+	<div id="wpcontent">	  
+	    <div id="content_install">
+		    <h4>欢迎使用方法内容管理系统，请按照提示进行安装操作。</h4>
+		    
+		    <div id="about">
+		      <p><em>方法网站内容管理系统</em>——Fangfa Content Manage System——是为适应企业级网站建设需求而研发的建站框架，
+		         荣获国家软件资质认证。其基于PHP+MySQL结构，包含二十多项商用功能模型和十多项特色技术，更基于搜索引擎优化原理作了特殊的考虑。
+		      </p>
+		　　      <p>企业网站好比互联网蓝色海洋中的一叶扁舟，如何让顾客从茫茫大海中找到你？那就让网站排到搜索引擎结果的前列去！但如何让网站获得天然的排名优势呢？
+		　　      </p>
+		　　      <p>方法网站内容管理系统V4.0，采用伪静态与静态页预先生成技术，支持站内优化词设置，自主管理Meta信息，让网站具备被搜索到的天然优势；网站附带赠送SEO优化工具箱，以及开放友情链接交换联盟，使网站管理员能自己动手，进行网站SEO优化工作。我们相信，有我们的支持,会让您的网站不输在搜索引擎的排名线上。
+		　　      </p>
+		　　    </div>
+		　　    
+		　　    <div id="steps">
+		　　      <input id="next_step" type="button" value="下一步" onClick="parent.location='<?php echo U('index/index?step=2'); ?>'" />
+		　　      <input id="cancel" type="button" value="退出" onclick="window.confirm('确认要退出安装？') && window.close();" />
+		　　    </div>
+		
+		</div><!--content-install-->
+	</div><!--wpcontent-->
+</div><!--wrapper-->
+<?php require_cache(APP_PATH . '/Tpl/default/footer.html'); ?>

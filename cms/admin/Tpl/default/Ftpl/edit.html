@@ -1,0 +1,62 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+$().ready(function (){
+	$.get('{{U url="ftpl/edit?ajax=getcontent&filename=`$filename`"}}','',function (data){		
+		$('#content').val(data);
+	});
+});
+</script>
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href='{{U url="ftpl/manage"}}' {{if $action_name==
+		"manage"}}class="selected"{{/if}}>管理模板</a></li>
+	<li><a href='javascript:void(0);' {{if $action_name==
+		"edit"}}class="selected" {{/if}}  rel="tabsContent1">编辑角色</a></li>
+</ul>
+</div>
+</div>
+
+<form id="myForm" action="{{U url='ftpl/edit?dosubmit=1'}}"
+	method="post">
+<div id="pageCo">
+<div class="manageForm">
+<table cellpadding="0" cellspacing="0" class="tabcontent"
+	id="tabsContent1">
+	<tbody>
+		<tr>
+			<th width="10%">文件名称</th>
+			<td><input type="text" class="input" name="info[filename]"
+				value="{{$data.filename}}" size="60" /></td>
+		</tr>
+		<tr>
+			<th>模板描述</th>
+			<td><input type="text" class="input" name="info[note]"
+				value="{{$data.note}}" size="60" /></td>
+		</tr>
+		<tr>
+
+			<th>模板内容</th>
+			<td><textarea style="width: 90%" rows="18" class="textarea"
+				name="info[content]" id="content"></textarea> {{if
+			$data.info.extension=='css'}} <br />
+			<input type="button" class="dialog"
+				onclick="OpenWindow('admin/Public/tool/csseditor', 'OnLine_CSS_Designer', 850, 450);"
+				value="CSS编辑助手" /> {{/if}}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th></th>
+			<td><input type="hidden" name="info[path]"
+				value="{{$data.path}}" /> <label class="btn"><input
+				type="submit" class="submit" value="提交保存" /></label> <label class="btn"><input
+				type="button" class="submit"
+				onclick="location.href='{{U url=ftpl/manage}}'" value="返回列表" /></label></td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

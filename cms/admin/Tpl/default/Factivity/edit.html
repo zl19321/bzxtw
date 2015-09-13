@@ -1,0 +1,194 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='factivity/edit?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='javascript:;'  class="selected" rel="tabsContent1" ><span>基本信息</span></a></li>
+            <li><a href='javascript:;' rel="tabsContent2"><span>高级选项</span></a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+	<script language="javascript" src="admin/Public/js/calendar/WdatePicker.js"></script>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1" >
+	    <tbody>	      
+	      <tr>
+	        <th width="150">活动名称<span>字数长度在1~60个字间</span></th>
+	        <td>
+			   <input name="info[title]" type="text" value="{{$data.title}}"   class=" input  required "  maxlength="60"  errortips="标题在1~60个字间"  size="50"  id="title_3" />
+	        </td>
+	      </tr>	 
+		  <!--新增加活动开始时间-->
+		       <tr>
+	        <th width="150">活动开始时间</th>
+	        <td>			  
+				<input value="{{'Y-m-d'|date:$data.in_time}}"  class="Wdate required" type="text" name="info[in_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+		  <!-- 新增加活动结束字段 -->
+	      <tr>
+	        <th width="150">活动结束时间</th>
+	        <td>
+			  <input value="{{'Y-m-d'|date:$data.out_time}}"  class="Wdate required" type="text" name="info[out_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+		  	       <tr>
+	        <th width="150">活动报名开始时间</th>
+	        <td>			  
+				<input value="{{'Y-m-d'|date:$data.start_time}}"  class="Wdate required" type="text" name="info[start_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">活动报名截止时间</th>
+	        <td>
+			  <input value="{{'Y-m-d'|date:$data.end_time}}"  class="Wdate required" type="text" name="info[end_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	        </td>
+	      </tr>
+		  		  <!-- 图片上传功能，仿造新闻上传功能 -->
+	      <tr>
+	        <th width="150">活动海报<span>可从本机上传或者从站内选择</span></th>
+			<td>
+			<label>
+			<input id="tb_input7" class=" input " type="text" style="width:260px" size="50" maxlength="255" value="{{$data.thumb}}" name="info[thumb]">
+			</label>
+			<label>
+			<input id="upload_img_7" class="dialog" type="button" value="上传图片" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=fieldupload&fieldid=7&opener_id=tb_input7&height=250&width=500">
+			</label>
+			<label>
+			<input id="choose_img_7" class="dialog" type="button" value="站内选择" title="站内图片库" alt="__ROOT__/admin.php?m=ffiles&a=images&fieldid=7&opener_id=tb_input7&height=450&width=700">
+			</label>
+			</td>
+	      </tr>
+		  <!-- 新增加活动组织方，承办方，活动地点 -->
+		     <tr>
+	        <th width="150">活动组织方</th>
+	        <td>
+			   <input name="info[zuzhifang]" type="text" value="{{$data.zuzhifang}}"   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>	
+		  	     <tr>
+	        <th width="150">活动承办方</th>
+	        <td>
+			   <input name="info[chengbanfang]" type="text" value="{{$data.chengbanfang}}"   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		  	     <tr>
+	        <th width="150">活动地点</th>
+	        <td>
+			   <input name="info[address]" type="text" value="{{$data.address}}"   class=" input  required "  maxlength="60"  errortips=""  size="50"  id="title_3" />
+	        </td>
+	      </tr>
+		  <tr>
+	      <th width="150">文档属性<span></span></th>
+			<td>
+			<!--
+			<input type="checkbox" name="info[attr][]" value="top" {{if $data.attr == "top"}}checked{{/if}}/> 首页置顶
+			<input type="checkbox" name="info[attr][]" value="hot" {{if $data.attr == "hot"}}checked{{/if}}/> 热点
+			<input type="checkbox" name="info[attr][]" value="scroll" {{if $data.attr == "scroll"}}checked{{/if}}/> 图片轮播
+            -->
+			<!-- 文档属性方法重写,在模版文件中的attr中定义了每个字段的名字 -->
+			{{html_checkboxes name="info[attr]" options=$attr_checkboxes checked=$customer_id}}
+
+			</td>
+		  </tr>
+	      <tr>
+	        <th width="150">活动简介</span></th>
+	        <td>
+			      <textarea name="info[description]"  cols="60"  rows="5"   class=" textarea required"  maxlength="200"  errortips="不能超过200个字"  >{{$data.description}}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">活动详情</th>
+	        <td>
+	        {{ffeditor name='info[content]' value=$data.content toolbar='advanced' width=550 height=360}}
+	        </td>
+	      </tr>	 
+		  <!-- 新增加会员的报名功能 -->
+		  	  	<tr>
+			<th>是否会员才能报名</th>
+					<td><input name="info[vip]" type="radio" value="1" {{if $data.vip == 1}}checked{{/if}} />是&nbsp;&nbsp;
+     			<input name="info[vip]" type="radio" value="0" {{if $data.vip == 0}}checked{{/if}} />否</td>
+				</tr>
+								<tr>
+				<th>状态<span>默认发布，也可以不发布</span></th>
+				<td>
+<input id="info_status_0" class=" required " type="radio" maxlength="255" checked="" value="9" name="info[status]">
+<label for="info_status_0">发布</label>
+<input id="info_status_1" class=" required " type="radio" maxlength="255" value="0" name="info[status]">
+<label for="info_status_1">待审</label>
+</td>
+				</tr>
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none;">
+	    <tbody>
+	      <tr>
+	        <th width="150">SEO标题<span>默认同标题，也可自定义</span></th>
+	        <td>
+			  <input name="info[seotitle]" type="text" value="{{$data.seotitle}}"   class=" input "  maxlength="255"  errortips="不能超过100个字"  size="60"  />
+	        </td>
+	      </tr>
+	        <tr>
+	        <th width="150">SEO关键字<span>默认同TAG，也可自定义</span></th>
+	        <td>
+			 <textarea name="info[seokeywords]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过200个字"  >{{$data.seokeywords}}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">SEO描述<span>默认同摘要，也可自定义</span></th>
+	        <td>
+	          <textarea name="info[seodescription]"  cols="60"  rows="5"   class=" textarea "  maxlength="250"  errortips="不能超过250个字"  >{{$data.seodescription}}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">链接地址<span>默认自动生成，不包括".html"后缀，不可改</span></th>
+	        <td>
+			  <input name="info[url]" type="text" value="{{$data.url}}"   class=" input "  maxlength="255"  errortips="不能是纯数字"  size="60"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">排序<span>默认为 1，越小越靠前</span></th>
+	        <td>
+	          <input name="info[sort]" type="text" value="{{$data.sort}}"   class=" sort "  maxlength="255"  size="6"  />
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">模板<span>默认使用栏目模板，也可以从模板库中选择</span></th>
+	        <td>			      
+				<label><input type="text" name="info[template]" value="{{$data.template}}" id="tb_input15"  class=" input "  maxlength="255"  size="50"  /></label>
+				<label><input type="button" class="dialog" alt="/admin.php?m=ffiles&a=tpl&fieldid=15&opener_id=tb_input15&height=300&width=500" title="模板库" id="upload_img_15" value="选择模板" /></label>			
+				
+	        </td>
+	      </tr>	      	
+	      <!-- <tr>
+	        <th width="150">添加时间<span>默认当前时间</span></th>
+	        <td>			  
+				<input value=""  class="Wdate" type="text" name="info[create_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th width="150">更新时间<span>默认最后更新时间</span></th>
+	        <td>
+			  <input value=""  class="Wdate" type="text" name="info[update_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd'})"/>
+	        </td>
+	      </tr>-->
+	     </tbody>
+	    </table>
+	    <table cellpadding="0" cellspacing="0">
+         <tfoot>
+			<tr>
+				<th width="150">&nbsp;</th>
+				<td><label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		  </tfoot>
+		</table>		
+	</div>	
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" />
+<input type="hidden" name="info[aid]" value="{{$data.aid}}" />
+<input type="hidden" name="info[catid]" value="{{$data.catid}}" />
+<input type="hidden" name="aid" value="{{$data.aid}}" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

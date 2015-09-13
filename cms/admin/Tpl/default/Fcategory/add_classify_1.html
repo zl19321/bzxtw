@@ -1,0 +1,72 @@
+{{include file="default/Public/header.html"}}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#modelid").change(function(){
+	  var selv = $("#modelid").val();
+	  $.get("__ROOT__/admin.php?m=fcategory&a=ajaxgetclassify&ajax=classify&gettype=getmodel&modelid="+selv,{},function(data){
+		if(data=='1'){//缺ID
+			$("#claselect").html("未查找到对应的分类");
+			$("#clainput").css("display","none");
+		}else if(data=='2'){
+			$("#clainput").css("display","block");
+		}else{
+			$("#parentclaid").html('<option value="0">顶级分类</option>\n'+data);
+			$("#clainput").css("display","block");
+		}
+	  });
+	});						   
+})
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fcategory/add?classify=1'}}" {{if $action_name=="add"}} class="selected"{{/if}}>添加分类</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/add?dosubmit=1&classify=1'}}" enctype="multipart/form-data" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+    	<table cellpadding="0" cellspacing="0" class="tabcontent">
+        		<!--<tr>
+			    <th style="width:20%;"><strong>所属栏目</strong></th>
+			    <td><select name="info[topcatid]" id="parent_catid">
+                	<option value="0">请选择栏目</option>
+			       {{foreach from=$category item=i}}
+                   		<option value="{{$i.id}}">{{$i.name}}</option>
+                   {{/foreach}}
+			      </select></td>
+			  </tr>-->
+              <tr>
+              	<th><strong>所属模型</strong><span>只有含有联动分类字段的模型才会被罗列</span></th>
+                <td>
+                	<select name="info[modelid]" id="modelid">
+                    	<option value="0">请选择模型</option>
+                        {{foreach from=$modeldata item=i}}
+                        	<option value="{{$i.modelid}}">{{$i.name}}</option>
+                        {{/foreach}}
+                    </select>
+                </td>
+              </tr>
+				<tr>
+			    <th style="width:20%;"><strong>上级分类</strong></th>
+			    <td id="claselect"><select name="info[parentid]" id="parentclaid" class="required input">
+					<option value="0">无(默认为顶级分类)</option>
+			      </select></td>
+			  </tr>
+          </table>
+         <div id="clainput" style="display:none; width:auto; height:auto;">
+        <table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<th width="150">&nbsp;</th>
+				<td><input name="forward" type="hidden" value="{{$forward}}" />
+                <input name="step" type="hidden" value="2" />
+		        <label class="btn"><input type="submit" name="submit" value="下一步" class="submit" /></label>
+		        </td>
+			</tfoot>
+		</table>
+         </div>
+    </div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

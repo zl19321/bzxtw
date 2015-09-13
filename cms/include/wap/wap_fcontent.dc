@@ -1,0 +1,11 @@
+<?php
+
+    return array(
+        'setting'   =>  'fcontent',
+        'size'      =>  3,//条数
+        'status'    =>  1,//1是纯标题  2是带图带标题  3是带图带标题带简介
+        'sort'      =>  'sort ASC,create_time DESC',//默认排序
+        'where'     =>  '',//附加条件 默认为无
+        //'attr'      =>  'wap',
+        'controller'=>  'Fwapcontent'
+    );

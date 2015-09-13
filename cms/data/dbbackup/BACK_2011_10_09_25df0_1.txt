@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS `fangfacms_widget`;
+CREATE TABLE `fangfacms_widget` (
+  `wid` tinyint(4) unsigned NOT NULL auto_increment,
+  `name` varchar(20) NOT NULL COMMENT '挂件名称',
+  `appname` varchar(20) NOT NULL COMMENT '挂件所属应用',
+  `controller` varchar(30) NOT NULL COMMENT '挂件所属控制器',
+  `action` varchar(20) NOT NULL COMMENT '挂件应用的动作',
+  `block` varchar(100) default NULL COMMENT '要显示的区块',
+  `status` enum('0','1') NOT NULL default '0' COMMENT '1=启用、0=禁用',
+  `sort` smallint(4) NOT NULL default '1' COMMENT '排序',
+  PRIMARY KEY  (`wid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='挂件列表';
+
+INSERT INTO `fangfacms_widget` VALUES('1','基本信息','admin','fset','set','system','1','1');
+INSERT INTO `fangfacms_widget` VALUES('2','网站设置','admin','fset','set','website','1','2');
+INSERT INTO `fangfacms_widget` VALUES('3','邮件设置','admin','fset','set','mail','1','3');
+INSERT INTO `fangfacms_widget` VALUES('4','附件设置','admin','fset','set','attachment','1','4');
+INSERT INTO `fangfacms_widget` VALUES('5','FTP设置','admin','fset','set','ftp','1','5');
+INSERT INTO `fangfacms_widget` VALUES('6','撰写设置','admin','fset','set','write','1','6');
+

@@ -1,0 +1,61 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs">
+		<ul>
+			<li><a href='{{U url="fmember/setting_module"}}' {{if $action_name=="setting_module"}}class="selected" rel="tabsContent1"{{/if}}>会员模块配置</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form class="validate" action='{{U url="fmember/setting_module"}}' name="add_form" id="add_form" method="post">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent6' >
+		<tbody>
+			<tr>
+			  <th width="180">参数说明</th>
+			  <th style="text-align:left">参数值</th>
+			  <th style="text-align:left">变量名</th>
+			</tr>
+			<tr>
+		      <th>是否开放用户注册:</th>
+		      <td><input name="info[user_open_register]" type="radio" value="1" {{if $value_data.user_open_register==1}}checked{{/if}} />是&nbsp;&nbsp;
+		      	  <input name="info[user_open_register]" type="radio" value="0" {{if $value_data.user_open_register==0}}checked{{/if}} />否</td>
+		      <td>user_open_register</td>
+		    </tr>
+			<tr>
+		      <th>前台注册用户是否需要激活:</th>
+		      <td><input name="info[user_need_active]" type="radio" value="1" {{if $value_data.user_need_active==1}}checked{{/if}} />是&nbsp;&nbsp;
+		      	  <input name="info[user_need_active]" type="radio" value="0" {{if $value_data.user_need_active==0}}checked{{/if}} />否</td>
+		      <td>user_need_active</td>
+		    </tr>
+		    <tr>
+		      <th>前台用户注册的默认角色ID:</th>
+		      <td><input name="info[user_default_role_id]" type="text" id="user_default_role_id" value="{{$value_data.user_default_role_id}}" size="4" class="input"/></td>
+		      <td>user_default_role_id</td>
+		    </tr>
+			<tr>
+		      <th>是否开启UC同步:</th>
+		      <td><input name="info[user_passport_on]" type="radio" value="1" {{if $value_data.user_passport_on==1}}checked{{/if}} />是&nbsp;&nbsp;
+		      	  <input name="info[user_passport_on]" type="radio" value="0" {{if $value_data.user_passport_on==0}}checked{{/if}} />否</td>
+		      <td>user_passport_on</td>
+		    </tr>
+		    <!--
+		    <tr>
+		      <th>解密用户端cookie使用的密钥:</th>
+		      <td><input name="info[user_auth_cookie_key]" type="text" id="user_auth_cookie_key" value="{{$value_data.user_auth_cookie_key}}" size="40" class="input"/></td>
+		      <td>user_auth_cookie_key</td>
+		    </tr>
+		    -->
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td><label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

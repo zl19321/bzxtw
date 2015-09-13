@@ -1,0 +1,88 @@
+{{include file="default/Public/header.html"}}
+<script src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js" type="text/javascript"></script>
+<script language="javascript">
+function del()  //选择删除
+{
+	if($(':checkbox:checked[name="info[id][]"]').length > 0)
+	$('#jobApplyForm').submit();
+}
+
+function jobApplyShow(apply_id) {
+	window.open ('{{U url="fjob/resume_show?catid=`$catid`&apply_id="}}' + apply_id, 'newwindow', 'height=400, width=500, top=200, left=300, toolbar=no, menubar=no, scrollbars=yes,resizable=yes,location=no, status=no');
+}
+</script>
+<form name="search" class="filter" method="POST" action="{{U url='fjob/resume_manage'}}" target="_self">
+<div id="pageTop">
+	<div class="delBtn">
+		<a href="javascript:void(0);" onclick="del(); return false;">删除</a>
+	</div>
+	<div class="batch">
+		<select name="user_sex" onchange="$('.filter').submit();">
+	      	{{html_options options=$user_sex selected=$in.user_sex}}
+	      </select>
+		  <select name="status" onchange="$('.filter').submit();">
+		  	<option value="all">查看状态过滤</option>
+	      	{{html_options options=$status selected=$in.status}}
+	      </select>
+	</div>
+	<div class="search">
+		<select name='field'>
+	  	{{html_options options=$q_fields selected=$in.field}}
+      </select>
+		<input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+		<button type="submit"></button>
+		<input type="hidden" name="catid" value="{{$catid}}" />
+	    <input type="hidden" name="job_id" value="{{$in.job_id}}" />
+	</div>
+</div>
+</form>
+
+<form id="jobApplyForm" method="post" action="__APP__">
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40" align="center"><input type="checkbox" name="checkAll" /></th>
+				    <th width="40">ID</th>
+				    <th>姓名</th>
+				    <th width="80">职位</th>
+				    <th width="60">性别</th>
+				    <th width="60">年龄</th>
+				    <th width="40">状态</th>
+				    <th width="80">投递时间</th>
+				    <th width="80">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v}}
+				  <tr>
+				    <td width="40" align="center"><input type="checkbox" name="info[id][]" rel="checkbox" value="{{$v.id}}" /></td>
+				    <td width="40">{{$v.id}}</td>
+				    <td>{{$v.user_name}}</td>
+				    <td width="80">{{$v.job_title}}</td>
+				    <td width="60">{{$v.user_sex}}</td>
+				    <td width="60">{{$v.user_age}}</td>
+				    <td width="40" id="status_{{$v.id}}">{{$v.status}}</td>
+				    <td width="80">{{$v.create_time|date_format:"%Y-%m-%d"}}</td>
+				    <td width="80"><a href='javascript:void(0);' onclick="jobApplyShow({{$v.id}});">详情</a> | 
+				    	<a href='{{U url="fjob/resume_delete?_tablename=job_apply&id=`$v.id`&catid=`$catid`"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该模块在系统的注册信息？');">删除</a></td>
+				  </tr>
+				  {{foreachelse}}
+				  <tr>
+				  	<td colspan="9" align="center"> 暂时没有数据！</td>
+				  </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" value="fjob" />
+<input type="hidden" name="a" value="delete" />
+<input type="hidden" name="catid" value="{{$catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,53 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="frole/add?modelid=`$data.modelid`"}}' {{if $action_name=="add"}}class="selected"{{/if}}>添加角色</a></li>
+			<li><a href='{{U url="frole/manage?modelid=`$data.modelid`"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理角色</a></li>
+			<li><a href='javascript:void(0);' {{if $action_name=="edit"}}class="selected"{{/if}} rel="tabsContent1">编辑角色</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form class="validate" method="post" action="{{U url='frole/edit?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width="150">角色标识<span>角色标识，唯一，只能由字母组成，例如：administrator</span></th> 
+			      <td><input type="text" name="info[name]" maxlength="50" title="【角色标识】只能是字母，且不能重复" class="required input" value="{{$data.name}}" readonly="readonly" size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>角色名称<span>角色别名，例如：超级管理员</span></th>
+			      <td><input type="text" name="info[nickname]" class="required input" maxlength="50" title="【角色别名】必填" value="{{$data.nickname}}"   size="40"/></td>
+			    </tr>
+			    <tr>
+			      <th>角色描述</th>
+			      <td><textarea name="info[remark]" id="remark" class="textarea" cols="50" rows="3">{{$data.remark}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>角色状态</th>
+			      <td>
+			      <select name="info[status]" id="status">
+			        <option value="0" {{if $data.status == '0'}}selected="selected"{{/if}}>禁用</option>
+			        <option value="1" {{if $data.status == '1'}}selected="selected"{{/if}}>启用</option>
+			      </select>
+			      </td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th></th>
+			      <td>
+			        <input type="hidden" name="forward" value="{{$forward}}" />       
+			        <input type="hidden" name="info[role_id]" value="{{$data.role_id}}" />
+			        <label class="btn"><input type="submit" class="submit" value="提交保存 "/></label>
+			        <label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

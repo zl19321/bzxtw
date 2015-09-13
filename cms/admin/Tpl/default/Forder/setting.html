@@ -1,0 +1,155 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='javascript:;' rel='tabsContent1' class="selected" >支付宝</a></li>
+			<li><a href='javascript:;' rel='tabsContent2'>财付通</a></li>
+			<li><a href='javascript:;' rel='tabsContent3'>网银在线</a></li>
+			<li><a href='javascript:;' rel='tabsContent4'>易宝支付</a></li>
+			<li><a href='javascript:;' rel='tabsContent5'>快钱支付</a></li>
+			<li><a href='javascript:;' rel='tabsContent6'>NPS网上支付系统</a></li>						
+		</ul>		
+	</div>
+</div>
+
+<form method="post" action="{{U url='fset/set?dosubmit=1'}}">
+<div id="pageCo">
+	<div class="manageForm">
+	   <!-- 支付宝 -->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent1' >
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[alipay_inuse]" type="radio" value="1" />是   <input name="info[alipay_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>支付宝帐户<span></span></th>
+		      <td><input name="info[alipay_account]" type="text" id="alipay_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>交易安全校验码<span></span></th>
+		      <td><input name="info[alipay_safecode]" type="text" id="alipay_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>合作者身份ID<span></span></th>
+		      <td><input name="info[alipay_parterid]" type="text" id="alipay_parterid" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>支付接口类型<span></span></th>
+		      <td>
+		      <select name="info[alipay_type]">
+			 	<option value="0">纯担保交易接口</option>
+			 	<option value="1">标准实物双接口</option>
+			 	<option value="2">即时到账接口</option>
+			  </select><span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<!-- 财付通-->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent2' style="display:none;">
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[tenpay_inuse]" type="radio" value="1" />是   <input name="info[tenpay_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>财付通商户号<span></span></th>
+		      <td><input name="info[tenpay_account]" type="text" id="tenpay_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>财付通密钥<span></span></th>
+		      <td><input name="info[tenpay_safecode]" type="text" id="tenpay_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>		    
+		    <tr>
+		      <th>支付接口类型<span></span></th>
+		      <td>
+		      <select name="info[tenpay_type]">
+			 	<option value="0">实物商品交易</option>
+			 	<option value="1">虚拟物品交易</option>
+			  </select><span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<!-- 网银在线-->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent3'  style="display:none;">
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[chinabank_inuse]" type="radio" value="1" />是   <input name="info[chinabank_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>商户编号<span></span></th>
+		      <td><input name="info[chinabank_account]" type="text" id="chinabank_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>MD5 密钥<span></span></th>
+		      <td><input name="info[chinabank_safecode]" type="text" id="chinabank_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<!-- 易宝支付-->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent4'  style="display:none;">
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[yeepay_inuse]" type="radio" value="1" />是   <input name="info[yeepay_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>商户编号<span></span></th>
+		      <td><input name="info[yeepay_account]" type="text" id="yeepay_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>MD5 密钥<span></span></th>
+		      <td><input name="info[yeepay_safecode]" type="text" id="yeepay_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<!-- 快钱支付-->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent5'  style="display:none;">
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[bill_inuse]" type="radio" value="1" />是   <input name="info[bill_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>商户编号<span></span></th>
+		      <td><input name="info[bill_account]" type="text" id="bill_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>MD5 密钥<span></span></th>
+		      <td><input name="info[bill_safecode]" type="text" id="bill_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<!-- NPS网上支付系统-->
+		<table cellpadding='0' cellspacing='0' class='tabcontent' id='tabsContent6'  style="display:none;">
+		<tbody>	    
+		    <tr>
+		      <th width="150">是否启用<span></span></th>
+		      <td><input name="info[nps_inuse]" type="radio" value="1" />是   <input name="info[nps_inuse]" type="radio" value="0" />否<span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>商户编号<span></span></th>
+		      <td><input name="info[nps_account]" type="text" id="nps_account" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		    <tr>
+		      <th>MD5 密钥<span></span></th>
+		      <td><input name="info[nps_safecode]" type="text" id="nps_safecode" value="" size="40" maxlength="50"  class="input"/> <span class="help"> </span></td>		      
+		    </tr>
+		</tbody>
+		</table>
+		<table cellpadding='0' cellspacing='0' >		
+		<tfoot>		  
+		  <tr>
+			<th>&nbsp;</th>
+			<td>
+			<input type="hidden" name="forward" value="{{$forward}}" />
+			<label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label>
+			</td>
+		  </tr>
+		</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

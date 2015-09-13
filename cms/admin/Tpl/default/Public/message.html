@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>系统提示</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv='Refresh' content='{{$waitSecond}};URL={{$jumpUrl}}'>
+<link type="text/css" rel="stylesheet"
+	href="{{$smarty.const._PUBLIC_}}style/main.css" />
+</head>
+<body>
+<div id="message">
+<ul class="l">
+	<img src="{{$smarty.const._PUBLIC_}}images/message_pic_01.jpg" />
+</ul>
+<ul class="r">
+	<li><span>{{$message}}</span><br> 系统将在 <b class="green">{{$waitSecond}}</b>
+	秒后自动跳转，如果不想等待，直接点击<a href="{{$jumpUrl}}">这里</a>立即跳转。 
+	</li>
+</ul>
+<ul class="clearit"></ul>
+</div>
+</body>
+</html>

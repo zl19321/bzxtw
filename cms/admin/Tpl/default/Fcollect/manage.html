@@ -1,0 +1,51 @@
+{{include file="default/Public/header.html"}}
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fcollect/add"}}'>增加结点</a></div>
+	
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40">排序</th>
+					<th >结点名称</th>
+					<th width="70">所属栏目</th>
+					<th width="100">创建时间</th>
+					<th width="100">最后采集</th>
+					<th width="120">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data item=v}}      
+		      <tr>
+		        <td>{{$v.c_id}}</td>
+		        <td>{{$v.name}}</td>
+		        <td>{{$v.catid_name}}</td>
+		        <td>{{$v.create_time}}</td>
+		        <td>{{$v.update_time}}</td>
+		        <td>
+		          <a href='{{U url="fcollect/collect?c_id=`$v.c_id`"}}' >采集</a> |
+		          <a href='{{U url="fcollect/edit?c_id=`$v.c_id`"}}'>编辑</a> |
+		          <a href='{{U url="fcollect/del?c_id=`$v.c_id`"}}'>删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="6">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fcontent" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="newsid" value="{{$newsid}}" >
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

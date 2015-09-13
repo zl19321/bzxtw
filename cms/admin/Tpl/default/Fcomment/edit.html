@@ -1,0 +1,61 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url="fcomment/manage?catid=`$cat.catid`"}}">返回列表</a></li>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">查看评论</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form method="post" action="{{U url='fcomment/edit?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th style="width:100px;">评论人昵称</th>
+			      <td><input readonly="readonly" type="text" class="required input" value="{{$data.username}}" style="width:200px;" /></td>
+			      <th style="width:100px;"></th>
+			      <td></td>
+			    </tr>
+			    <tr>
+			      <th>评论时间</th>
+			      <td colspan="3">
+			      	<script src="admin/Public/js/calendar/WdatePicker.js" language="javascript"></script>
+					<input readonly="readonly" type="text" value="{{$data.create_time|date_format:'%Y-%m-%d %H:%M'}}">
+					</td>
+			    </tr>
+			    <tr>
+			      <th>留言内容</th>
+			      <td colspan="3"><textarea  name="info[comment]" readonly="readonly" style="width:80%; height:60px;" >{{$data.comment}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>回复</th>
+			      <td colspan="3"><textarea class="required textarea" name="info[reply]"  style="width:80%; height:60px;" >{{$data.reply}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>审核</th>
+			      <td colspan="3"><label><input type="radio" name="info[status]" value="0" {{if $data.status!=1}}checked{{/if}} />待审</label>
+			      	  <label><input type="radio" name="info[status]" value="1" {{if $data.status==1}}checked{{/if}} />审核</label></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+				  <th>&nbsp;</th>
+				  <td>
+				    <input type="hidden" name="forward" value="{{U url='fcomment/manage'}}&catid={{$catid}}" />
+				    <input type="hidden" name="info[id]" value="{{$data.id}}" />
+					<input type="hidden" name="replyed" value="{{if $data.reply == ''}}0{{else}}1{{/if}}" />
+				    <input type="hidden" name="_tablename" value="fcomment" />
+				    <input type="hidden" name="flag" value="{{$flag}}" />
+					<input type="hidden" name="newsid" value="{{$data.newsid}}" />
+				    <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+				    <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,43 @@
+{{include file="default/Public/header.html"}}
+<form method="post" action="{{U url='fcontent/edit?dosubmit=1'}}" class="validate">
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href="#" class="selected" rel="tabsContent1">基本信息</a></li>
+	<li><a href="#" rel="tabsContent2">高级信息</a></li>
+</ul>
+</div>
+</div>
+<div id="pageCo">
+<div class="manageForm">{{foreach from=$form_data item=card key=id
+}}
+<table cellpadding="0" cellspacing="0" class="tabcontent"
+	id="tabsContent{{$id}}" {{if $id>
+	1 }} style="display:none;"{{/if}}>
+	<tbody>
+		{{foreach from=$card item=v}}
+		<tr>
+			<th width="150">{{$v.name}}<span>{{$v.tips}}</span></th>
+			<td>{{$v.form}}</td>
+		</tr>
+		{{/foreach}}
+	</tbody>
+</table>
+{{/foreach}}
+<table cellpadding="0" cellspacing="0">
+	<tfoot>
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td><label class="btn"><input type="submit"
+				name="submit" value="确定保存" class="submit" /></label></td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" /> <input
+	type="hidden" name="catid" id="catid" value="{{$cat.catid}}" /> <input
+	type="hidden" name="info[cid]" id="info[cid]" value="{{$data.cid}}" />
+<input type="hidden" name="cid" id="cid" value="{{$data.cid}}" /> <input
+	type="hidden" name="info[action]" id="action" value="show" /></form>
+{{include file="default/Public/footer.html"}}

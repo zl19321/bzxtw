@@ -1,0 +1,74 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+  <div class="tabs">
+    <ul>
+      <li><a href="{{U url='fbrcode/manage'}}">管理二维码</a></li>
+      <li><a href="javascript:void(0);" class="selected" rel="tabsContent1">添加二维码</a></li>
+    </ul>
+  </div>
+</div>
+<form name="myform" method="post" action="{{U url='fbrcode/add?dosubmit=1'}}" class="validate">
+  <div id="pageCo">
+    <div class="manageForm">
+      <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+        <tbody>
+          <tr>
+            <th width="18%">标题</th>
+            <td><input type="text" name="info[title]" class="required input"  title="【链接文字】必填" value="{{$data.title}}" style="width:300px;" /></td>
+          </tr>
+          <tr>
+            <th>二维码内容<span>示范：http://www.fangfacms.com</span></th>
+            <td><textarea name="info[content]" class="required input"  title="必填" cols="50"  rows="5">{{$data.content}}</textarea>
+            </td>
+          </tr>
+		 <tr>
+            <th width="150">二维码图片大小 <span>(尺寸：1)生成的二维码图片大约为28px*28px，其它尺寸宽高乘以其倍数</span></th>
+            <td><select name="info[size]">
+                {{html_options options=$size selected=$data.size}}
+               </select>
+            </td>
+          </tr>
+          <tr>
+            <th>二维码图片地址<span>自动生成</span></th>
+            <td><input type="text" name="info[url]"  title="自动生成，不用填写" value="{{$data.url}}" style="width:250px;color:gray;"  readonly="true"/>
+              自动生成，不用填写！</td>
+          </tr>
+	         {{if $data.url}}
+			  <tr>
+				<td>&nbsp;</td>
+				<td id="upload_img_box"><img src="{{$upload_dir}}{{$data.url}}"  /></td>
+			  </tr>
+			  {{/if}}
+          <tr>
+            <th> 审核 </th>
+            <td><label>
+              <input type="radio" name="info[status]" value="0" {{if $data.status!=1}}checked{{/if}} />
+              待审 </label>
+              <label>
+              <input type="radio" name="info[status]" value="1" {{if $data.status==1}}checked{{/if}} />
+              审核 </label>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>&nbsp; </th>
+            <td><input type="hidden" name="forward" value="{{U url='fbrcode/manage'}}" />
+              <input type="hidden" name="info[id]" value="{{$data.id}}" />
+              <input type="hidden" name="_tablename" value="brcode" />
+              <input type="hidden" name="info[user_id]" value="{{$userData.user_id}}" />
+              <input type="hidden" name="info[username]" value="{{$userData.username}}" />
+              <label class="btn">
+              <input type="submit" name="submit" value="确 定" class="submit" />
+              </label>
+              <label class="btn">
+              <input type="reset" name="reset" value="重 置" class="submit" />
+              </label>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</form>
+{{include file="default/Public/footer.html"}}

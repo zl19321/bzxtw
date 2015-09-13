@@ -1,0 +1,200 @@
+{{include file="default/Public/header.html"}}
+<link rel="stylesheet" href="admin/Public/style/jcrop/main.css" type="text/css" />
+<link rel="stylesheet" href="admin/Public/style/jcrop/demos.css" type="text/css" />
+<link rel="stylesheet" href="admin/Public/style/jcrop/jquery.Jcrop.css" type="text/css" />
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">图片裁剪</a></li>
+		</ul>		
+	</div>
+</div>
+
+<div id="pageCo">
+	<div class="manageForm">
+    <form action="admin.php?m=fplugin&a=cutphoto" method="post">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th>
+                  
+                    <div class="row-fluid">
+                        <div class="span9" style="float:left;">
+                        <img src="__PUBLIC__/uploads/{{$src}}" id="target" alt="Jcrop Image" style="max-width:{{$maxwidth}}px;max-height:{{$maxheight}}px;" />
+                        </div>
+                        <div id="coords" style="float:left;"> 
+                        <div class="span3" id="interface">
+                        <div class="inline-labels jc-demo-box" style="width:141px;">
+                        <label style="width:40px;">X1 <input type="text" size="4" id="x1" style="width:25px;" name="x1" /></label>
+                        <label style="width:40px;">Y1 <input type="text" size="4" id="y1" style="width:25px;" name="y1" /></label><br />
+                        <label style="width:40px;">X2 <input type="text" size="4" id="x2" style="width:25px;" name="x2" /></label>
+                        <label style="width:40px;">Y2 <input type="text" size="4" id="y2" style="width:25px;" name="y2" /></label><br />
+                        <label style="width:40px;">W&nbsp;&nbsp;<input type="text" size="4" id="w" style="width:25px;" name="w" /></label>
+                        <label style="width:40px;">H&nbsp;&nbsp;&nbsp;<input type="text" size="4" id="h" style="width:25px;" name="h" /></label>
+                        <input type="hidden" name="src" value="{{$src}}" id="src" />
+                        <input type="hidden" name="tablename" value="{{$tablename}}" id="src" />
+                        <input type="hidden" name="cid" value="{{$cid}}" id="cid" />
+                        <input type="hidden" name="modelid" value="{{$modelid}}" id="modelid" />
+                        </div>
+                        <div class="clearfix">
+                        <button class="btn btn-small">剪切</button>
+                        </div>
+                        </div>
+                        </div>
+                        
+                   </div>
+                  </th>
+			    </tr>
+			</tbody>
+		</table>
+    </form>    
+	</div>	
+</div>
+
+{{include file="default/Public/footer.html"}}
+<script src="{{$smarty.const._PUBLIC_}}/js/jcrophoto/jquery.Jcrop.min.js"></script>
+
+<script type="text/javascript">
+  jQuery(function($){
+
+    var jcrop_api;
+    
+    initJcrop();
+    
+    // The function is pretty simple
+    function initJcrop(){
+      // Hide any interface elements that require Jcrop
+      // (This is for the local user interface portion.)
+      $('.requiresjcrop').hide();
+
+      // Invoke Jcrop in typical fashion
+      $('#target').Jcrop({
+        onChange:   showCoords,
+        onRelease: releaseCheck,
+        handleSize: 5,
+      },function(){
+
+        jcrop_api = this;
+        //jcrop_api.animateTo([0,0,{{$img.0}},{{$img.1}}]);
+
+        // Setup and dipslay the interface for "enabled"
+        $('#can_click,#can_move,#can_size').attr('checked','checked');
+        $('#ar_lock,#size_lock,#bg_swap').attr('checked',false);
+        $('.requiresjcrop').show();
+
+      });
+
+    };
+      
+       function releaseCheck()
+    {
+      jcrop_api.setOptions({ allowSelect: true });
+      $('#can_click').attr('checked',false);
+    };
+   
+
+
+    $('#fadetog').change(function(){
+      jcrop_api.setOptions({
+        bgFade: this.checked
+      });
+    }).attr('checked','checked');
+
+    $('#shadetog').change(function(){
+      if (this.checked) $('#shadetxt').slideDown();
+        else $('#shadetxt').slideUp();
+      jcrop_api.setOptions({
+        shade: this.checked
+      });
+    }).attr('checked',false);
+
+    // Define page sections
+    var sections = {
+      anim_buttons: '剪切框'
+    };
+    // Define animation buttons
+    var ac = {
+      anim1: [0,0,40,50],//左上右下
+      anim2: [20,20,580,380],
+      anim3: [24,24,176,376],
+      anim4: [347,165,550,355],
+      anim5: [136,55,472,183]
+    };
+    
+    // Create fieldset targets for buttons
+    for(i in sections)
+      insertSection(i,sections[i]);
+
+    function create_btn(c) {
+      var $o = $('<button />').addClass('btn btn-small');
+      if (c) $o.append(c);
+      return $o;
+    }
+    
+    var ac_count = {
+        "anim1":"1x2",
+        "anim2":"2x1",
+        "anim3":"1x3",
+        "anim4":"3x1",
+        "anim5":"2x2"
+    };
+    
+    // Create animation buttons
+    for(i in ac) {
+      $('#anim_buttons .btn-group')
+        .append(
+          create_btn(ac_count[i]).click(animHandler(ac[i])),
+          ' '
+        );
+    }
+
+    // Function to insert named sections into interface
+    function insertSection(k,v) {
+      $('#interface').prepend(
+        $('<fieldset></fieldset>').attr('id',k).append(
+          $('<legend></legend>').append(v),
+          '<div class="btn-toolbar"><div class="btn-group"></div></div>'
+        )
+      );
+    };
+    // Handler for option-setting buttons
+    function setoptHandler(k,v) {
+      return function(e) {
+        $(e.target).closest('.btn-group').find('.active').removeClass('active');
+        $(e.target).addClass('active');
+        var opt = { };
+        opt[k] = v;
+        jcrop_api.setOptions(opt);
+        return false;
+      };
+    };
+    // Handler for animation buttons
+    function animHandler(v) {
+      return function(e) {
+        $(e.target).addClass('active');
+        jcrop_api.animateTo(v,function(){
+          $(e.target).closest('.btn-group').find('.active').removeClass('active');
+        });
+        return false;
+      };
+    };
+
+    $('#bgo_buttons .btn:first,#bgc_buttons .btn:last').addClass('active');
+    
+
+    
+    $('#interface').show();
+
+  });
+  
+    function showCoords(c)
+  {
+    $('#x1').val(c.x);
+    $('#y1').val(c.y);
+    $('#x2').val(c.x2);
+    $('#y2').val(c.y2);
+    $('#w').val(c.w);
+    $('#h').val(c.h);
+  };
+  
+</script>

@@ -1,0 +1,91 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='ffriendlink/manage'}}">管理链接</a></li>
+			<li><a href="javascript:void(0);" class="selected" rel="tabsContent1">添加链接</a></li>
+		</ul>		
+	</div>
+</div>
+<form name="myform" method="post" action="{{U url='ffriendlink/add?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+		            <th width="15%">链接文字</th>
+		            <td><input type="text" name="info[name]" class="required input"  title="【链接文字】必填" value="{{$data.name}}" style="width:300px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>链接地址<span>链接示范：http://www.fangfacms.com</span></th>
+		            <td><input type="text" name="info[url]" class="required url input"  title="【链接地址】必填" value="{{$data.url}}" style="width:300px;" /></td>
+		          </tr>
+		          <tr>
+		            <th>所属分类<span>用于区分各栏目页友情链接</span></th>
+		            <td><select name="info[type_id]">
+		            	{{html_options options=$type_list selected=$data.type_id}}
+		            	</select></td>
+		          </tr>
+		          <tr>
+		            <th>站点图标<span>可以直接填写图标的路径，例如：http://www.fangfacms.com/logo.gif</span></th>
+		            <td><label>
+		              <input type="text" title="可从本机上传或者从站内选择，或者直接写图标路劲" maxlength="255" class=" input" id="tb_input63" value="{{$data.logo}}" name="info[logo]" style="width:300px;">
+		              </label>
+		              <label>
+		              <input type="button" value="上传图片" id="upload_img_63" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&_tablename=friendlink&opener_id=tb_input63&shower_id=upload_img_box&height=300&width=450">
+		              </label>
+		              <label>
+		              <input type="button" value="站内选择" id="choose_img_63" class="dialog" title="站内图片库" alt="__ROOT__/admin.php?m=ffiles&a=images&opener_id=tb_input63&shower_id=upload_img_box&height=450&width=700">
+		              </label>
+		            </td>
+		          </tr>
+		          {{if $data.logo}}
+		          <tr>
+		            <td>&nbsp;</td>
+		            <td id="upload_img_box"><img src="{{$upload_dir}}{{$data.logo}}" width="150" height="150" /></td>
+		          </tr>
+		          {{/if}}
+		          <tr>
+		            <th>定义css:style=<span>比如:color:red; font-size:12px;</span></th>
+		            <td><textarea name="info[style]" style="width:300px;">{{$data.style}}</textarea></td>
+		          </tr>
+		          <tr>
+		            <th>附加Title</th>
+		            <td><textarea name="info[notes]" style="width:300px;">{{$data.notes}}</textarea></td>
+		          </tr>
+		          <tr>
+		            <th>排序</th>
+		            <td><input type="text" name="info[sort]" value="{{if $data.sort}}{{$data.sort}}{{else}}0{{/if}}" size="4" /></td>
+		          </tr>
+		          <tr>
+		            <th>审核</th>
+		            <td><label>
+		              <input type="radio" name="info[status]" value="0" {{if $data.status!=1}}checked{{/if}} />
+		              待审</label>
+		              <label>
+		              <input type="radio" name="info[status]" value="1" {{if $data.status==1}}checked{{/if}} />
+		              审核</label></td>
+		          </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+		            <td><input type="hidden" name="forward" value="{{U url='ffriendlink/manage'}}" />
+		              <input type="hidden" name="info[id]" value="{{$data.id}}" />
+		              <input type="hidden" name="_tablename" value="friendlink" />
+		              <input type="hidden" name="info[user_id]" value="{{$userData.user_id}}" />
+		              <input type="hidden" name="info[username]" value="{{$userData.username}}" />
+		              <label class="btn">
+		              <input type="submit" name="submit" value="确 定" class="submit" />
+		              </label>
+		              <label class="btn">
+		              <input type="reset" name="reset" value="重 置" class="submit" />
+		              </label>
+		            </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

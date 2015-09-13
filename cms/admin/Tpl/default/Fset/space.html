@@ -1,0 +1,10 @@
+{{include file="default/Public/header.html"}}
+
+<div id="home">
+	<div class="welcome" style="background: url(admin/Public/images/space.jpg) no-repeat 20px 20px #F8F7F8;">
+		<p>你在本公司订购的存储空间是<span class="red">[{{$data.space_size}}]</span></p>
+		<p>已经使用的存储空间是<span class="red">[{{$data.space_use}}]</span></p>
+		<p>剩余存储空间是<span class="red">[{{$data.surplus}}]</span>&nbsp;&nbsp;&nbsp;&nbsp;剩余空间占比为<span class="red">[{{$data.surplus_float}}]</span></p>
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,71 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fcategory/manage'}}" {{if $action_name=="manage"}} class="selected"{{/if}}>管理栏目</a></li>
+			<li><a href="{{U url='fcategory/add' }}" {{if $action_name=="add"}} class="selected"{{/if}}>添加栏目</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent">
+			<tr>
+			    <th><strong>上级栏目</strong></th>
+			    <td><select name="info[parentid]" id="parentid">
+			        <option value='0'>无（作为一级栏目）</option>
+			       {{$html}}
+			      </select></td>
+			  </tr>
+			  <tr>
+			    <th><strong>栏目类型</strong></th>
+			    <td><input type="radio" name="type" value="normal" onClick="$('#model').show()" class="required" title="必选一个" {{if $type=='normal'}}checked{{/if}}>
+			      <label>内部栏目（可绑定各种模型，并支持在栏目下建立子栏目或发布信息）</label>
+			      <br/>
+			      <input type="radio" name="type" value="page" onClick="$('#model').hide()" {{if $type=='page'}}checked{{/if}}>
+			      <label>单网页（可更新单网页内容，主要用户单一页面类型的栏目，例如：联系我们，公司简介等）</label>
+			      <br/>
+			      <input type="radio" name="type" value="link" onClick="$('#model').hide()" {{if $type=='link'}}checked{{/if}}>
+			      <label>链接（可建立一个链接并指向任意网址）</label>
+			      <br/></td>
+			  </tr>
+			  <tbody id="model" {{if $type=='normal'}}style="display:'block'"{{else}}style="display:none"{{/if}}>
+			    <tr>
+			      <th><strong>绑定模型</strong></th>
+			      <td><select name="modelid" id="modelid"  size="1"  >
+			          {{foreach from=$data item=v }}
+			          <option value="{{$v.modelid}}" {{if $modelid==$v.modelid}}selected{{/if}} >{{$v.name}}</option>
+			         {{/foreach}}
+			        </select>
+			        <a href="{{U url='fmodel/manage'}}">管理模型</a></td>
+			    </tr>
+			  </tbody>
+			  <tfoot>
+			  <tr>
+			    <th>&nbsp;</th>
+			    <td>
+			      <input name="forward" type="hidden" value="{{$forward}}" />
+			      <label class="btn"><input type="button" name="next" value="下一步 " id="next" class="submit" /></label>
+			      </td>
+			  </tr>
+			  </tfoot>
+		</table>
+	</div>	
+</div>
+<script type="text/javascript">
+//<!--
+$().ready(function () {
+	$("#next").click(function () {
+		var url = '{{U url="fcategory/add?step=2&type=" }}';
+		var type = $("input[name='type']:checked").val();
+		url += type;
+		url += '&parentid='+$("#parentid").val();
+		if(type == 'normal') {
+			url += "&modelid="+$("#modelid").val();
+		} 		
+		window.location = url;		
+	});	
+});
+//-->
+</script>
+{{include file="default/Public/footer.html"}}

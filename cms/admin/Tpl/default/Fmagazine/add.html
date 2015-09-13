@@ -1,0 +1,72 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmagazine/manage?catid=`$cat.catid`"}}' {{if $action_name == "manage"}}class="selected"{{/if}}>管理杂志</a></li>
+			<li><a href='{{U url="fmagazine/add?catid=`$cat.catid`"}}' {{if $action_name == "add"}}class="selected"{{/if}}>新添杂志</a></li>
+			<li><a href='{{U url="fmagazine/page_manage?catid=`$cat.catid`"}}' {{if $action_name == "article"}}class="selected"{{/if}}>管理文章</a></li>
+			<li><a href='{{U url="fmagazine/page_add?catid=`$cat.catid`"}}' {{if $action_name == "article_add"}}class="selected"{{/if}}>新添文章</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" action="{{U url='fmagazine/add?dosubmit=1'}}" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+	<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+		<tbody>
+			<tr>
+				<th width="150">所属杂志<span>对杂志进行分类</span></th>
+				<td>
+					<select name="info[parentid]" id="info_parentid"  class=""  errortips="请选择栏目"  >
+						<option value="">无</option>
+						{{$html}}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>杂志名称<span>字数长度在1~60个字间</span></th>
+				<td><input type="text" name="info[title]" id="info_title" class="required input" /></td>
+			</tr>
+			<tr>
+				<th>摘要<span>杂志的摘要</span></th>
+				<td><textarea name="info[description]" id="info_description" class="required textarea" cols="60" rows="3" ></textarea></td>
+			</tr>
+			<tr>
+				<th>杂志图片<span>杂志的图片</span></th>
+				<td>
+					<label><input type="text" name="info[images]" id="tb_input27"  class="input"  maxlength="255"  size="50"  style="width:260px" /></label>
+					<label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=fupload&a=fieldupload&fieldid=27&opener_id=tb_input27&height=250&width=500" title="从电脑上传图片" class="notips" id="upload_img_27" value="上传图片" /></label>
+					<label><input type="button" class="dialog" alt="__ROOT__/admin.php?m=ffiles&a=images&fieldid=27&opener_id=tb_input27&height=450&width=700" title ="站内图片库"  class="notips" id="choose_img_27" value="站内选择" /></label>
+				</td>
+			</tr>
+			<tr>
+				<th>添加时间<span>默认当前时间</span></th>
+				<td>
+					<script language="javascript" src="admin/Public/js/calendar/WdatePicker.js"></script>
+					<input class="Wdate" type="text" name="info[create_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+				</td>
+			</tr>
+			<tr>
+				<th>更新时间<span>默认最后更新时间</span></th>
+				<td><input class="Wdate" type="text" name="info[update_time]" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
+			</tr>
+			<tr>
+				<th>排序<span>默认最后更新时间</span></th>
+				<td><input class="input" type="text" name="info[sort]" id="info_sort" size="4" value="1"/></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th width="150">&nbsp;</th>
+				<td><label class="btn"><input type="submit"	name="submit" value="确定保存" class="submit" /></label></td>
+			</tr>
+		</tfoot>
+	</table>
+	</div>
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" /> 
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+<input type="hidden" name="info[catid]" id="info_catid" value="{{$cat.catid}}" />
+<input type="hidden" name="info[action]" id="action" value="add" />
+</form>
+{{include file="default/Public/footer.html"}}

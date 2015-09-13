@@ -1,0 +1,117 @@
+{{include file="default/Public/header.html"}}
+<script type="text/javascript">
+$().ready(function(){
+	$("#classifyname").blur(function(){
+		var name = $("#classifyname").val();
+		$.get("__ROOT__/admin.php?m=fcategory&a=add&ajax=getpin&word="+name,{},function(data){
+			if(data){
+				$("#catdir").val(data);
+			}
+		})
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="#" class="selected" rel="tabsContent1">基本信息</a></li>
+			<li><a href="#" rel="tabsContent2">高级信息</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/add?dosubmit=1&classify=1'}}" enctype="multipart/form-data" class="validate">
+<div id="pageCo">
+	<div class="manageForm">
+          <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+          <tbody>
+          	   <tr>
+              	<th style="width:20%;">所属模型</th>
+                <td>{{$model_data.name}}</td>
+              </tr>
+              <tr>
+              	<th style="width:20%;">上级分类</th>
+                <td>{{$parent_name}}</td>
+              </tr>
+              <tr>
+              	<th style="width:20%;">分类名称<span>分类名</span></th>
+                <td><input type="text" name="info[classifyname]" id="classifyname" class="required input" remote='{{U url="fcategory/add?ajax=checkname"}}' maxlength='50' size="40" value="" title="请输入分类名字" /></td>
+              </tr>
+              <tr>
+              	<th>分类目录<span>分类所使用目录</span></th>
+                <td><input name='info[catdir]' type='text' id='catdir' maxlength='50' size="40" class="required input"  remote='{{U url="fcategory/add?ajax=checkdir&info[parentid]=`$$category_data.catid`"}}' value="{{$data.catdir}}"  title="[栏目目录]不能以&quot;f&quot;开头，不能重复，只能包含英文半角字母、数字、下划线以及减号"/></td>
+              </tr>
+              <tr>
+              	<th>分类图片<span>分类导图</span></th>
+                <td> <input name="thumb_img" type="file" class="file" />
+		          <input name="info[thumb]" type="hidden" value="" /></td>
+              </tr>
+              <tr>
+              	<th>分类介绍<span>分类的简要介绍</span></th>
+                <td><textarea name='info[description]' id='description' cols="50" rows="3" class="textarea" ></textarea></td>
+              </tr>
+              <tr>
+              	<th>是否锁定<span>锁定可以防止误删</span></th>
+                <td><input name='info[islock]' type='checkbox' value="1" checked="checked" /></td>
+              </tr>
+              </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent2" style="display:none">
+          	<tbody>
+              {{if $model_data.module.ishtml>0 }}
+			      <!--非静态模型不能绑定二级域名-->
+			      <tr title=" 包括： &quot;http://&quot;前缀，如果父目录已经绑定了，并且本栏目与父栏目在同一个域名下，则不需要填写！">
+			        <th width="150">链接地址
+			          <span>除非需要绑定二级域名，否则此处不需要填写。</span></th>
+			        <td><input name='info[url]' type='text' id='domain' value='' maxlength='60' size="40"  title="" class="input"/>
+			          例如：http://seo.fangfacms.com </td>
+			      </tr>
+			      {{else}}
+			      <tr style="display:none;">
+			        <th width="150">&nbsp;</th>
+			        <td><input name='info[url]' type='hidden' id='domain' value='' size="40" maxlength='60' title=""/>
+			         </td>
+			      </tr>
+			      {{/if}}
+              <tr title="默认同栏目标题">
+			        <th>Meta Title
+			          <span>针对搜索引擎设置的标题</span></th>
+			        <td>
+			          <textarea name='info[seotitle]' type='text' id='seotitle' cols="50" rows="3" maxlength='60' title="META Title不能超过60个字符" class="textarea"></textarea>
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seotitle'}}
+			         </td>
+			      </tr>
+			      <tr title="默认同栏目名称">
+			        <th>Meta Keywords
+			          <span>针对搜索引擎设置的关键词</span></th>
+			        <td><textarea name='info[seokeywords]' id='seokeywords' cols="50" rows="3"  title="META Keywords不能超过200个字符" class="textarea"></textarea>
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seokeywords'}}
+			          </td>
+			      </tr>
+			      <tr title="默认同栏目介绍">
+			        <th>Meta Description
+			          <span>针对搜索引擎设置的网页描述</span></th>
+			        <td><textarea name='info[seodescription]' id='seodescription' cols="50" rows="3"  maxlength="250"  title="META Description不能超过250个字符" class="textarea"></textarea>
+			          <div class="jsinset"> 
+			          {{include file='default/Fcategory/normal_type_seo.html' inid='seodescription'}}
+			          </div></td>
+			      </tr>
+                  </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0">
+			<tfoot>
+				<th width="150">&nbsp;</th>
+				<td><input name="forward" type="hidden" value="{{$forward}}" />
+		        <input name="info[type]" type="hidden" value="normal" />
+                <input name="step" type="hidden" value="3" />
+                <input name="info[cattype]" type="hidden" value="cla" />
+		        <input name="info[ishtml]" type="hidden" value="{{$model_data.module.ishtml|intval}}" />
+               <input name="info[parentid]" type="hidden" value="{{$in.info.parentid}}" />
+                <input type="hidden" name="info[modelid]" value="{{$model_data.modelid}}" />
+		        <label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+		        <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label></td>
+			</tfoot>
+		</table>
+    </div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

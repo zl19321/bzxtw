@@ -1,0 +1,66 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmember/manage_model?moduleid=$moduleid"}}' {{if $action_name=="manage_model"}}class="selected" rel="tabsContent1"{{/if}}>管理模型</a></li>
+			<li><a href='{{U url="fmember/add_model?moduleid=$moduleid"}}' {{if $action_name=="add_model"}}class="selected" rel="tabsContent1"{{/if}}>添加模型</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th>名称</th>
+			        <th>描述</th>
+			        <th>标识</th>
+			        <th>类型</th>
+			        <th>状态</th>
+			        <th>操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v key=k}}
+				  {{if $v.exttable!='manager'}}
+			      <tr>
+			        <td width="80">{{$v.name}}</td>
+			        <td >{{$v.description|nl2br}}</td>
+			        <td width="50">{{$v.exttable}}</td>
+			        <td width="60">
+			        {{if $v.extendable>0}}
+			        自定义
+			        {{else}}
+			        系统
+			        {{/if}}
+			        </td>
+			        <td width="50">
+			        {{if $v.status>0}}
+			        <a href='{{U url="fmember/status_model?status=0&modelid=`$v.modelid`"}}' title="点击禁用">运行</a>
+			        {{else}}
+			        <a href='{{U url="fmember/status_model?status=1&modelid=`$v.modelid`"}}' title="点击启用" style="color:red;">禁用</a>
+			        {{/if}}
+			        </td>
+			        <td width="200">
+			          {{if $v.extendable>0}}
+			          <a href='{{U url="fmember/list_field?modelid=`$v.modelid`"}}'>字段管理</a> |       
+			          <a href='{{U url="fmember/preview_model?modelid=`$v.modelid`"}}'>预览模型</a> |
+			          <!--<a href='{{U url="fmember/export_model?modelid=`$v.modelid`"}}'>导出模型</a> |-->
+			          {{/if}}
+			          <a href='{{U url="fmember/update_model?modelid=`$v.modelid`"}}'>编辑</a> | 
+			          <a href='{{U url="fmember/del_model?modelid=`$v.modelid`"}}' onclick="return window.confirm('此操作不可恢复，你去确定要删除该模型？');">删除</a> 	
+			        </td>
+			      </tr>
+			      {{/if}}
+			      {{foreachelse}}
+			      <tr><td colspan="7">暂无记录！</td></tr>
+			      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}} 
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

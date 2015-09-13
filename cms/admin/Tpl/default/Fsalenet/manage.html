@@ -1,0 +1,114 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fsalenet/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'sid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+	//标题
+	$(".editable_title").editable("{{U url='fsalenet/edit?ajax=savetitle'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+     		tooltip   : "点击可快速编辑标题",
+			name			: 'title',
+			id				: 'sid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});	
+	
+});
+</script>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fsalenet/add?catid=`$cat.catid`"}}'>添加营销</a></div>
+	<div class="cate">
+      <!--<a href='{{U url="fsalenet/manage?catid=`$cat.catid`"}}' >全部</a>|-->
+                 
+	</div>
+	<div class="batch">
+		
+	</div>
+	<div class="search">
+		<select name='field'>
+          <option value='title'  >营销区域</option>          
+        </select>
+        <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="20"><input type="checkbox" name="checkAll" /></th>
+					
+					<th width="20">ID</th>
+					<th width="40">排序</th>
+					<th>名称</th>	
+					<th width="100">营销区域</th>	
+					<!--<th >营销内容</th>-->
+					<th width="60">审核</th>
+					<th width="60">省份</th>
+					<th width="150">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}      
+		      <tr>
+		        <td align="center"><input type="checkbox" rel="checkbox" name="info[sid][]" value="{{$v.sid}}" /></td>
+		       
+		        <td>{{$v.sid|intval}}</td>
+				<td><span class="editable_sort pointer" id="sort_{{$v.sid}}">{{$v.sort}}</span></td>
+		        <td>{{$v.name}}</td>
+		        <td>
+		        <span class="editable_title pointer" id="title_{{$v.sid}}">{{$v.title}}</span>		        
+		        {{if !empty($v.thumb)}}
+		        [<span class="red">图</span>]
+		        {{/if}}        
+		        </td>
+		        <!--<td>{{$v.content|truncate:"20":"..."}}</td>-->
+		        <td>
+						{{if $v.status == '1'}}
+					    <a href='{{U url="fsalenet/check?_tablename=salenet&sid=`$v.sid`&status=0&catid=`$v.catid`"}}' class="green">已审</a>
+					    {{else}}
+					    <a href='{{U url="fsalenet/check?_tablename=salenet&sid=`$v.sid`&status=1&catid=`$v.catid`"}}' class="red">待审</a>
+					    {{/if}}
+				</td>
+				<td>{{$v.province}}</td>
+		        <td>		           
+		          <a href="{{$cat.url}}{{$v.url}}" title="访问活动介绍页面" target="_blank">访问</a> | 
+		          <a href='{{U url="fsalenet/edit?sid=`$v.sid`&catid=`$v.catid`"}}' title="更新内容">编辑</a> |
+		          <a href="{{U url="fsalenet/delete?sid=`$v.sid`&catid=`$v.catid`"}}" title="彻底删除" onclick="return window.confirm('确定要删除！')">删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="8">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fsalenet" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+<input type="hidden" name="info[catid]" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

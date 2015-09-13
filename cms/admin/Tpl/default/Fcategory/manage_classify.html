@@ -1,0 +1,86 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	$(".editable_sort").editable("{{U url='fcategory/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      tooltip   : "点击可编辑排序",
+			name			: 'sort',
+			id				: 'catid',
+			placeholder : '不可用',
+			width:  20,
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+
+function getcat(id){
+		$.get("__ROOT__/admin.php?m=fcategory&a=ajaxgetclassify&ajax=classify&gettype=getcategory&catid="+id,{},function(data){
+				if(data=='1'){//缺ID
+					$("#addcat_"+id).html("暂无目录");
+				}else if(data=='2'){
+					$("#addcat_"+id).html("暂无目录");
+				}else{
+					//alert(data);
+					$("#addcat_"+id).removeAttr('style');
+					$("#addcat_"+id).html('<select name="info[topcatid]" onChange="send(this.value,'+id+')" onBlur="reback('+id+')" id="sel_'+id+'"><option value="0">请选择目录</option>'+data+'</select>');
+					$("#sel_"+id).focus();
+					$("#a_"+id).css('display','none');
+				}
+		});
+}
+
+/*id=当前分类的cid值，value=选中的栏目ID*/
+function send(value,id){
+	if(value!='' && value){
+		$.get("__ROOT__/admin.php?m=fcategory&a=edit&ajax=settopcatid&topcatid="+value+"&catid="+id,{},function(data){
+			if(data == 'false'){
+				alert('绑定失败');
+			}else if(data == 'true'){
+				alert('绑定成功');
+				self.location.href= '__ROOT__/admin.php?m=fcategory&a=manage&cattype=cla';
+			}
+		});
+	}
+}
+
+function reback(id){
+	$("#addcat_"+id).css('display','none');
+	$("#a_"+id).removeAttr('style');
+	$("#addcat_"+id).html('');
+}
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fcategory/manage?cattype=cla'}}" {{if $action_name=="manage"}} class="selected"{{/if}}>管理分类</a></li>
+			<li><a href="{{U url='fcategory/add?classify=1' }}" {{if $action_name=="add"}} class="selected"{{/if}}>添加分类</a></li>
+		</ul>		
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="20">序</th>
+			        <th width="20">ID</th>
+			        <th width="180">分类名称</th>
+			        <th>分类链接</th>
+			        <th width="100">绑定目录</th>
+			        <th width="70">绑定模型</th>
+			        <th width="200">管理操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{$html}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

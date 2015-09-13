@@ -1,0 +1,35 @@
+<?php
+return array (
+  'fieldid' => '102',
+  'modelid' => '5',
+  'field' => 'video',
+  'name' => '视频地址',
+  'tips' => '视频地址，原始名称和实际名称用“|”进行分割开。',
+  'css' => 'input',
+  'parent_css' => NULL,
+  'minlength' => '0',
+  'maxlength' => '0',
+  'required' => '0',
+  'pattern' => NULL,
+  'errortips' => '',
+  'formtype' => 'video',
+  'setting' => 
+  array (
+    'size' => '50',
+    'width' => '500',
+    'height' => '400',
+    'upload_maxsize' => '10000',
+    'upload_allowext' => 'swf|flv|wmv|mp4',
+    'downloadtype' => '0',
+  ),
+  'dbname' => NULL,
+  'dbkey' => NULL,
+  'dbvalue' => NULL,
+  'formattribute' => NULL,
+  'systype' => '1',
+  'sort' => '1',
+  'status' => '1',
+  'card' => '1',
+  'listshow' => '0',
+);
+?>

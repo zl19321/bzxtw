@@ -1,0 +1,114 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='factivity/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'aid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+	//标题
+	$(".editable_title").editable("{{U url='factivity/edit?ajax=savetitle'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+     		tooltip   : "点击可快速编辑标题",
+			name			: 'title',
+			id				: 'aid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});	
+	
+});
+</script>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="factivity/add?catid=`$cat.catid`"}}'>发布活动</a></div>
+	<div class="cate">
+      <a href='{{U url="factivity/manage?catid=`$cat.catid`"}}' >全部</a>|
+      <a href='{{U url="factivity/manage?catid=`$cat.catid`"}}' >已过期</a>|            
+	</div>
+	<div class="batch">
+		
+	</div>
+	<div class="search">
+		<select name='field'>
+          <option value='title'  >活动名称</option>          
+        </select>
+        <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>					
+					<th width="40">排序</th>
+					<th width="20">ID</th>					
+					<th>活动名称</th>										
+					<th width="100">开始时间</th>
+					<th width="100">结束时间</th>
+					<th width="60">发布人</th>
+					<th width="50">状态</th>
+					<th width="150">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}
+		      <tr>		        
+		        <td class="editable_sort pointer" id="sort_{{$v.aid}}">{{$v.sort}}</td>
+		        <td>{{$v.aid|intval}}</td>
+		        <td>
+		        <span class="editable_title pointer" id="title_{{$v.aid}}">{{$v.title}}</span>	
+		        {{if !empty($v.thumb)}}
+		        [<span class="blue">图</span>]
+		        {{/if}}
+				<!-- 新增加判断条件 用于在页面上显示[顶][热]并存 -->
+		        {{if strstr($v.attr,'top')}}
+		        [<span class="green">顶</span>]
+		        {{/if}} 
+				<!-- 新增加判断条件 用于在页面上显示[顶][热]并存 -->
+				{{if strstr($v.attr,'hot')}}
+		        [<span class="red">热</span>]
+		        {{/if}}
+		        </td>
+		        <td>{{'Y-m-d'|date:$v.start_time}}</td>
+		        <td>{{'Y-m-d'|date:$v.end_time}}</td>
+		        <td>{{$v.username}}</td>
+				<td>{{if $v.status ==9}}<font color="green">已审</font>{{/if}}
+				{{if $v.status ==0}}<font color="red">待审</font>{{/if}}</td>
+		        <td>
+		          <a href='{{U url="factivity/manage_apply?aid=`$v.aid`&catid=`$cat.catid`"}}' title="查看改活动报名情况" >报名</a> | 
+		          <a href="{{$v.url}}" title="访问活动介绍页面" target="_blank">访问</a> | 
+		          <a href='{{U url="factivity/edit?aid=`$v.aid`&catid=`$cat.catid`"}}' title="更新内容">编辑</a> |
+		          <a href="{{U url="factivity/delete?aid=`$v.aid`&catid=`$cat.catid`"}}" title="彻底删除" onclick="return window.confirm('删除活动以后，报名信息业将被删除！')">删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="8">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="factivity" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+<input type="hidden" name="info[catid]" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

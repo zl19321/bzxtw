@@ -1,0 +1,78 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fcollect/add"}}'>增加结点</a></div>
+	<div class="delBtn"><a href="javascript:void(0);" onclick="del(); return false;">删除临时数据</a></div>
+	<div class="cate">
+      <a href='{{U url="fcollect/collect?c_id="}}{{$c_id}}'>采集结点</a> |
+      <a href='#' onclick="explode()">导入数据</a>
+     </div>
+
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<form  method="POST" id="form1" >
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th>标题</th>
+					<th width="60">是否导入</th>
+					<th width="100">发布时间</th>
+					<th width="120">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}      
+		      <tr>
+		        <td align="center"><input type="checkbox" rel="checkbox" name="info[pid][]" value="{{$v.pid}}" /></td>
+		        <td>{{$v.title}}</td>
+		        <td>{{if $v.status == 0}}未导入{{else}}已导入{{/if}}</td>
+		        <td>{{$v.create_time|date_format:"%Y-%m-%d"}}</td>
+		        <td>
+		          <a href='{{$v.link}}' target="_blank" >访问</a> |
+		          <a href='{{U url="fcollect/show?pid=`$v.pid`"}}'>编辑</a> |
+		          <a href='#' onclick="del({{$v.pid}},this)">删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="4">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>
+		</form>
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<script type="text/javascript">
+function del(id, obj){
+	if(!confirm("确定删除吗？")) return false;
+	$.get('__ROOT__/admin.php?m=fcollect&a=del_page', { pid:id }, function(data){
+		if(data == 1){
+			$(obj).parent().parent().remove();
+		}else{
+			alert("操作失败！");
+		}
+	})
+}
+function del(){
+	if(!confirm("确定删除吗？")) return false;
+	if($(':checkbox:checked[name="info[pid][]"]').length > 0){
+		$("#form1").attr("action","{{U url='fcollect/del_page_all?c_id='}}{{$c_id}}");
+		$('#form1').submit();
+	}else{
+		alert("请至少选择一条数据！");
+	}
+}
+function explode(){
+	if($(':checkbox:checked[name="info[pid][]"]').length > 0){
+		$("#form1").attr("action","{{U url='fcollect/explode?c_id='}}{{$c_id}}");
+		$('#form1').submit();
+	}else{
+		alert("请至少选择一条数据！");
+	}
+}
+</script>
+{{include file="default/Public/footer.html"}}

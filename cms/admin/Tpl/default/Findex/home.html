@@ -1,0 +1,31 @@
+{{include file="default/Public/header.html"}}
+<script language="javaScript">
+$().ready(function () {
+	now = new Date(),hour = now.getHours()
+	if(hour < 6){$("#time").html("凌晨好"); }
+	else if (hour < 9){$("#time").html("早上好");}
+	else if (hour < 12){$("#time").html("上午好");}
+	else if (hour < 14){$("#time").html("中午好");}
+	else if (hour < 17){$("#time").html("下午好");}
+	else {$("#time").html("晚上好");}
+})
+</script>
+<div id="home">
+	<div class="welcome">
+		<span id="time"></span><a href="?m=fprofile&a=pwd">{{$userdata.username}}</a>，欢迎您回来！
+		<p>您当前的身份是<span class="red">{{$userdata.rolenickname}}</span>{{if $userdata.user_id !='999999'}}，上次登陆IP是{{$userdata.last_login_ip}}，上次登陆时间是{{'Y-m-d H:i:s'|date:$userdata.last_login_time}}{{/if}}</p>
+	</div>
+	<div class="btns">
+		<ul>
+			<li><a href="#" class="a1">内容管理</a></li>
+			{{if $userdata.user_id == '999999'}}
+			<li><a href="{{U url='fcategory/manage'}}" class="a2">栏目管理</a></li>
+			<li><a href="{{U url='fmodel/manage'}}" class="a3">模型模块</a></li>
+			{{/if}}
+			<li><a href="{{U url='fset/set'}}" class="a4">系统设置</a></li>
+			<li><a href="{{U url='fcache/all'}}" class="a5">更新缓存</a></li>
+            
+		</ul>
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

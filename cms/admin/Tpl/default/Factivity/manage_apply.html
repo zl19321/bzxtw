@@ -1,0 +1,146 @@
+{{include file="default/Public/header.html"}}
+<!-- 以下两个JS为新增加，主要内是用于改变报名信息的状态 -->
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){
+	//标记为，表单提交
+	$("#flagto").change(function (){
+		var flagto_length = $("input[name='info[mid][]']:checked").length;
+		if(flagto_length > 0 && $(this).val()!='flagto') {
+			$('#action').val('edit_apply');
+			$('#do').val('status');
+			$('#myform').submit();
+		} else { //提示并还原下拉菜单
+			if($(this).val() != 'flagto') {
+				alert("未选择操作项！");
+			}	
+			$(this).val('flagto');
+		}
+	});
+	//移动到，表单提交
+	$("#moveto").change(function (){
+		var moveto_length = $("input[name='info[mid][]']:checked").length;
+		if(moveto_length > 0 && $(this).val()!='moveto') {
+			if($(this).val() == '-1') {  //移动到回收站
+					$('#action').val('edit_apply');
+					$('#do').val('recycle');
+			} else {  //移动至其他栏目
+					$('#action').val('edit');
+					$('#do').val('moveto');
+			}
+			$('#myform').submit();
+		} else { //提示并还原下拉菜单			
+			if($(this).val() != 'moveto') {
+				alert("未选择操作项！");
+			}	
+			$(this).val('moveto');
+		}
+	});
+});
+</script>
+<!-- 新增加JS -->
+<form id="myform" name="myform" method="post" action='{{U url="factivity/manage_apply"}}'  >
+<input type="hidden" name="catid" value="{{$cat.catid}}"/>
+<input type="hidden" name="aid" value="{{$in.aid}}" />
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="factivity/add_apply?catid=`$cat.catid`&aid=`$in.aid`"}}'>添加报名信息</a></div>
+	<div class="cate">
+      <a href='{{U url="factivity/manage_apply?catid=`$cat.catid`&aid=`$in.aid`"}}' class="selected">报名信息管理</a>|
+      <a href='{{U url="factivity/manage?catid=`$cat.catid`"}}'>&lt;&lt;返回活动列表</a>|&nbsp;&nbsp;&nbsp;<font color="red";>报名人数为:<font color="green">{{$data.count}}</font></font>
+	</div>
+	<div class="batch">
+	</div>
+	<div class="search">
+		<select name='field'>
+          <option value='name'>姓名</option>
+          <option value='tel'>电话</option>          
+          <option value='qq'>QQ</option>          
+          <option value='email'>邮件</option>          
+        </select>
+        <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageTop">
+	<div class="cate">
+	<!--更改连接，其中传递了每个栏目的状态值 -->
+      <a href="__ROOT__/admin.php?m=factivity&a=manage_apply&aid={{$in.aid}}&catid={{$cat.catid}}">全部</a>|
+      <a href="__ROOT__/admin.php?m=factivity&a=manage_apply&aid={{$in.aid}}&catid={{$cat.catid}}&status=1">已审</a>|
+      <a href="__ROOT__/admin.php?m=factivity&a=manage_apply&aid={{$in.aid}}&catid={{$cat.catid}}&status=0">待审</a>|
+	  <a href="__ROOT__/admin.php?m=factivity&a=manage_apply&aid={{$in.aid}}&catid={{$cat.catid}}&status=-1">回收站</a>
+	  <!-- 更改连接结束 -->
+      {{if $status=='-1'}}<!-- status在:FactivityAction.class.php中已定于 -->
+       {{if $data.jilu >0}}<!-- jilu在 admin/lib/FactivityAction.class.php中查询中的已定义-->
+        <a href="__ROOT__/admin.php?m=factivity&a=delete_all&aid={{$data.info.0.aid}}&catid={{$cat.catid}}&status=-1" onClick="return window.confirm('此操作不可撤销，确定要清空回收站？');" class="green">[清空回收站]</a>
+        {{/if}}
+      {{/if}}
+	</div>
+	<div class="batch">
+		{{if $status!='-1'}}
+      <select name="dostatus" id="flagto">
+        <option value="flagto">标记为...</option>
+        <option value="1">已审核</option>
+        <option value="0">待审核</option>
+      </select>
+			<select name="moveto" id="moveto">
+        <option value="moveto">移动到...</option>
+        {{$category_tree}}
+        <option style="background:#CCC" value="-1">回收站</option>
+      </select>
+       {{/if}}
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+			<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th width="30">ID</th>
+					<th width="80">姓名</th>
+					<th width="150">电话</th>
+					<th width="130">报名时间</th>
+					<th>报名备注</th>
+					<th width="60">状态</th>
+					<th width="80">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}} 
+		      <tr align="center">	
+			    <td align="center">
+				<input type="checkbox" rel="checkbox" name="info[mid][]" value="{{$v.mid}}" />
+				</td>
+		        <td>{{$v.mid|intval}}</td>
+		        <td>{{$v.name}}</td>
+		        <td>{{$v.tel}}</td>
+		        <td>{{'Y-m-d H:i'|date:$v.create_time}}</td>
+		        <td>{{$v.message}}</td>
+		        <td>{{if $v.status == 1}}<font color="green">已审核</a>{{/if}}{{if $v.status ==0}}<font color="Red">待审</a>{{/if}}{{if $v.status ==-1}}<font color="blue">回收站</font>{{/if}}</td>
+		        <td>
+				{{if $v.status ==-1}}
+				<a href="__ROOT__/admin.php?m=factivity&a=edit_apply&do=restore&aid={{$v.aid}}&mid={{$v.mid}}&catid={{$cat.catid}}" title="更新内容"><font color="green">还原</font></a>
+				{{else}}
+		          <a href='{{U url="factivity/edit_apply?mid=`$v.mid`&catid=`$cat.catid`&aid=`$v.aid`"}}' title="更新内容">修改</a>{{/if}} |
+		          <a href='{{U url="factivity/delete_apply?mid=`$v.mid`&catid=`$cat.catid`&aid=`$v.aid`"}}' title="删除报名信息" onclick="return window.confirm('删除后无法恢复！')">删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="8">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+	    <div>
+<!--	    <span><input type="button" name="" onclick="alert('test');" value="删除"/></span>-->
+	    {{$data.pages}}
+	    </div>		
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="info[aid]" value="{{$in.aid}}" />
+<input type="hidden" name="m" id="module" value="factivity" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+</form>
+{{include file="default/Public/footer.html"}}

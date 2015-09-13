@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+* {
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+body {
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+a:link {
+	font-size: 12px;
+	color: #F00;
+	text-decoration: none;
+}
+
+a:visited {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline
+}
+
+a:hover {
+	font-size: 12px;
+	color: red
+}
+
+div,form,h1,h2,h3,h4,h5,h6 {
+	margin: 0;
+	padding: 0;
+}
+
+.jcropper-holder {
+	border: 1px black solid;
+}
+
+#outer {
+	text-align: left;
+}
+
+.jcExample {
+	text-align: left;
+	background: white;
+	width: 99%;
+	font-size: 80%;
+	border-top: 1px black solid;
+	border-bottom: 1px black solid;
+}
+
+.jcExample .article {
+	width: 100%;
+	height: 370px;
+	overflow: scroll;
+}
+
+.jcExample label {
+	margin-right: 1em;
+	font-weight: bold;
+	color: #990000;
+	margin-top: 10px;
+}
+
+.jcExample label input {
+	height: 14px;
+	line-height: 14px;
+	width: 26px;
+}
+
+.jcExample h1 {
+	font-size: 12px;
+}
+
+.jcrop-holder {
+	text-align: left;
+}
+
+.jcrop-vline,.jcrop-hline {
+	font-size: 0;
+	position: absolute;
+	background: white url('Jcrop.gif') top left repeat;
+}
+
+.jcrop-vline {
+	height: 100%;
+	width: 1px !important;
+}
+
+.jcrop-hline {
+	width: 100%;
+	height: 1px !important;
+}
+
+.jcrop-handle {
+	font-size: 1px;
+	width: 7px !important;
+	height: 7px !important;
+	border: 1px #eee solid;
+	background-color: #333; *
+	width: 9px; *
+	height: 9px;
+}
+
+.jcrop-tracker {
+	width: 100%;
+	height: 100%;
+}
+
+.custom .jcrop-vline,.custom .jcrop-hline {
+	background: yellow;
+}
+
+.custom .jcrop-handle {
+	border-color: black;
+	background-color: #C7BB00;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}

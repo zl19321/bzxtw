@@ -1,0 +1,11 @@
+    <div class="clear"></div>
+    <div class="footer">
+    
+        <p><a href="http://www.miibeian.gov.cn">{{ffset var="ICPNO"}}</a></p>
+        <p>{{ffset var="COPYRIGHT"}}</p>
+        <p>联系电话：{{ffset var="COMPANYTEL"}} 传真：{{ffset var="COMPANYFAX"}} </p>
+
+    </div>
+
+</body>
+</html>

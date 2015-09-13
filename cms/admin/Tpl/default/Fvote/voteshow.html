@@ -1,0 +1,25 @@
+{{include file="default/Public/header.html"}}
+<div id="pageCo">
+	<div class="manageForm">
+		<h3 style="text-align:center;">{{$subject.subject}}</h3>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+			{{foreach from=$subject.child item=s}}
+				<tr>
+					<th colspan="2" style="text-align:left;">{{$s.subject}} (共{{$s.total_vote_num}}票)</th>
+				</tr>
+				<tr>
+					<td colspan="2">{{foreach from=$s.options item=o}}
+							<ul style="clear:both;">
+								<li style="float:left; margin:2px; width:100px;">{{$o.option}}</li>
+								<li style="float:left; margin:2px;" title="{{$o.vote_num*100/$s.total_vote_num }}%"><div style="float:left; width:100px; height:16px; border:1px solid #999;"><div style="width:{{if $s.total_vote_num>0}}{{$o.vote_num*100/$s.total_vote_num}}{{else}}0{{/if}}px; height:100%; background-color:#FF9C00;">&nbsp;</div></div></li>
+								<li style="float:left; margin:2px;">{{$o.vote_num}} 票</li>
+							</ul>
+						{{/foreach}}</td>
+				</tr>
+			{{/foreach}}
+			</tbody>
+		</table>
+	</div>	
+</div>
+{{include file="default/Public/footer.html"}}

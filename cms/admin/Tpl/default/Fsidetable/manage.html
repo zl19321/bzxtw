@@ -1,0 +1,93 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+    $().ready(function (){	
+	//排序
+	$(".editable_sort").editable('{{U url="fsidetable/edit?ajax=sort&sitetable=$tablename"}}',{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'cid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+	//标题
+	$(".editable_title").editable('{{U url="fsidetable/edit?ajax=savetitle&sitetable=$tablename"}}',{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+     		tooltip   : "点击可快速编辑标题",
+			name			: 'title',
+			id				: 'cid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			onblur : "submit"
+	});
+});
+	function deletes(){
+        $('input[type=checkbox]').each(function(){
+            if($(this).attr('checked') == true){
+                $("#action").val('delete');
+                $("#myform").submit();
+            }
+            
+        })
+    }
+</script>
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fsidetable/add?catid=`$cat.catid`"}}'>发布内容</a></div>
+    <div class="delBtn"><a href='javascript:deletes();'>删除</a></div>
+	<div class="cate"></div>
+	<div class="batch">
+	</div>
+	<div class="search">
+		<select name='field'>
+            {{foreach from=$search_table item=v}}
+                <option value='{{$v.field}}'>{{$v.name}}</option>
+            {{/foreach}}
+        </select>
+        <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+                    <th width="80">ID</th>                   
+				   <th width="80">排序</th>		
+                    <th>标题</th>		
+					<th width="200">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}
+			<tr>
+			<td><input type="checkbox" rel="checkbox" name="{{$category_data.model.exttable}}_id[]" value="{{$v.id}}" /></td>
+			<td>{{$v.id}}</td>
+			<td class="editable_sort pointer" id="sort_{{$v.id}}">{{$v.sort}}</td>		
+	        <td class="editable_title pointer" id="title_{{$v.id}}">{{$v.name}}</td>
+			<td><a href="admin.php?m=fsidetable&a=edit&{{$category_data.model.exttable}}_id={{$v.id}}&catid={{$v.catid}}" title="更新内容">编辑</a> | <a href="admin.php?m=fsidetable&a=delete&{{$category_data.model.exttable}}_id={{$v.id}}&catid={{$v.catid}}" title="移动至回收站" onClick="return window.confirm('此操作不可撤销，你确定要继续？');">删除</a></td></tr>				 
+			{{/foreach}}
+                {{$html}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fsidetable" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="all" id="all" value="1" />
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

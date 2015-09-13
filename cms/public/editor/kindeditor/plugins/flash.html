@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Flash</title>
+<style type="text/css" rel="stylesheet">
+body {
+	margin: 0;
+	font: 12px/ 1.5 "sans serif", tahoma, verdana, helvetica;
+	background-color: #F0F0EE;
+	color: #222222;
+	overflow: hidden;
+}
+
+label {
+	cursor: pointer;
+}
+
+.main {
+	margin: 0 10px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.tab-navi {
+	width: 98%;
+	border-bottom: 1px solid #A0A0A0;
+	padding-left: 5px;
+	margin-bottom: 10px;
+}
+
+.tab-navi ul {
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tab-navi li {
+	position: relative;
+	border: 1px solid #A0A0A0;
+	background-color: #E0E0E0;
+	margin: 0 2px -1px 0;
+	padding: 0 20px;
+	float: left;
+	line-height: 25px;
+	text-align: center;
+	color: #555555;
+	cursor: pointer;
+}
+
+.tab-navi li.selected {
+	background-color: #F0F0EE;
+	border-bottom: 1px solid #F0F0EE;
+	color: #000000;
+	cursor: default;
+}
+
+.tab-navi li.on {
+	background-color: #F0F0EE;
+	color: #000000;
+}
+
+.table {
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.table li {
+	padding: 0;
+	margin-bottom: 10px;
+	display: list-item;
+	line-height: 1.5;
+}
+
+.table li label {
+	font-weight: bold;
+}
+
+.table li input {
+	vertical-align: middle;
+}
+
+.table li img {
+	vertical-align: middle;
+}
+</style>
+<script type="text/javascript">
+			var KE = parent.KindEditor;
+			location.href.match(/\?id=([\w-]+)/i);
+			var id = RegExp.$1;
+			var fileManager = null;
+			var allowUpload = (typeof KE.g[id].allowUpload == 'undefined') ? true : KE.g[id].allowUpload;
+			var flashUploadJson = (typeof KE.g[id].flashUploadJson == 'undefined') ? '/admin.php?m=feditor&a=upload&type=kind&uploadfiletype=flash' : KE.g[id].flashUploadJson;
+			var allowFileManager = (typeof KE.g[id].allowFileManager == 'undefined') ? false : KE.g[id].allowFileManager;
+			var referMethod = (typeof KE.g[id].referMethod == 'undefined') ? '' : KE.g[id].referMethod;
+			var lang = KE.lang.plugins.flash;
+			KE.event.ready(function() {
+				var viewServer = KE.$('viewServer', document);
+				var urlBox = KE.$('url', document);
+				var fileBox = KE.$('imgFile', document);
+				var tabNavi = KE.$('tabNavi', document);
+				var liList = tabNavi.getElementsByTagName('li');
+				var typeBox = KE.$('type', document);
+				var fileBox = KE.$('imgFile', document);
+				var widthBox = KE.$('width', document);
+				var heightBox = KE.$('height', document);
+				
+				var selectTab = function(num) {
+					widthBox.value = 550;
+					heightBox.value = 400;
+					for (var i = 0, len = liList.length; i < len; i++) {
+						var li = liList[i];
+						if (i === num) {
+							li.className = 'selected';
+							li.onclick = null;
+						} else {
+							if (allowUpload) {
+								li.className = '';
+								li.onmouseover = function() { KE.addClass(this, 'on'); };
+								li.onmouseout = function() { KE.removeClass(this, 'on'); };
+								li.onclick = (function (i) {
+									return function() {
+										if (!fileManager) selectTab(i);
+									};
+								})(i);
+							} else {
+								li.parentNode.removeChild(li);
+							}
+						}
+						KE.$('tab' + (i + 1), document).style.display = 'none';
+					}
+					typeBox.value = num + 1;
+					KE.$('tab' + (num + 1), document).style.display = '';
+				}
+				
+				if (!allowFileManager) {
+					viewServer.parentNode.removeChild(viewServer);
+					urlBox.style.width = '300px';
+				}
+				selectTab(0);
+				KE.event.add(viewServer, 'click', function () {
+					if (fileManager) return false;
+					fileManager = new KE.dialog({
+						id : id,
+						cmd : 'file_manager',
+						file : 'file_manager/file_manager.html?id=' + id + '&uploadfiletype=flash' + '&ver=' + KE.version,
+						width : 500,
+						height : 400,
+						loadingMode : true,
+						title : KE.lang.fileManager,
+						noButton : KE.lang.no,
+						afterHide : function() {
+							fileManager = null;
+						}
+					});
+					fileManager.show();
+				});
+				KE.$('uploadForm', document).action = flashUploadJson;
+				KE.$('referMethod', document).value = referMethod;
+				viewServer.value = lang.viewServer;
+				KE.util.pluginLang('flash', document);
+				KE.util.hideLoadingPage(id);
+			}, window, document);
+		</script>
+</head>
+<body>
+<div class="main">
+<div id="tabNavi" class="tab-navi">
+<ul class="clearfix">
+	<li><span id="lang.remoteFlash"></span></li>
+	<li><span id="lang.localFlash"></span></li>
+</ul>
+</div>
+<iframe name="uploadIframe" id="uploadIframe" style="display: none;"></iframe>
+<input type="hidden" id="type" name="type" value="" />
+<form id="uploadForm" name="uploadForm" method="post"
+	enctype="multipart/form-data" target="uploadIframe"><input
+	type="hidden" id="editorId" name="id" value="" /> <input type="hidden"
+	id="referMethod" name="referMethod" value="" />
+<ul class="table">
+	<li>
+	<div id="tab1" style="display: none;"><label for="url"><span
+		id="lang.url"></span></label> <input type="text" id="url" name="url"
+		value="http://" maxlength="255" style="width: 230px;" /> <input
+		type="button" id="viewServer" name="viewServer" value="" /></div>
+	<div id="tab2" style="display: none;"><label for="imgFile"><span
+		id="lang.localurl"></span></label> <input type="file" id="imgFile"
+		name="imgFile" style="width: 300px;" /> <input type="hidden"
+		name="UPLOAD_IDENTIFIER" value="349.1177576383"></div>
+	</li>
+	<li><label for="width"><span id="lang.width"></span></label>&nbsp;
+	<input type="text" id="width" name="width" value="550" maxlength="4"
+		style="width: 50px; text-align: right;" /> px</li>
+	<li><label for="height"><span id="lang.height"></span></label>&nbsp;
+	<input type="text" id="height" name="height" value="400" maxlength="4"
+		style="width: 50px; text-align: right;" /> px</li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,378 @@
+@charset "utf-8";
+
+/* CSS Document */ /* 全局样式 */
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dd,dt,a
+	{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	background: #fff;
+	color: #333;
+	font-size: 12px;
+	font-family: Verdana, "宋体", Arial, Sans;
+	height: 100%;
+	width: 100%;
+}
+
+ul,ol,li,dl,dd,dt {
+	list-style: none;
+}
+
+select,input,img,select,button {
+	vertical-align: middle;
+	font-size: 12px
+}
+
+a {
+	text-decoration: none;
+}
+
+a {
+	color: #2D6A99;
+}
+
+a:hover,a:active,a:focus {
+	color: #0767C1;
+}
+
+.clearit {
+	clear: both;
+}
+
+/* 内容显示区域 */
+#mainWrap {
+	padding: 10px;
+}
+
+#pageTop {
+	background: url(../images/main_top_bg.gif) repeat-x;
+	height: 40px;
+	padding: 0px 0 0px 10px;
+	border: 1px #D1D4DA solid;
+	border-bottom: 0px
+}
+
+#pageTop span.l {
+	float: left;
+	padding-top: 8px;
+}
+
+#pageTop span.l a {
+	padding-left: 24px;
+	height: 20px;
+	float: left;
+	background: url(../images/btns.gif) no-repeat;
+	color: #000;
+	cursor: pointer
+}
+
+#pageTop span.l a span {
+	float: left;
+	display: inline;
+	padding: 0px 6px 0px 0;
+	margin: 0 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+
+#pageTop span.l a:hover span {
+	background: url(../images/btns_r.gif) no-repeat right;
+	color: #194C73
+}
+
+#pageTop span.l a.btn1 {
+	background-position: 0px 0px
+}
+
+#pageTop span.l a.btn1:hover {
+	background-position: 0px -20px
+}
+
+#pageTop span.l a.btn2 {
+	background-position: 0px -40px
+}
+
+#pageTop span.l a.btn2:hover {
+	background-position: 0px -60px
+}
+
+#pageTop span.l a.btn3 {
+	background-position: 0px -80px;
+}
+
+#pageTop span.l a.btn3:hover {
+	background-position: 0px -100px
+}
+
+#pageTop span.l a.btn4 {
+	background-position: 0px -200px;
+}
+
+#pageTop span.l a.btn4:hover {
+	background-position: 0px -220px
+}
+
+#pageTop span.l a.btn5 {
+	background-position: 0px -160px;
+}
+
+#pageTop span.l a.btn5:hover {
+	background-position: 0px -180px
+}
+
+#pageTop span.l a.btn6 {
+	background-position: 0px -120px;
+}
+
+#pageTop span.l a.btn6:hover {
+	background-position: 0px -140px
+}
+
+#pageTop span.l select {
+	float: left;
+	margin-left: 10px;
+	line-height: 20px
+}
+
+#pageTop span.r {
+	float: right;
+	padding-top: 6px
+}
+
+#pageTop span.r .submit {
+	height: 23px;
+	line-height: 18px;
+}
+
+#pageTop .tabs {
+	padding-top: 13px;
+	line-height: 26px
+}
+
+#pageTop .tabs li {
+	float: left;
+	margin-right: 5px;
+	background: url(../images/tabs_bg.gif) repeat-x;
+	border: 1px #CFD8DD solid;
+	height: 26px;
+	border-bottom: 0px
+}
+
+#pageTop .tabs li a {
+	padding: 0px 13px;
+	display: block;
+	color: #111;
+}
+
+#pageTop .tabs li a.selected {
+	background: #F2F6F8;
+	color: green;
+	font-weight: bold;
+}
+
+#pageTop .tabs li.selected {
+	background: #fff;
+}
+
+#pageTop .tabs li.selected span {
+	
+}
+
+#pageCo {
+	background: #fff;
+	clear: both
+}
+
+/* 文字颜色 */
+.red {
+	color: #cc0000
+}
+
+a.red {
+	color: #cc0000;
+	text-decoration: underline
+}
+
+a.red:hover {
+	color: #0767C1
+}
+
+.black {
+	color: #111
+}
+
+a.black {
+	color: #111;
+	text-decoration: underline
+}
+
+a.black:hover {
+	color: #2A2A32;
+	text-decoration: none
+}
+
+.green {
+	color: #007C0C
+}
+
+.gray {
+	color: #888
+}
+
+.blue {
+	color: #00B2EE
+}
+
+/* 弹出对话框内容样式 */
+.info1 {
+	padding: 25px 25px 20px 80px;
+	background: url(../images/info_icon1.gif) no-repeat 25px 15px;
+}
+
+.info2 {
+	padding: 25px 25px 20px 80px;
+	background: url(../images/loading.gif) no-repeat 25px 15px;
+}
+
+/* 提交消息提示样式 */
+#promptLayer {
+	width: 250px;
+	display: none;
+	z-index: 3000;
+	border: 1px #0E84C1 solid;
+	background-color: #F0F7FA;
+	padding: 8px 10px;
+	color: #1B548F;
+	font-size: 12px
+}
+
+#promptLayer img {
+	margin-right: 10px
+}
+
+.promptLayerCorrect {
+	color: #007C0C;
+	background: #ccc
+}
+
+/* tooltip 信息提示样式 */
+#tooltip {
+	position: absolute;
+	z-index: 3000;
+	border: 1px dotted #FDB444;
+	background-color: #FEF9E0;
+	padding: 5px 10px;
+	color: #FF0000;
+}
+
+#tooltip h3,#tooltip div {
+	margin: 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+/* -----dialog---------*/
+#jd_shadow {
+	z-index: 999;
+	position: absolute;
+	background-color: #1F1F2B;
+	filter: alpha(opacity = 25);
+	-moz-opacity: 0.25;
+	opacity: 0.25;
+}
+
+#jd_dialog {
+	z-index: 1000;
+	position: absolute;
+}
+
+#jd_dialog_s {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background-color: #274572;
+	filter: alpha(opacity = 10);
+	-moz-opacity: 0.1;
+	opacity: 0.1;
+}
+
+#jd_dialog_m {
+	position: absolute;
+}
+
+#jd_dialog_m_h {
+	float: left;
+	width: 100%;
+	height: 27px;
+	background: url(../images/dialog_t_bg.gif) repeat-x;
+	color: #fff;
+	cursor: move;
+}
+
+#jd_dialog_m_h_l {
+	float: left;
+	font-weight: bold;
+	padding-top: 7px;
+	padding-left: 10px;
+}
+
+#jd_dialog_m_h_r {
+	float: right;
+	padding-top: 5px;
+	padding-right: 10px;
+	cursor: pointer;
+}
+
+#jd_dialog_m_h_r a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	text-indent: -99999px;
+	background: url(../images/dialog_close.gif) no-repeat 0px -16px;
+}
+
+#jd_dialog_m_h_r a:hover {
+	background-position: 0 0
+}
+
+#jd_dialog_m_b {
+	float: left;
+}
+
+#jd_dialog_m_b_1 {
+	position: absolute; alpha (opacity=0);
+	-moz-opacity: 0.0;
+	opacity: 0.0;
+	z-index: 900;
+}
+
+#jd_dialog_m_b_2 {
+	position: absolute;
+	z-index: 899;
+}
+
+#jd_dialog_m_t {
+	float: left;
+	width: 100%;
+	height: 32px;
+	text-align: right;
+	background: url(../images/dialog_bot_bg.gif) repeat-x;
+}
+
+#jd_dialog_m_t label.btn {
+	background: url(../images/btn.gif) left 0;
+	padding-left: 5px;
+	display: inline-block;
+	margin-right: 10px;
+	margin-top: 4px
+}
+
+#jd_dialog_m_t label.btn .submit {
+	/*background:url(../images/btn.gif) right -24px;*/
+	height: 24px;
+	border: 0;
+	padding-right: 5px
+}

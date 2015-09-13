@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>系统提示</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv='Refresh' content='{{$waitSecond}};URL={{$jumpUrl}}'>
+<link type="text/css" rel="stylesheet" href="__ROOT__/admin/Public/style/base.css"/>
+<link type="text/css" rel="stylesheet" href="__ROOT__/admin/Public/style.css"/>
+</head>
+<body>
+<div id="mainWrap">
+	<div id="pageCo">
+	<center>
+		<div id="message">
+			<ul class="l"><img src="__ROOT__/admin/Public/images/message_pic_01.jpg" /></ul>
+			<ul class="r">
+				<li><span class="green" style="font-size:32pt;">{{$message}}</span></li>
+				<li class="btn" style="font-size:36pt;">系统将在 <span style="color:blue;font-weight:bold">{{$waitSecond}}</span> 秒后自动跳转，如果不想等待,直接点击 <a href="{{$jumpUrl}}">这里</a></li>
+			</ul>
+			<ul class="clearit"></ul>
+		</div>
+		</center>
+	</div>
+</div>
+</body>
+</html>

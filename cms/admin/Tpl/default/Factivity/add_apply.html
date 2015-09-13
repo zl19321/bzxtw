@@ -1,0 +1,80 @@
+{{include file="default/Public/header.html"}}
+<script src="admin/Public/js/calendar/WdatePicker.js" language="javascript"></script>
+<form id="myform" name="myform" method="post" action='{{U url="factivity/add_apply"}}'  >
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="factivity/add_apply?catid=`$cat.catid`"}}'>添加报名信息</a></div>
+	<div class="cate">
+      <a href='{{U url="factivity/manage_apply?catid=`$cat.catid`&aid=`$in.aid`"}}'>报名信息管理</a>|
+      <a href='{{U url="factivity/manage?catid=`$cat.catid`"}}'>&lt;&lt;返回活动列表</a>
+	</div>	
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th style="width:100px;">姓名<span>（若为会员，此处显示的则为会员名）</span></th>
+			      <td><input type="text" name="info[name]" class="required input" value="{{$data.name}}" style="width:200px;" /></td>
+			      <th style="width:100px;">电话</th>
+			      <td><input type="text" name="info[tel]" class="input" value="{{$data.tel}}" style="width:200px;" /></td>
+			    </tr>
+			    <tr>
+			      <th style="width:100px;">QQ</th>
+			      <td><input type="text" name="info[qq]" value="{{$data.qq}}" style="width:200px;" class="input"/></td>
+			      <th style="width:100px;">电子邮件</th>
+			      <td><input type="text" name="info[email]" class="email input" value="{{$data.email}}" style="width:200px;" /></td>
+			    </tr>
+				<!-- 新增加会员报名时的相关信息,只要是会员编号 -->
+				   <tr>
+			      <th style="width:100px;">报名IP地址</th>
+			      <td><input type="text" name="info[ip]" value="{{$data.ip}}" style="width:200px;" class="input"/></td>
+			      <th style="width:100px;">会员编号</th>
+			      <td><input type="text" name="info[bianhao]" class="email input" value="{{$data.bianhao}}" style="width:200px;" /></td>
+			    </tr>
+			    <tr>
+			      <th>报名时间</th>
+			      <td colspan="3">			      	
+					<input type="text" onfocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="info[create_time]" class="Wdate" value="{{if $data.create_time}}{{$data.create_time|date_format:"%Y-%m-%d %T"}}{{else}}{{$smarty.now|date_format:"%Y-%m-%d %T"}}{{/if}}">
+					</td>
+			    </tr>			   
+			    <tr>
+			      <th>报名备注</th>
+			      <td colspan="3"><textarea name="info[message]" class=" textarea" style="width:80%; height:60px;">{{$data.content}}</textarea></td>
+			    </tr>
+			    <!--<tr>
+			      <th>回复</th>
+			      <td colspan="3"><textarea name="info[reply]" class="textarea" style="width:80%; height:60px;">{{$data.reply}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th>回复时间</th>
+			      <td colspan="3">			      	
+					<input type="text" onfocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="info[reply_time]" class="Wdate" value="{{if $data.reply_time}}{{$data.reply_time|date_format:"%Y-%m-%d %T"}}{{else}}{{$smarty.now|date_format:"%Y-%m-%d %T"}}{{/if}}">
+				  </td>
+			    </tr>-->
+			    <tr>
+			      <th>审核</th>
+			      <td colspan="3"><label><input type="radio" name="info[status]" value="0" {{if $data.status!=1}}checked{{/if}} />待审</label>
+			      	  <label><input type="radio" name="info[status]" value="1" {{if $data.status==1}}checked{{/if}} />审核</label></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+				  <th>&nbsp;</th>
+				  <td>
+				    <input type="hidden" name="forward" value="{{U url='factivity/manage_apply'}}&catid={{$cat.catid}}" />
+				    <input type="hidden" name="info[aid]" value="{{$in.aid}}" />
+					<input type="hidden" name="info[mid]" value="{{$in.mid}}" />
+					<input type="hidden" name="catid" value="{{$cat.catid}}" />
+				    <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+				    <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

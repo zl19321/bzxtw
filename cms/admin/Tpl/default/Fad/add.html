@@ -1,0 +1,92 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="{{U url='fad/manage'}}">管理广告</a></li>
+			<li><a href="{{U url='fad/add'}}" class="selected" rel="tabsContent1">添加广告</a></li>
+		</ul>		
+	</div>
+</div>
+<script language="javascript">
+function alterUC(eID) {
+  setTimeout(function(){window.parent.mainCo && window.parent.mainCo();},200);
+  $("#table tbody").hide();
+  $("#"+eID).show();
+}
+$().ready(function(){
+	$("#banner").change(function(){
+		$.get("{{U url='fad/ajax_getform?is_ajax=1&form_id='}}"+$('#banner').val(),{},function(data){
+			$("#table").html(data);
+		});
+	});
+})
+</script>
+<form action="{{U url='fad/add?dosubmit=1'}}" method="post" name="myform">
+<div id="pageCo">
+	<div class="manageForm">
+		<table class="tabcontent" cellspacing="0" cellpadding="0">         
+          <tr>
+            <th width="150">广告名称</th>
+            <td><input name="info[name]" type="text" class="input required" size="40" /></td>
+          </tr>
+          <tr>
+            <th>广告类型<span>选择一种广告类型</span></th>
+            <td>
+            <select id="banner" name="info[type]">
+            	<option value="banner" selected="selected" >数字Banner轮播</option>
+                <!--<option value="banner_t" selected="selected">缩略图Banner轮播</option>-->
+                <option value="image" >图片</option>
+                <option value="flash" >FLASH</option>
+                <option value="html" >文本</option>
+                <option value="link">文字链</option>
+            </select><font color="red">*</font>
+             <!-- <input id="banner" type='radio' name='info[type]' value='ad_banner_num' onclick="alterUC('bannerid')" />
+              数字Banner轮播
+              <input id="banner_t" type='radio' name='info[type]' value='ad_banner_img' onclick="alterUC('bannerid2')" />
+              缩略图Banner轮播
+              <input type='radio' name='info[type]' value='image' onclick="alterUC('imageid')" />
+              图片
+              <input type='radio' name='info[type]' value='flash' onclick="alterUC('flashid')" />
+              FLASH
+              <input type='radio' name='info[type]' value='html' onclick="alterUC('textid')" />
+              文本
+              <input type='radio' name='info[type]' value='link' onclick="alterUC('codeid')" />
+              文字链 --></td>
+          </tr>
+          <tr>
+            <th>广告内容<span>文本模式支持html。</span></th>
+            <td><table cellpadding="0" cellspacing="0" id="table">
+            	<!--默认表单 start-->
+          		{{include file="default/Fad/ad_banner_t.html"}}
+                <!--默认表单 end-->
+              </table></td>
+          </tr>
+          <tr>
+            <th>发布日期</th>
+            <td>
+              <script language="javascript" src="{{$smarty.const._PUBLIC_}}js/calendar/WdatePicker.js"></script>
+              <input type="text" name="info[starttime]" value="{{'Y-m-d H:i:s'|date:$nowtime}}" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="input Wdate" size="22" readonly>
+              <font color="red">*</font></td>
+          </tr>
+          <tr>
+            <th>结束日期</th>
+            <td><input type="text" name="info[endtime]" value="2050-12-30 00:00:00" onFocus="WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="input Wdate" size="22" readonly>
+              <font color="red">*</font></td>
+          </tr>  
+		  <tfoot>
+		  	 <tr>
+				<th></th>
+				<td>
+				<input type="hidden" name="forward" value="{{$forward}}">
+				<label class="btn"><input type="submit" class="submit" value="提交保存 "/></label>
+				<label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+			  </tr>	
+		  </tfoot>        
+        </table>
+	</div>	
+</div>
+</form>
+<style>
+html, body {height:100%; overflow:auto;} 
+</style>
+{{include file="default/Public/footer.html"}}

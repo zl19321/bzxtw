@@ -1,0 +1,92 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	//排序
+	$(".editable_sort").editable("{{U url='fpress/edit?ajax=sort'}}",{
+			indicator : '<img src="__ROOT__/admin/Public/images/loading2.gif" />',
+      		tooltip   : "点击可快速编辑排序",
+			name			: 'sort',
+			id				: 'pid',
+			placeholder : '不可用',
+			submitdata : {"catid":'{{$cat.catid}}'},
+			select	  : true,
+			event	  : "click",
+			width     : 20,
+			onblur : "submit"
+	});
+});
+</script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="javascript:void(0);" class="selected" >管理杂志</a></li>
+		</ul>		
+	</div>
+	<div class="addBtn"><a href='{{U url="fpress/add?catid=`$cat.catid`"}}'>发布内容</a></div>
+</div>
+
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40">排序</th>
+					<th width="35">ID</th>					
+					<th>标题</th>										
+					<th width="70">所属栏目</th>
+					<th width="90">更新时间</th>
+					<th width="40">状态</th>	
+					<th width="120">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{foreach from=$data.info item=v}}      
+		      <tr>
+		        <td class="editable_sort pointer" id="sort_{{$v.cid}}">{{$v.sort}}</td>
+		        <td>{{$v.pid|intval}}</td>
+		        <td>{{$v.title}}        
+		        {{if in_array('top',$v.attr)}}
+		        [<span class="green">顶</span>] 
+		        {{/if}}
+		        {{if in_array('hot',$v.attr)}}
+		        [<span class="red">热</span>] 
+		        {{/if}}
+		        {{if !empty($v.thumb)}}
+		        [<span class="blue">图</span>]
+		        {{/if}}        
+		        </td>
+		        <td>{{$cat.name}}</td>
+		        <td>{{'Y-m-d'|date:$v.update_time}}</td>
+		        <td>
+		        {{if $v.status=='0'}}
+		        <span class="red">待审</span>
+		        {{/if}}
+		        {{if $v.status=='9'}}
+		        <span class="green">已审</span>
+		        {{/if}}
+		        </td>
+		        <td>
+		        	<a href="__ROOT__/{{$cat.catdir}}/{{$v.url}}" title="访问" target="_blank">查看</a> | <a href='{{U url="fpress/edit?pid=`$v.pid`&catid=`$cat.catid`"}}' title="更新内容">编辑</a> | 
+		        	<a href="{{U url="fpress/delete?pid=`$v.pid`&catid=`$cat.catid`"}}" title="彻底删除" onClick="return window.confirm('此操作不可撤销，你确定要继续？');">删除</a>
+		        </td>
+		      </tr>
+		      {{foreachelse}}
+		      <tr><td colspan="9">暂无记录！</td></tr>
+		      {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="fcontent" />
+<input type="hidden" name="a" id="action" value="manage" />
+<input type="hidden" name="do" id="do" value="" />
+<input type="hidden" name="newsid" value="{{$newsid}}" >
+<input type="hidden" name="catid" id="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

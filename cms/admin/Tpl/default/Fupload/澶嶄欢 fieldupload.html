@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>单文件上传</title>
+<script type="text/javascript"
+	src="__ROOT__/min/?b=admin/Public&amp;f=js/jquery-1.4.2.min.js,js/swfobject.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="__ROOT__/min/?b=admin/Public/style&amp;f=base.css,style.css" />
+<style type="text/css">
+body {
+	font-size: 12px;
+}
+
+/* --Uploadify -- */
+.uploadifyQueueItem {
+	font: 11px Verdana, Geneva, sans-serif;
+	border: 2px solid #E5E5E5;
+	background-color: #F5F5F5;
+	margin: 5px;
+	padding: 10px;
+}
+
+.uploadifyError {
+	border: 2px solid #FBCBBC !important;
+	background-color: #FDE5DD !important;
+}
+
+.uploadifyQueueItem .cancel {
+	float: right;
+}
+
+.uploadifyProgress {
+	background-color: #FFFFFF;
+	border-top: 1px solid #808080;
+	border-left: 1px solid #808080;
+	border-right: 1px solid #C5C5C5;
+	border-bottom: 1px solid #C5C5C5;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.uploadifyProgressBar {
+	background-color: #0099FF;
+	width: 1px;
+	height: 3px;
+}
+
+#fileQueue .uploadifyQueueItem {
+	font: 11px Verdana, Geneva, sans-serif;
+	border: none;
+	border-bottom: 1px solid #E5E5E5;
+	background-color: #FFFFFF;
+	padding: 5%;
+	width: 90%;
+}
+
+#fileQueue .uploadifyError {
+	background-color: #FDE5DD !important;
+}
+
+#fileQueue .uploadifyQueueItem .cancel {
+	float: right;
+}
+</style>
+<script language="javascript"
+	src="{{$smarty.const._PUBLIC_}}/admin/js/uploadify/jquery.uploadify.v2.1.0.min.js"></script>
+</head>
+<body style="background: none;">
+<div id="mainWrap">
+<div id="pageCo" style="border: none">
+<div id="upfileBox">
+<ul class="text">
+	最大可上传：
+	<span class="red"> {{$data.allowSize|byte_format}}</span>
+	<br />
+	允许上传的类型：
+	<span class="green">{{$data.fileext}}</span>
+	<br />
+	<div style="height: 20px">&nbsp;</div>
+</ul>
+
+<ul class="btn">
+	<input id="thumb_id" name="thumb_button" type="button" value="上传"
+		style="display: none" />
+	<!--单张图片地址容器-->
+	<input type="hidden" value="{{$data.opener_id}}" name="opener_id"
+		id="opener_id" />
+	<!--组图容器-->
+	<input type="hidden" value="{{$data.shower_id}}" name="shower_id"
+		id="shower_id" />
+	<!--支持单图还是组图-->
+	<input type="hidden"
+		value="{{if $data.multi == true}}true{{else}}false{{/if}}"
+		name="multi" id="multi" />
+	<!--组图存储隐藏域name-->
+	<input type="hidden" value="{{$data.multi_name}}" name="multi_name"
+		id="multi_name" />
+</ul>
+</div>
+</div>
+
+</div>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+	  $("#thumb_id").uploadify({
+		  'uploader'        : '{{$smarty.const._PUBLIC_}}/admin/js/uploadify/uploadify.swf',
+		  'script'          : '__APP__',	//项目入口地址
+		  'cancelImg'       : '{{$smarty.const._PUBLIC_}}/admin/js/uploadify/cancel.png',
+		  'wmode'           : 'transparent',
+		  'auto'            : true,
+		  'multi'           : {{if $data.multi == true}}true{{else}}false{{/if}},
+          'buttonImg'				: '{{$smarty.const._PUBLIC_}}images/browse.gif',
+		  'width'			: 126,
+		  'height'			: 40,
+		  'fileDesc'		: '格式:{{$data.fileext}}',
+		  'sizeLimit'		: '{{$data.allowSize}}',
+		  'fileExt'			: '{{$data.fileext}}',
+		  'fileDataName'	: 'thumb',
+		  'scriptData'		: {{$data.scriptData}},
+		  'onComplete' 		: function(event, queueID, fileObj, response, data) {
+		  		//alert(response);
+			    var result = eval('('+response+')');
+				if(result.code == 'y') {
+					if(result.type == 'image') {  //如果上传的是图片
+						if($('#multi').val() == 'true') {  //多图
+							if($('#shower_id').val().length > 0)
+								self.parent.$('#'+$('#shower_id').val()).append('<div ondblclick="$(this).remove();" style="cursor:pointer; float:left;" title="双击删除此文件">&nbsp;<img src="' + result.upload_dir + result.info + '" width=150 height=150 /><input type="hidden" name="' + $('#multi_name').val() + '" value="' + result.info + '" />&nbsp;</div>');
+						} else {  //单图
+							if($('#opener_id').val().length > 0) 
+								self.parent.$('#'+$('#opener_id').val()).val(result.info);
+							if($('#shower_id').val().length > 0)
+								self.parent.$('#'+$('#shower_id').val()).html('<img src="' + result.upload_dir + result.info + '" width=150 height=150 />');
+						}
+					} else{  //否则是上传的文件
+						if($('#multi').val() == 'true') {  //多文件
+							if($('#shower_id').val().length > 0)
+								self.parent.$('#'+$('#shower_id').val()).append('<div ondblclick="$(this).remove();" style="cursor:pointer" title="双击删除此文件">' + result.name + '<input type="hidden" name="' + $('#multi_name').val() + '" value="' + result.name + '|' + result.info + '" /></div>');
+						} else {  //单文件
+							if($('#opener_id').val().length > 0) 
+								self.parent.$('#'+$('#opener_id').val()).val(result.name + '|' + result.info);
+						}
+					}
+				} else if(result.code == 'n') {
+					alert(result.info);
+				} else {
+					alert(result);
+				}
+
+                var _target=$(window.parent.document).find('#mainFrame').contents().find('#'+'{{$data.opener_id}}');
+                _target.val(result.info);
+                _target.focus();
+                
+      	},
+      	'onAllComplete'		: function(event, data) {	
+            self.parent.JqueryDialog.Close();
+      	}
+	  });
+});
+</script>
+</body>
+</html>
+

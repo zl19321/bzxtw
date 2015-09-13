@@ -1,0 +1,28 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	<li><a href="javascript:void(0);" class="selected"
+		rel="tabsContent1">基本信息</a></li>
+	<li><a href="javascript:void(0);" rel="tabsContent2">高级选项</a></li>
+</ul>
+</div>
+</div>
+<div id="pageCo">
+<div class="manageForm">{{foreach from=$form_data item=card
+key=id}}
+<table cellpadding="0" cellspacing="0" class="tabcontent"
+	id="tabsContent{{$id}}" {{if $id>
+	1}}style="display:none;"{{/if}}>
+	<tbody>
+		{{foreach from=$card item=v}}
+		<tr>
+			<th width="150">{{$v.name}}<span>{{$v.tips}}</span></th>
+			<td>{{$v.form}}</td>
+		</tr>
+		{{/foreach}}
+	</tbody>
+</table>
+{{/foreach}}</div>
+</div>
+{{include file="default/Public/footer.html"}}

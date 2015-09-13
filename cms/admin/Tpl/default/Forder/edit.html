@@ -1,0 +1,109 @@
+{{include file="default/Public/header.html"}}
+<form id="myform" name="myform" method="post" action='__APP__'  >
+<div id="pageTop">
+  <div class="cate">
+      <a href='{{U url="forder/manage"}}' {{if $in.status==''}}class="selected"{{/if}} title="所有未关闭且客户已经确认的订单">所有</a>|
+      <a href='{{U url="forder/manage?status=0"}}' {{if isset($in.status)&&$in.status==0}}class="selected"{{/if}} title="所有尚未付款的订单">未付款</a>|
+      <a href='{{U url="forder/manage?status=1"}}' {{if $in.status==1}}class="selected"{{/if}} title="所有客户已经付款，待发货的订单">待发货</a>|
+      <a href='{{U url="forder/manage?status=2"}}' {{if $in.status==2}}class="selected"{{/if}} title="所有已经发货，等待客户收货的订单">待收货</a>|
+      <a href='{{U url="forder/manage?status=9"}}' {{if $in.status==9}}class="selected"{{/if}} title="所有已经完成交易的订单">完成</a>|
+      <a href='{{U url="forder/manage?status=-1"}}' {{if $in.status==-9}}class="selected"{{/if}} title="所有已经关闭交易的订单">关闭</a> |
+      <a href='{{U url="forder/manage?status=-1"}}' {{if $in.status==-1}}class="selected"{{/if}} title="所有已经生成，但客户尚未确认的订单">未确认</a>
+  </div>
+  <div class="search">
+		<select name='search[field]'>
+          <option value='ordernum'>订单号</option>
+          <option value='username'>收货人</option>          
+        </select>                    
+        <select name='search[status]'>
+          <option value='0'>未付款</option>
+          <option value='1'>已付款</option>          
+          <option value='2'>已发货</option>          
+          <option value='9'>已完成</option>          
+          <option value='-1'>已取消</option>          
+        </select>
+        <input type="text" name="search[q]" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+        <button type="submit"></button>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent">
+		<tbody>     
+          <tr>
+            <th width="150">订单号<span>来自IP: {{$data.ip}}</span></th>
+            <td>{{$data.ordernum}}</td>
+          </tr>
+          {{foreach from=$data.ordername key=k item=v}}
+          <tr>
+            <th>商品信息<span></span></th>
+            <td>
+                                名称：<input type="text" name="info[ordername][{{$k}}][name]" value="{{$v.name}}" class="input" /><br />
+                                链接：<input type="text" name="info[ordername][{{$k}}][pageurl]" value="{{$v.pageurl}}" class="input" /><br />
+                                单价：<input type="text" name="info[ordername][{{$k}}][price]" value="{{$v.price}}" class="input" size="6" />￥<br />
+			数量：<input type="text" size="4" name="info[ordername][{{$k}}][number]" value="{{$v.number}}"  class="input" />
+			<input type="hidden" name="info[ordername][{{$k}}][cid]" value="{{$v.cid}}"/>         	
+            </td>
+          </tr>
+          {{/foreach}}
+          <tr>
+            <th>状态<span></span></th>
+            <td>
+            <select name="info[status]">
+              <option value="0" {{if $data.status=='0'}}selected{{/if}}>未付款</option>
+              <option value="1" {{if $data.status=='1'}}selected{{/if}}>待发货</option>
+              <option value="2" {{if $data.status=='2'}}selected{{/if}}>待收货 </option>
+              <option value="9" {{if $data.status=='9'}}selected{{/if}}>已完成</option>
+              <option value="-1" {{if $data.status=='-1'}}selected{{/if}}>已关闭</option>
+            </select>
+				<!-- TODO -->
+			</td>
+          </tr>
+          <tr>
+            <th>联系人<span></span></th>
+            <td><input type="text" name="info[linkname]" value="{{$data.linkman}}" class="input" /></td>
+          </tr>
+          <tr>
+            <th>手机号码<span></span></th>
+            <td><input type="text" name="info[mobile]" value="{{$data.mobile}}" class="input" /></td>
+          </tr>
+          <tr>
+            <th>联系电话<span></span></th>
+            <td><input type="text" name="info[telephone]" value="{{$data.telephone}}" class="input" /></td>
+          </tr>
+          <tr>
+            <th>邮政编码<span></span></th>
+            <td><input type="text" name="info[postcode]" value="{{$data.postcode}}" class="input" /></td>
+          </tr>
+          <tr>
+            <th>邮寄地址<span></span></th>
+            <td><input type="text" name="info[address]" value="{{$data.address}}" class="input" /></td>
+          </tr>
+          <tr>
+            <th>客户留言<span></span></th>
+            <td><textarea name="info[message]" class="textarea" style="width:260px;height:100px;">{{$data.message}}</textarea></td>
+          </tr>
+          <tr>
+            <th>备注信息<span></span></th>
+            <td><textarea name="info[remark]" class="textarea" style="width:260px;height:100px;">{{$data.remark}}</textarea></td>
+          </tr>              
+        </tbody>        
+        </table>
+        <table cellpadding='0' cellspacing='0' >		
+		<tfoot>		  
+		  <tr>
+			<th>&nbsp;</th>
+			<td>
+			<input type="hidden" name="forward" value="{{$forward}}" />
+			<input type="hidden" name="info[orderid]" value="{{$data.orderid}}" />
+			<label class="btn"><input type="submit" name="dosubmit" value="确定保存" class="submit" /></label>
+			</td>
+		  </tr>
+		</tfoot>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="m" id="module" value="forder" />
+<input type="hidden" name="a" id="action" value="edit" />
+</form>
+{{include file="default/Public/footer.html"}}

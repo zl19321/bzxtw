@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>单文件上传</title>
+<script type="text/javascript" src="{{$smarty.const._PUBLIC_}}js/jquery-1.4.2.min.js"></script>
+<link type="text/css" rel="stylesheet" href="__ROOT__/min/?b=admin/Public/style&amp;f=base.css,style.css" />
+<style type="text/css">
+body{font-size:12px;}
+.progressWrapper {
+	width: 98%;
+	overflow: hidden;
+}
+.progressContainer {
+	padding:4px;
+	margin: 5px 0;
+	border: solid 1px #E8E8E8;
+	background-color: #F7F7F7;
+	overflow: hidden;
+}
+.progressName {
+	font-size: 13px;
+	font-weight: 700;
+	color: #555;
+	width: 323px;
+	height: 16px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.progressBarInProgress,
+.progressBarComplete,
+.progressBarError {
+	font-size: 0;
+	width: 0%;
+	height: 2px;
+	background-color: blue;
+	margin-top: 2px;
+}
+
+.progressBarComplete {
+	width: 100%;
+	background-color: green;
+	visibility: hidden;
+}
+
+.progressBarError {
+	width: 100%;
+	background-color: red;
+	visibility: hidden;
+}
+
+.progressBarStatus {
+	margin-top: 2px;
+	width: 337px;
+	font-size: 12px;
+	font-family: Arial;
+	text-align: left;
+	white-space: nowrap;
+}
+
+a.progressCancel {
+	font-size: 0;
+	display: block;
+	height: 14px;
+	width: 14px;
+	background-image: url({{$smarty.const._PUBLIC_}}js/swfupload/cancelbutton.gif);
+	background-repeat: no-repeat;
+	background-position: -14px 0px;
+	float: right;
+}
+
+a.progressCancel:hover {
+	background-position: 0px 0px;
+}
+
+/* Message */
+.message {
+	margin: 1em 0;
+	padding: 10px 20px;
+	border: solid 1px #FFDD99;
+	background-color: #FFFFCC;
+	overflow: hidden;
+}
+/* Complete */
+.blue {
+	background-color: #F0F5FF;
+}
+
+</style>
+<script type="text/javascript" src="__ROOT__/min/?b=admin/Public/js/swfupload&amp;f=swfupload.js,swfupload.queue.js,fileprogress.js"></script>
+</head>
+<body style="background:none;">
+<div id="mainWrap">
+    <div id="pageCo" style="border:none">
+        <div id="upfileBox">
+            <ul class="text">
+                <li>最大可上传： <span class="red"> {{$data.allowSize*1024|byte_format}}</span></li>
+                <li>允许上传的类型： <span class="green">{{$data.fileext}}</span></li>
+                {{if $uploadImage == true}}
+                <li>缩略图宽*高：<input type="text" name="thumb_width" id="thumb_width" value="{{$width}}" style="width:30px;height:14px;"/> px&nbsp;*&nbsp;
+                				<input type="text" name="thumb_height" id="thumb_height" value="{{$height}}"  style="width:30px;height:14px;"/> px</li>
+                {{/if}}
+            </ul>
+            <ul class="btn">
+                <li><span id="thumb_id" ></span></li>
+                <!--单张图片地址容器-->
+                <li><input type="hidden" value="{{$data.opener_id}}" name="opener_id" id="opener_id" /></li>
+                <!--组图容器-->
+                <li><input type="hidden" value="{{$data.shower_id}}" name="shower_id" id="shower_id" /></li>
+                <!--支持单图还是组图-->
+                <li><input type="hidden" value="{{if $data.multi == true}}true{{else}}false{{/if}}" name="multi" id="multi" /></li>
+                <!--组图存储隐藏域name-->
+                <li><input type="hidden" value="{{$data.multi_name}}" name="multi_name" id="multi_name" /></li>
+            </ul>
+            <!-- 队列容器 -->
+            <div class="fsUploadProgress" id="fsUploadProgress"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+//取消队列
+function cancelQueue(instance) {
+	document.getElementById(instance.customSettings.cancelButtonId).disabled = true;
+	instance.stopUpload();
+	var stats;
+	
+	do {
+		stats = instance.getStats();
+		instance.cancelUpload();
+	} while (stats.files_queued !== 0);
+	
+}
+
+//每个文件入队之后的动作
+function fileQueued(file) {
+	try {
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setStatus("准备...");
+		progress.toggleCancel(true, this);
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
+//文件队列发生错误的处理动作
+function fileQueueError(file, errorCode, message) {
+	try {
+		if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+			alert("队列文件数达到上限.\n" + (message === 0 ? "达到最大发送个数." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
+			return;
+		}
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setError();
+		progress.toggleCancel(false);
+
+		switch (errorCode) {
+		case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+			progress.setStatus("文件超过大小限制.");
+			this.debug("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+			progress.setStatus("不能载入Cannot upload Zero Byte files.");
+			this.debug("Error Code: Zero byte file, 文件名: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+			progress.setStatus("无效文件类型.");
+			this.debug("Error Code: 无效文件类型, 文件名: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		default:
+			if (file !== null) {
+				progress.setStatus("未知错误");
+			}
+			this.debug("Error Code: " + errorCode + ", 文件名: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		}
+	} catch (ex) {
+        this.debug(ex);
+    }
+}
+//文件浏览框关闭、所有选择的文件完成入队处理之后的动作
+function fileDialogComplete(numFilesSelected, numFilesQueued) {	
+	try {
+		{{if $uploadImage}}
+		//添加参数
+		var width = $('#thumb_width').val();
+		if( width > 0 ) {
+			swfupload_obj.addPostParam('width',width);
+		}
+		var height = $('#thumb_height').val();
+		if( height > 0 ) {
+			swfupload_obj.addPostParam('height',height);
+		}
+		{{/if}}
+		if (numFilesSelected > 0) {  //
+			//TODO
+		}		
+		/* I want auto start the upload and I can do that here */
+		this.startUpload();
+	} catch (ex)  {
+        this.debug(ex);
+	}
+}
+//开始上传的动作
+function uploadStart(file) {
+	try {
+		/* I don't want to do any file validation or anything,  I'll just update the UI and
+		return true to indicate that the upload should start.
+		It's important to update the UI here because in Linux no uploadProgress events are called. The best
+		we can do is say we are uploading.
+		 */
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setStatus("上传中...");
+		progress.toggleCancel(true, this);
+	}
+	catch (ex) {}
+
+	return true;
+}
+//
+function uploadProgress(file, bytesLoaded, bytesTotal) {
+	try {
+		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setProgress(percent);
+		progress.setStatus("上传中...");
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
+
+
+function uploadError(file, errorCode, message) {
+	try {
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setError();
+		progress.toggleCancel(false);
+
+		switch (errorCode) {
+		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+			progress.setStatus("上传错误: " + message);
+			this.debug("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+			progress.setStatus("上传失败.");
+			this.debug("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+			progress.setStatus("Server (IO) Error");
+			this.debug("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+			progress.setStatus("Security Error");
+			this.debug("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+			progress.setStatus("Upload limit exceeded.");
+			this.debug("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+			progress.setStatus("Failed Validation.  Upload skipped.");
+			this.debug("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+			// If there aren't any files left (they were all cancelled) disable the cancel button
+			if (this.getStats().files_queued === 0) {
+				//TODO
+			}
+			progress.setStatus("Cancelled");
+			progress.setCancelled();
+			break;
+		case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+			progress.setStatus("Stopped");
+			break;
+		default:
+			progress.setStatus("Unhandled Error: " + errorCode);
+			this.debug("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+			break;
+		}
+	} catch (ex) {
+        this.debug(ex);
+    }
+}
+
+function uploadComplete(file) {
+	if (this.getStats().files_queued == 0) {
+		if(this.getStats().upload_errors == 0) {
+			//上传完队列后自动关闭弹出层
+			self.parent.JqueryDialog.Close();
+			return false;
+		} 
+	}
+}
+
+// This event comes from the Queue Plugin
+function queueComplete(numFilesUploaded) {
+	
+}
+
+//文件上传成功后的回调动作
+//2012-12-27 王文 程序功能改进
+function uploadSuccess(file, serverData) {
+	//将服务端传回的字符串装换成json对象
+	var result = eval('('+serverData+')');
+	if(result.code == 'y') {
+        if($('#shower_id').val().length > 0) {
+            var _target=$(window.parent.document).find('#mainFrame').contents().find('#'+'{{$data.shower_id}}'); 
+        } else if($('#opener_id').val().length > 0) {
+            var _target=$(window.parent.document).find('#mainFrame').contents().find('#'+'{{$data.opener_id}}'); 
+        }
+		if(result.type == 'image') {  //如果上传的是图片                                   
+			if($('#multi').val() == 'true') {  //多图
+				if($('#shower_id').val().length > 0)
+					_target.append('<div ondblclick="$(this).remove();" style="cursor: pointer;border:solid 1px #A5A7B6;margin:2px;width:49%;float:left;" title="双击删除此文件"><div style="float:left;border-right:1px solid #ccc;padding:2px;margin:2px;" >&nbsp;<img src="' + result.upload_dir + result.info + '" width=150 /><input type="hidden" name="' + $('#multi_name').val() + '" value="' + result.name + '|'  + result.info + '" />&nbsp;</div><div style="float:left;"><hr style="border:1px solid #ccc;">图片标题：<input name="info[images][title][]" class="input" style="width:105px;" value="" type="text"><hr style="border:1px solid #ccc;">图片描述：<textarea name="info[images][DESC][]" style="width:160px;" class="textarea"></textarea></div></div>');
+			} else {  //单图                
+				if($('#opener_id').val().length > 0) 
+					_target.val(result.info);
+				if($('#shower_id').val().length > 0)
+					_target.html('<img src="' + result.upload_dir + result.info + '" width=150 />');
+			}
+		} else{  //否则是上传的文件
+			if($('#multi').val() == 'true') {  //多文件
+				if($('#shower_id').val().length > 0)
+					_target.append('<div ondblclick="$(this).remove();" style="cursor:pointer" title="双击删除此文件">' + result.name + '<input type="hidden" name="' + $('#multi_name').val() + '" value="' + result.name + '|' + result.info + '" /></div>ssss');
+			} else {  //单文件
+				if($('#opener_id').val().length > 0) {
+					_target.val(result.name + '|' + result.info);
+					_target.val(result.info);
+       				_target.focus();	
+				}					
+			}
+		}        
+		var status = "上传成功";
+	} else if(result.code == 'n') {
+		var status = "<font color='red'>"+result.info+"</font>";
+		//修改文件上传的错误数
+		var stats = this.getStats();
+		stats.upload_errors++;
+		this.setStats(stats);
+	} else {
+		alert(result);
+	}     
+	try {
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setComplete();
+		progress.setStatus(status);
+		progress.toggleCancel(false);
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
+
+var swfupload_obj;
+swfupload_obj = new SWFUpload({
+	//按钮配置
+	button_placeholder_id : "thumb_id",
+	button_image_url : "{{$smarty.const._PUBLIC_}}js/swfupload/XPButtonNoText_61x22.png",	
+	button_width: 61,
+	button_height: 22,
+	button_text: '<span class="theFont">浏览电脑</span>',
+	button_text_style: ".theFont { font-size: 12; }",
+	button_text_left_padding: 5,
+	// Backend Settings
+	upload_url: "__APP__",
+	post_params: {{$data.scriptData}},
+	// File Upload Settings
+	file_size_limit : "{{$data.allowSize}}",   //KB为单位
+	file_types : "{{$data.fileext}}",
+	file_types_description : "格式",
+	file_upload_limit : "0",
+	file_queue_limit : {{if $data.multi == true}}"10"{{else}}"0"{{/if}},  //多文件上传列队中最多允许10个文件
+	// Event Handler Settings (all my handlers are in the Handler.js file)
+	file_dialog_start_handler : uploadStart,
+	file_queued_handler : fileQueued,
+	file_queue_error_handler : fileQueueError,
+	file_dialog_complete_handler : fileDialogComplete,
+	upload_start_handler : uploadStart,
+	upload_progress_handler : uploadProgress,
+	upload_error_handler : uploadError,
+	upload_success_handler : uploadSuccess,
+	upload_complete_handler : uploadComplete,
+	// Flash Settings
+	flash_url : "{{$smarty.const._PUBLIC_}}js/swfupload/swfupload.swf",	
+	custom_settings : {
+		progressTarget : "fsUploadProgress"			
+	},
+	// Debug Settings
+	debug: false
+});
+</script>
+</body>
+</html>

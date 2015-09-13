@@ -1,0 +1,84 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='javascript:void(0);' class="selected" rel="tabsContent1">添加问卷</a></li>
+		</ul>		
+	</div>
+</div>
+<form name="myform" class="validate" method="post" action="{{U url='fsurvey/add?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+					<th width="15%">问卷主题</th>
+					<td><input name="info[subject]" size="50" maxlength="100" class="required input" title="投票主题不能为空"></td>
+				</tr>
+				<tr>
+					<th>问卷介绍</th>
+					<td>{{$editer_html}}</td>
+				</tr>
+				<tr>
+					<th>未投票人是否可以查看问卷结果</th>
+					<td><input type="radio" name="info[ispost]" value="1" checked="checked"/>是&nbsp;&nbsp;
+        				<input type="radio" name="info[ispost]" value="0"/>否</td>
+				</tr>
+				<tr>
+					<th>启用验证码</th>
+					<td><input type="radio" name="info[ischecked]" value="1" />是&nbsp;&nbsp;
+       					<input type="radio" name="info[ischecked]" value="0" checked />否</td>
+				</tr>
+				<tr>
+					<th>投票有效期范围</th>
+					<td><script language="javascript" src="__ROOT__/admin/public/js/calendar/WdatePicker.js"></script>
+					<input id="d4311" name="info[fromdate]" class="Wdate required input" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')||\'2020-10-01\'}'})" title="【结束时间】必填" /> 
+		            &nbsp;到&nbsp;
+		            <input id="d4312" name="info[todate]" class="Wdate required input" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}',maxDate:'2020-10-01'})" title="【结束时间】必填" />
+		            </td>
+				</tr>
+				<tr>
+					<th>允许游客问卷</th>
+					<td><input name="info[islogin]" type="radio" value="1" checked />是&nbsp;&nbsp;
+     					<input name="info[islogin]" type="radio" value="0" />否</td>
+				</tr>
+				<tr>
+					<th>允许参与问卷的会员角色</th>
+					<td>
+					{{foreach from=$role_data key=role_name item=role_nickname}}
+					<input type="checkbox" name="info[groupidsvote][]" value="{{$role_name}}" checked />{{$role_nickname}}
+					{{/foreach}}
+					</td>
+				</tr>
+				<tr>
+					<th>允许查看问卷结果的会员角色</th>
+					<td>{{foreach from=$role_data key=role_name item=role_nickname}}
+					<input type="checkbox" name="info[groupidsview][]" value="{{$role_name}}" checked />{{$role_nickname}}
+					{{/foreach}}</td>
+				</tr>
+				<tr>
+					<th>问卷时间间隔(秒)<span>N秒后可再次问卷，0表示此IP地址只能投一次</span></th>
+					<td><input type="text" name="info[useflag]" class="input" value="86400" size="8" />秒</td>
+				</tr>
+				<tr>
+					<th>启用</th>
+					<td><input name="info[status]" type="radio" value="1" checked="checked" />是&nbsp;&nbsp;
+        				<input type="radio" name="info[status]" value="0" />否</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+		            <td>
+		            <input type="hidden" name="catid" value="{{$cat.catid}}" />
+		            <input type="hidden" name="forward" value='{{U url="fsurvey/manage?catid=`$cat.catid`"}}' />
+		            <label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+		            <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label>
+		            </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

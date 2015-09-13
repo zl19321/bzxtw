@@ -1,0 +1,59 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmodel/manage"}}' {{if $action_name=="manage"}}class="selected" rel="tabsContent1"{{/if}}>管理模型</a></li>
+			<li><a href='{{U url="fmodel/add_model"}}' {{if $action_name=="add_model"}}class="selected" rel="tabsContent1"{{/if}}>添加模型</a></li>
+			<li><a href='javascript:void(0);' {{if $action_name=="update_model"}}class="selected" rel="tabsContent1"{{/if}}>编辑模型</a></li>
+		</ul>		
+	</div>
+</div>
+<form class="validate" action="{{U url='fmodel/update_model'}}" name="edit_form" id="edit_form" method="post">
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+				    <th width="150">模型标识 *
+				      <span>唯一,只可以输入字母、数字,长度2-20个字符.</span></th>
+				    <td><input name="info[exttable]" rows="8" id="exttable" cols="37" value="{{$data.exttable}}" readonly class="input"  size="40"/>
+				      例如:news</td>
+				  </tr>
+				  <tr>
+				    <th>模型名称
+				      <span>例如：产品、文章等</span></th>
+				    <td><input name="info[name]" type="text" id="modelname" size="40" value="{{$data.name}}" class="required input" maxlength="10" minlength="2" title="[模型名称]必须填写" /></td>
+				  </tr>
+				  <tr>
+				    <th>模型说明
+				      <span>模型用途说明</span></th>
+				    <td><textarea name="info[description]" id="description"  maxlenth="200" title="[模型说明]不能超过200个字符" class="textarea" cols="50" rows="5">{{$data.description}}</textarea></td>
+				  </tr>
+				  <tr>
+				    <th>所属模块
+				      <span></span></th>
+				    <td>{{$modules.name}}</td>
+				  </tr>
+				  <tr>
+				    <th>状态
+				      <span></span></th>
+				    <td>
+				    <input name="info[status]" type="radio" id="info[status]_0" value="1" {{if $data.status=='1'}} checked="checked"{{/if}} class="required" title="[状态]必选"  /><label for="info[status]_0">启用</label>
+						<input name="info[status]" type="radio" id="info[status]_1" value="0"  {{if $data.status=='0'}} checked="checked"{{/if}} class="required" title="[状态]必选"  /><label for="info[status]_1">禁用</label></td>
+				  </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <td>&nbsp;</td>
+			      <td>
+			      <input type="hidden" name="forward" value="{{U url='fmodel/manage'}}" />
+			      <input name="modelid" type="hidden" id="modelid" value="{{$data.modelid}}" />
+			      <label class="btn"><input type="submit" name="dosubmit" class="submit" value="提交保存 "/></label>
+			      <label class="btn"><input type="reset" class="submit" value="重 置 "/></label></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

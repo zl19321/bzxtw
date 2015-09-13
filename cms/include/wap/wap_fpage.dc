@@ -1,0 +1,6 @@
+<?php
+
+    return array(
+        'description'   =>  '内容简介',
+        'controller'    =>  'Fwappage',
+    );

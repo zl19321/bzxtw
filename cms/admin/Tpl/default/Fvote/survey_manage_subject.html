@@ -1,0 +1,147 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fvote/manage?catid=`$cat.catid`"}}'>管理投票</a></li>
+			<li><a href='{{U url="fvote/add?catid=`$cat.catid`"}}'>添加投票</a></li>
+			<li><a href='{{U url="fvote/survey_manage?catid=`$cat.catid`"}}'>管理问卷</a></li>
+			<li><a href='{{U url="fvote/survey_add?catid=`$cat.catid`"}}'>添加问卷</a></li>
+			<li><a href='javascript:void(0);' class="selected" rel="tabsContent1">编辑问卷主题</a></li>
+		</ul>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<form id="voteForm" method="post" action="__APP__">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th colspan="6">{{$subject.subject}}</th>
+				</tr>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkAll" /></th>
+					<th width="40">ID</th>
+					<th width="40">排序</th>
+					<th>标题</th>
+					<th width="100">添加时间</th>
+					<th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$subject.data item=d}}
+				<tr>
+					<td><input type="checkbox" rel="checkbox" name="subjectid[]" value="{{$d.subjectid}}" /></td>
+					<td>{{$d.subjectid}}</td>
+					<td>{{$d.sort}}</td>
+					<td>{{$d.subject}}<span class="green">{{if $d.ischeckbox==1}}[多选]{{else}}[单选]{{/if}}</span></td>
+					<td>{{'Y-m-d'|date:$d.create_time}}</td>
+					<td><a href='{{U url="fvote/survey_edit_subject?subjectid=`$d.subjectid`&catid=`$cat.catid`"}}'>编辑</a> | 
+						{{if $d.status == '1'}}
+				    <a href='{{U url="fvote/survey_manage_subject?ajax=status&subjectid=`$d.subjectid`&status=0&catid=`$cat.catid`"}}'>禁用</a>
+				    {{else}}
+				    <a href='{{U url="fvote/survey_manage_subject?ajax=status&subjectid=`$d.subjectid`&status=1&catid=`$cat.catid`"}}' style="color:red;">启用</a>
+				    {{/if}}
+					</td>
+				</tr>
+				{{/foreach}}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6"><input type="submit" value="删除选中项" /></td>
+				</tr>
+			</tfoot>
+		</table>
+		<input type="hidden" name="foward" value='{{U URL="fvote/survey_manage_subject?subjectid=`$subject.subjectid`&catid=`$cat.catid`"}}' />
+		<input type="hidden" name="m" value="fvote" />
+		<input type="hidden" name="a" value="delete" />
+		<input type="hidden" name="dosubmit" value="1" />
+		<input type="hidden" name="catid" value="{{$cat.catid}}" />
+		</form>
+	</div>
+	<div class="manageForm">
+		<form name="myform" class="validate" method="post" action="{{U url='fvote/survey_add?dosubmit=1'}}" >
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<thead>
+				<tr>
+					<th colspan="2">新加投票主题</th>
+				</tr>
+			</thead>
+			<tr>
+				<th width="150">主题</th>
+				<td><input type="text" name="info[subject]" value="" size="60" class="required input" /></td>
+			</tr>
+			<tr>
+				<th>选项类型</th>
+				<td><input type="radio" name="info[ischeckbox]" value="0" checked="checked" />单选&nbsp;
+				        <input type="radio" name="info[ischeckbox]" value="1" />
+				        多选&nbsp;&nbsp;&nbsp;&nbsp;
+				        <span id="range_1" style="display:none">
+				        最少选择<input type="text" name="info[minval]"  value="1" size="3" />项 &nbsp;&nbsp;
+				        最多选择<input type="text" name="info[maxval]"  value="0" size="3" />项
+				        </span></td>
+			</tr>
+			<tr>
+				<th>投票选项<span>提示:图片也可以直接填写远程图片地址</span></th>
+				<td><input type="button" value="添加选项" id="addItem1" />
+       					<input type="button" value="减少选项" id="descItem1" />
+       					<div id="option_list_1">
+       						<p>
+       							<span>1</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt1" ids="option"/>
+       							图片:<input type="text" name="info[image][]" id="pic1" size="18" /><input type="button" value="上传图片" id="upload_img_1" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic1&height=300&width=450">
+       						</p>
+       						<p>
+       							<span>2</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt2" ids="option"/>
+       							图片:<input type="text" name="info[image][]" id="pic2" size="18" /><input type="button" value="上传图片" id="upload_img_2" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic2&height=300&width=450">
+       						</p>
+       					</div></td>
+			</tr>
+			<tr>
+				<th>排序</th>
+				<td><input type="text" name="info[sort]" value="0" size="6" /></td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td><label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+    				<label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label></td>
+			</tr>
+			</tr>
+		</table>
+		<input type="hidden" name="catid" value="{{$cat.catid}}" />
+		<input type="hidden" name="info[parentid]" value="{{$subject.subjectid}}" />
+		<input type="hidden" name="forward" value='{{U url="fvote/survey_manage_subject?catid=`$cat.catid`&subjectid=`$subject.subjectid`"}}' />
+		</form> 
+	</div>
+</div>
+<script type="text/javascript">
+var option_num = 3;
+	$(function(){
+		$('input[name="info[ischeckbox]"]').change(function(){
+			if(this.value==1) {
+				$('#range_1').show();
+			} else $('#range_1').hide();
+		});
+		
+		//添加选项
+		$('#addItem1').click(function(){
+			var d_obj = $('#option_list_1');
+			var p_len = d_obj.children('p').length;
+			d_obj.append('<p><span>'+parseInt(p_len+1)+'</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt'+option_num+'" /> 图片:<input type="text" name="info[image][]" id="pic'+option_num+'" size="18" /><input type="button" value="上传图片" id="upload_img_'+option_num+'" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic'+option_num+'&height=300&width=450"></p>');
+			
+			window.parent.mainCo && window.parent.mainCo();
+			$('#opt'+option_num).focus().blur();
+			option_num++;
+		});
+		//减少选项
+		$('#descItem1').click(function(){
+			var d_obj = $('#option_list_1');
+			var _p = d_obj.children('p');
+			var p_len = _p.length;
+			if(p_len>2) {
+				$(_p[p_len-1]).remove();
+				window.parent.mainCo && window.parent.mainCo();
+				$('#opt'+option_num).focus().blur();
+			}
+		});
+	});
+</script>
+{{include file="default/Public/footer.html"}}

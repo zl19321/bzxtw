@@ -1,0 +1,81 @@
+{{include file="default/Public/header.html"}}
+<script src="{{$smarty.const._PUBLIC_}}js/editable/jquery.editable.js" type="text/javascript"></script>
+<script language="javascript">
+function del()  //选择删除
+{
+	if($(':checkbox:checked[name="info[id][]"]').length > 0)
+	$('#askForm').submit();
+}
+</script>
+<form name="search" class="filter" method="POST" action="{{U url='fask/manage'}}" target="_self">
+<div id="pageTop">
+	<div class="addBtn"><a href='{{U url="fask/category_manage?catid=`$cat.catid`"}}'>分类管理</a></div>
+	<div class="delBtn">
+		<a href="javascript:void(0);" onclick="del(); return false;">删除</a>
+	</div>
+	<div class="batch">
+		<select name="status" onchange="$('.filter').submit();">
+		  	<option value="all">状态过滤</option>
+	      	{{html_options options=$status selected=$in.status}}
+	      </select>
+	      <select name="catid" onchange="$('.filter').submit();">
+		  	{{$category_tree}}
+	      </select>
+	</div>
+	<div class="search">
+		<select name='field'>
+		  	{{html_options options=$q_fields selected=$in.field}}
+          </select>
+          <input type="text" name="q" onblur="if (value ==''){value='请输入关键字'}" onfocus="if (value =='请输入关键字'){value =''}" value="请输入关键字"/>
+          <input type="hidden" name="catid" value="{{$cat.catid}}" />
+          <button type="submit"></button>
+	</div>
+</div>
+</form>
+
+<form id="askForm" method="post" action="__APP__">
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="40"><input type="checkbox" name="checkAll" /></th>
+				    <th width="40">ID</th>
+				    <th>标题</th>
+				    <th width="120">提问人</th>
+				    <th width="40">回答数</th>
+				    <th width="60">创建时间</th>
+				    <th width="70">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+				{{foreach from=$data.info item=v}}
+				  <tr>
+				    <td><input type="checkbox" name="info[id][]" rel="checkbox" value="{{$v.ask_id}}" /></td>
+				    <td>{{$v.ask_id}}</td>
+				    <td><a href="{{$cat.url}}show?ask_id={{$v.ask_id}}" target="_blank">{{$v.title}}</a></td>
+				    <td>{{$v.username}}</td>
+				    <td>{{$v.answernum}}</td>
+				    <td width="80">{{$v.create_time|date_format:"%Y-%m-%d"}}</td>
+				    <td width="70">
+				    <a href='{{U url="fask/edit?ask_id=`$v.ask_id`&catid=`$cat.catid`"}}'>编辑</a> | 
+				    <a href='{{U url="fask/delete?ask_id=`$v.ask_id`&catid=`$cat.catid`"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该模块在系统的注册信息？');">删除</a></td>
+				  </tr>
+				  {{foreachelse}}
+				  <tr>
+				  	<td colspan="7" align="center"> 暂时没有数据！</td>
+				  </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>	
+	</div>	
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+<input type="hidden" name="m" value="fask" />
+<input type="hidden" name="a" value="delete" />
+<input type="hidden" name="catid" value="{{$cat.catid}}" />
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,56 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmember/add_group?moduleid=$moduleid"}}' {{if $action_name=="add_group"}}class="selected"{{/if}}>添加会员角色</a></li>
+			<li><a href='{{U url="fmember/manage_group?moduleid=$moduleid"}}' {{if $action_name=="manage_group"}}class="selected"{{/if}} rel="tabsContent1">管理会员角色</a></li>
+		</ul>
+	</div>
+</div>
+<div id="pageCo">
+	<div class="listForm">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="50">ID</th>
+				    <th width="110">名称</th>
+				    <th width="85">标识</th>
+				    <th width="110">会员模型</th>
+				    <th>描述</th>
+			        <th width="50">状态</th>
+				    <th width="70">操作授权</th>
+				    <th width="140">管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{foreach from=$data.info item=v}}
+				  <tr>
+				    <td>{{$v.role_id}}</td>
+				    <td><a href='{{U url="fuser/manage?role_id=`$v.role_id`"}}' title="查看成员">{{$v.nickname}}</a></td>
+				    <td>{{$v.name}}</td>
+				    <td>{{$v.model.name}}</td>
+				    <td>{{$v.remark}}</td>
+			        <td>
+			        {{if $v.status>0}}
+			        <a href='{{U url="fmember/status_group?status=0&role_id=`$v.role_id`"}}' title="点击禁用">运行</a>
+			        {{else}}
+			        <a href='{{U url="fmember/status_group?status=1&role_id=`$v.role_id`"}}' title="点击启用" style="color:red;">禁用</a>
+			        {{/if}}
+			        </td>
+				    <td><a href='{{U url="frbac/power?role_id=`$v.role_id`&isadmin=0"}}'>编辑授权</a></td>  
+				    <td>
+				    <a href='{{U url="fuser/manage?role_id=`$v.role_id`"}}'>成员管理</a> | 
+				    <a href='{{U url="fmember/update_group?role_id=`$v.role_id`&moduleid=$moduleid"}}'>修改</a> | 
+				    <a href='{{U url="fmember/delete_group?role_id=`$v.role_id`&moduleid=$moduleid"}}' onclick="return window.confirm('此操作不可恢复，你确定要删除该会员角色？');">删除</a>
+				    </td>
+				  </tr>
+				  {{/foreach}}
+			</tbody>
+		</table>
+	</div>
+	<div class="pageList">
+		{{$data.pages}}
+		<ul class="clearit"></ul> 
+	</div>
+</div>
+{{include file="default/Public/footer.html"}}

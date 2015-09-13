@@ -1,0 +1,26 @@
+<?php require_cache(APP_PATH . '/Tpl/default/header.html'); ?>
+  <div id="wrapper">
+	<div id="menu">
+	  <h3>安装步骤</h3>
+	  <ul>
+	    <li class='<?php echo $step==1 ? "active" : ""; ?>'>安装介绍</li>
+	    <li class='<?php echo $step==2 ? "active" : ""; ?>'>环境检测</li>
+	    <li class='<?php echo $step==3 ? "active" : ""; ?>'>系统设置</li>
+	    <li class='<?php echo $step==4 ? "active" : ""; ?>'>正在安装</li>
+	    <li class='<?php echo $step==5 ? "active" : ""; ?>'>安装完成</li>
+	  </ul>
+	</div><!--menu-->
+	<div id="wpcontent">
+      <div id="content_complete">
+        <div class="feedback">
+          <p>恭喜您！已成功方法内容管理系统，您现在可以：</p>
+          <ul>
+            <li><a href="index.php" id="visit">访问网站首页</a></li>
+            <li><a href="admin.php" id="manage">登录后台管理</a></li>
+          </ul>
+        </div>
+        <div class="clr"></div>
+　　  </div><!--content_complete-->
+    </div><!--wpcontent-->
+  </div>
+<?php require_cache(APP_PATH . '/Tpl/default/footer.html'); ?>

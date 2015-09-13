@@ -1,0 +1,116 @@
+{{include file="default/Public/header.html"}}
+<script language="javascript">
+function getcategory(parentid) {	
+$.ajax({
+	  url: '{{U url="fcategory/edit?ajax=getcategory"}}',
+	  cache: false,
+	  success: function(html)  {
+		  $('#category_select').html(html); 			
+	  }
+	});
+}
+</script>
+<script language="javascript">
+$().ready(function (){
+	$("#myform").validate({
+		errorContainer: $('#messageContainer'),
+		errorLabelContainer: $("ol", $('#messageContainer')),
+		wrapper: 'li'
+	});
+});
+</script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/insert/jquery.caretInsert.min.js"></script>
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href="#" class="selected" rel="tabsContent1">基本信息</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" id="myform" action="{{U url='fcategory/edit?type=link&dosubmit=1'}}" enctype="multipart/form-data">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width='150'>上级栏目</th>
+			      <td>
+			       	<span id="category_select">{{if empty($parent_data.name) }} 无 <a href="javascript:;" onclick="getcategory();">重选</a>{{else}} {{$parent_data.name}} <a href="javascript:;" onclick="getcategory();">重选</a>{{/if}}</span>
+			          <input type="hidden" name="info[parentid]" id="parentid" value="{{$parent_data.catid|intval}}" />	
+			      </td>
+			    </tr>
+			    <tr>
+			      <th width='150'>栏目名称<span>栏目显示的名称</span></th>
+			      <td><input name='info[name]' type='text' id='name' maxlength='50' size="40" class="required input" title="请填写栏目名称" value="{{$data.name}}" /></td>
+			    </tr>
+                <tr>
+			      <th width='150'>栏目别名<span>填写栏目显示的别名</span></th>
+			      <td><input name='info[ename]' type='text' id='ename' maxlength='50' size="40" class="input" value="{{$data.ename}}" /></td>
+			    </tr>
+			    <tr>
+			      <th width='150'>栏目图片<span>栏目导图</span></th>
+			      <td>
+			          <div id="thumb_span">
+			          {{if !empty($data.thumb) }}
+			           <img src="__PUBLIC__/uploads/{{$data.thumb}}" id="category_thumb" title="点击删除" style="cursor:pointer" width="100" />
+			           <script language="javascript">
+			            $().ready(function (){
+			    			$("#category_thumb").click(function (){
+			    				$.ajax({
+			    					url:'{{U url="fcategory/add?ajax=delete_thumb&catid=`$data.catid`"}}',
+			    					cache:false,
+			    					type:'get',
+			    					success:function (msg){
+			    						if( msg == 'true' ) {
+			    							$("#category_thumb").remove();
+			    						}
+			    					},
+			    					beforeSend:function () {
+			    						$("#category_thumb").after('<img src="{{$smarty.const._PUBLIC_}}images/working.gif" id="working_gif" />');
+			    				  },
+			    					error: function(XMLHttpRequest, textStatus, errorThrown) {
+			    						alert(this);
+			    					}
+			    					
+			    				});
+			    			});	
+			    		});
+			            </script>
+			           {{/if}}          
+			      <input name="thumb_img" type="file" size="40" class="file" />
+			      <input name="info[thumb]" type="hidden" value="{{$data.thumb}}" />
+			      </td>
+			    </tr>
+			    <tr title="请填写完整链接，包括 &quot; http://&quot;前缀！">
+			      <th width='150'>链接地址<span>完整绝对链接，不含最后的"/"!如要指向本域名下栏目，用HTTP_SERVER代替，比如：HTTP_SERVER/about.html</span></th>
+			      <td><input name='info[url]' type='text' id='url' maxlength='100' size="40" class="required input" title="链接地址不能为空" value="{{$data.url}}" /></td>
+			    </tr>
+                <tr>
+			        <th>页面介绍<span>页面的简要介绍</span></th>
+			        <td><textarea name='info[description]' id='description' class="textarea" cols="50" rows="3" >{{$data.description}}</textarea></td>
+			      </tr>
+			    <tr>
+			      <th width='150'>是否锁定<span>锁定可防止误删</span></th>
+			      <td><input name='info[islock]' type='checkbox' value="1" {{if $data.islock>0}}checked="checked"{{/if}} /></td>
+			    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th width='150'></th>
+			      <td><input name="forward" type="hidden" value="{{$forward}}" />
+			        <input name="info[catid]" type="hidden" value="{{$data.catid}}" />
+			        <input name="info[type]" type="hidden" value="link" />
+			        <input name="info[sort]" type="hidden" value="{{$data.sort}}" />
+			        <input name="info[ishtml]" type="hidden" value="{{$model_data.module.ishtml}}" />
+			         <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

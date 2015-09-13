@@ -1,0 +1,351 @@
+@charset "utf-8";
+
+/* 全局样式 */
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dd,dt
+	{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	background: url(../images/body_bg.gif) repeat-x #EFF3F6;
+	color: #292D48;
+	font-size: 12px;
+	font-family: Verdana, "宋体", Arial, Sans;
+	height: 100%;
+	width: 100%;
+}
+
+ul,ol,li,dl,dd,dt {
+	list-style: none;
+}
+
+select,input,img,select,button {
+	vertical-align: middle;
+	font-size: 12px
+}
+
+a {
+	text-decoration: none;
+}
+
+a {
+	color: #151515;
+}
+
+a:hover,a:active,a:focus {
+	color: #0767C1;
+}
+
+.clearit {
+	clear: both;
+}
+
+/* 系统登录 */
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background: url(../images/login_bg.gif) repeat-x #FAFAFA;
+}
+
+#loginTop {
+	background: url(../images/login_top_bg.gif) no-repeat left top;
+	height: 25px;
+	padding: 5px 0px 0px 30px
+}
+
+#loginTop a {
+	color: #fff;
+	text-decoration: underline;
+	background: url(../images/login_icon1.gif) no-repeat 0px 1px;
+	padding-left: 18px;
+}
+
+#loginTop a:hover {
+	text-decoration: none
+}
+
+#logo {
+	margin-top: 50px;
+	text-align: center
+}
+
+#login {
+	width: 350px;
+	height: 200px;
+	overflow: hidden;
+	margin: auto;
+	padding: 15px 35px;
+	background: #fff;
+	border: 1px #E5E5E5 solid;
+	margin-top: 20px
+}
+
+#login ul li {
+	padding: 5px 0px;
+	font-size: 13px;
+	color: #777;
+	position: relative;
+	line-height: 18px
+}
+
+#login ul li label {
+	position: absolute;
+	top: 6px;
+	left: 50px;
+	font-size: 11px;
+	font-family: "PMingLiU";
+	color: #ee0000
+}
+
+#login ul li input.input {
+	height: 24px;
+	line-height: 24px;
+	font-size: 21px;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-weight: bold;
+	border: 1px #E5E5E5 solid;
+	color: #999;
+	background: #fafafa;
+	margin-right: 10px;
+	margin-top: 5px
+}
+
+#login ul li img {
+	
+}
+
+#login ul li span {
+	font-size: 12px;
+	margin-left: 5px
+}
+
+#login ul li.submit {
+	position: absolute;
+	top: 316px;
+	margin-left: 280px
+}
+
+#login ul li em {
+	
+}
+
+#login ul li em input {
+	background: url(../images/login_btn.gif) no-repeat;
+	width: 69px;
+	height: 28px;
+	border: 0px;
+	cursor: pointer
+}
+
+#login ul li em input.submitHover {
+	background-position: 0px -28px
+}
+
+/* 找回密码 */
+#getpwd {
+	width: 350px;
+	height: 190px;
+	overflow: hidden;
+	margin: auto;
+	padding: 15px 35px;
+	background: #fff;
+	border: 1px #E5E5E5 solid;
+	margin-top: 20px
+}
+
+#getpwd ul li {
+	padding: 5px 0px;
+	font-size: 13px;
+	color: #777;
+	position: relative;
+	line-height: 25px
+}
+
+#getpwd ul li label {
+	position: absolute;
+	top: 6px;
+	left: 50px;
+	font-size: 11px;
+	font-family: "PMingLiU";
+	color: #ee0000
+}
+
+#getpwd ul li input.input {
+	height: 24px;
+	line-height: 24px;
+	font-size: 21px;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-weight: bold;
+	border: 1px #E5E5E5 solid;
+	color: #999;
+	background: #fafafa;
+	margin-right: 10px;
+	margin-top: 5px
+}
+
+#getpwd ul li img {
+	
+}
+
+#getpwd ul li span {
+	font-size: 12px;
+	margin-left: 5px
+}
+
+#getpwd ul li span.pwd {
+	font-size: 14px;
+	margin-left: 140px;
+	font-weight: bold;
+}
+
+#getpwd ul li.submit {
+	position: absolute;
+	top: 306px;
+	margin-left: 280px
+}
+
+#getpwd ul li em {
+	
+}
+
+#getpwd ul li em input {
+	background: url(../images/login_btn.gif) no-repeat;
+	width: 69px;
+	height: 28px;
+	border: 0px;
+	cursor: pointer
+}
+
+#getpwd ul li em input.submitHover {
+	background-position: 0px -28px
+}
+
+/* 设置密码 */
+#setpwd {
+	width: 350px;
+	height: 250px;
+	overflow: hidden;
+	margin: auto;
+	padding: 15px 35px;
+	background: #fff;
+	border: 1px #E5E5E5 solid;
+	margin-top: 20px
+}
+
+#setpwd ul li {
+	padding: 5px 0px;
+	font-size: 13px;
+	color: #777;
+	position: relative;
+	line-height: 25px
+}
+
+#setpwd ul li label {
+	position: absolute;
+	top: 6px;
+	left: 50px;
+	font-size: 11px;
+	font-family: "PMingLiU";
+	color: #ee0000
+}
+
+#setpwd ul li input.input {
+	height: 24px;
+	line-height: 24px;
+	font-size: 21px;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-weight: bold;
+	border: 1px #E5E5E5 solid;
+	color: #999;
+	background: #fafafa;
+	margin-right: 10px;
+	margin-top: 5px
+}
+
+#setpwd ul li img {
+	
+}
+
+#setpwd ul li span {
+	font-size: 12px;
+	margin-left: 5px
+}
+
+#setpwd ul li.submit {
+	position: absolute;
+	top: 373px;
+	margin-left: 280px
+}
+
+#setpwd ul li em {
+	
+}
+
+#setpwd ul li em input {
+	background: url(../images/login_btn.gif) no-repeat;
+	width: 69px;
+	height: 28px;
+	border: 0px;
+	cursor: pointer
+}
+
+#setpwd ul li em input.submitHover {
+	background-position: 0px -28px
+}
+
+#getPassword {
+	width: 385px;
+	margin: auto;
+	padding-left: 35px;
+	margin-top: 15px
+}
+
+#getPassword a {
+	text-decoration: underline;
+	color: #888
+}
+
+#getPassword a:hover {
+	color: #ff9c00
+}
+
+.inputHighlight {
+	border-top: 1px #BBBBBB solid !important;
+	border-left: 1px #BBBBBB solid !important;
+	color: #007C0C !important;
+	background: #FFFBEE !important;
+}
+
+#promptLayer {
+	width: 360px;
+	height: 48px;
+	background: url(../images/promptLayer_bg.gif) no-repeat;
+	position: absolute;
+	left: 40%;
+	top: 230px;
+	z-index: 1000;
+	display: none;
+	line-height: 48px;
+}
+
+#promptLayer div.loading {
+	width: 130px;
+	height: 48px;
+	background: url(../images/bg_loading.gif) no-repeat;
+	padding-left: 50px
+}
+
+#promptLayer div.suc {
+	padding-left: 50px;
+	background: url(../images/suc.gif) no-repeat 25px 15px;
+}
+
+#promptLayer div.err {
+	padding-left: 50px;
+	background: url(../images/err.gif) no-repeat 17px 11px;
+}

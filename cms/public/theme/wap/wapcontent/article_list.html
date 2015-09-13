@@ -1,0 +1,14 @@
+<html>
+<body>
+<ul>
+{{fflist catid=2 to="data" url=`$cat.url`}}
+
+{{foreach from=$data  item=v}}
+<li><a href="{{$v.url}}">{{$v.title}}</a></li>
+
+{{/foreach}}
+
+</ul>
+{{$data.pages}}
+</body>
+</html>

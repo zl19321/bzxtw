@@ -1,0 +1,146 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fvote/manage?catid=`$cat.catid`"}}'>管理投票</a></li>
+			<li><a href='javascript:void(0);' class="selected" rel="tabsContent1">添加投票</a></li>
+			<li><a href='{{U url="fvote/survey_manage?catid=`$cat.catid`"}}'>管理问卷</a></li>
+			<li><a href='{{U url="fvote/survey_add?catid=`$cat.catid`"}}'>添加问卷</a></li>
+		</ul>		
+	</div>
+</div>
+<form name="myform" class="validate" method="post" action="{{U url='fvote/add?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+					<th width="15%">投票主题</th>
+					<td><input name="info[subject]" size="50" maxlength="100" class="required input" title="投票主题不能为空"></td>
+				</tr>
+				<tr>
+					<th>选项类型</th>
+					<td><input type="radio" name="info[ischeckbox]" value="0" checked="checked" />单选&nbsp;
+				        <input type="radio" name="info[ischeckbox]" value="1" />
+				        多选&nbsp;&nbsp;&nbsp;&nbsp;
+				        <span id="range_1" style="display:none">
+				        最少选择<input type="text" name="info[minval]"  value="1" size="3" />项 &nbsp;&nbsp;
+				        最多选择<input type="text" name="info[maxval]"  value="0" size="3" />项
+				        </span></td>
+				</tr>
+				<tr>
+					<th>投票选项<span>提示:图片也可以直接填写远程图片地址</span></th>
+					<td><input type="button" value="添加选项" id="addItem1" />
+       					<input type="button" value="减少选项" id="descItem1" />
+                        <br />
+       					<div id="option_list_1" style="margin-top:5px;">
+       						<p>
+       							<span>1</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt1" ids="option"/>
+       							图片:<input type="text" name="info[image][]" id="pic1" size="18" /><input type="button" value="上传图片" id="upload_img_1" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic1&height=300&width=450">
+       						</p>
+       						<p>
+       							<span>2</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt2" ids="option"/>
+       							图片:<input type="text" name="info[image][]" id="pic2" size="18" /><input type="button" value="上传图片" id="upload_img_2" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic2&height=300&width=450">
+       						</p>
+       					</div>
+       				</td>
+				</tr>
+				<tr>
+					<th>投票介绍</th>
+					<td>{{$editer_html}}</td>
+				</tr>
+				<tr>
+					<th>未投票人是否可以查看投票结果</th>
+					<td><input type="radio" name="info[allowview]" value="1" checked="checked"/>是&nbsp;&nbsp;
+        				<input type="radio" name="info[allowview]" value="0"/>否</td>
+				</tr>
+				<tr>
+					<th>启用验证码</th>
+					<td><input type="radio" name="info[enablecheckcode]" value="1" />是&nbsp;&nbsp;
+       					<input type="radio" name="info[enablecheckcode]" value="0" checked />否</td>
+				</tr>
+				<tr>
+					<th>投票有效期范围</th>
+					<td><script language="javascript" src="__ROOT__/admin/public/js/calendar/WdatePicker.js"></script>
+					<input id="d4311" name="info[fromdate]" class="Wdate required input" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')||\'2020-10-01\'}'})" title="【结束时间】必填" /> 
+		            &nbsp;到&nbsp;
+		            <input id="d4312" name="info[todate]" class="Wdate required input" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}',maxDate:'2020-10-01'})" title="【结束时间】必填" />
+		            </td>
+				</tr>
+				<tr>
+					<th>允许游客投票</th>
+					<td><input name="info[allowguest]" type="radio" value="1" checked />是&nbsp;&nbsp;
+     					<input name="info[allowguest]" type="radio" value="0" />否</td>
+				</tr>
+				<tr>
+					<th>允许参与投票的会员角色</th>
+					<td>
+					{{foreach from=$role_data key=role_name item=role_nickname}}
+					<input type="checkbox" name="info[groupidsvote][]" value="{{$role_name}}" checked />{{$role_nickname}}
+					{{/foreach}}
+					</td>
+				</tr>
+				<tr>
+					<th>允许查看投票结果的会员角色</th>
+					<td>{{foreach from=$role_data key=role_name item=role_nickname}}
+					<input type="checkbox" name="info[groupidsview][]" value="{{$role_name}}" checked />{{$role_nickname}}
+					{{/foreach}}</td>
+				</tr>
+				<tr>
+					<th>投票时间间隔(秒)<span>N秒后可再次投票，0表示此IP地址只能投一次</span></th>
+					<td><input type="text" name="info[interval]" class="input" value="86400" size="8" />秒</td>
+				</tr>
+				<tr>
+					<th>启用</th>
+					<td><input name="info[status]" type="radio" value="1" checked="checked" />是&nbsp;&nbsp;
+        				<input type="radio" name="info[status]" value="0" />否</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>&nbsp;</th>
+		            <td>
+		            <input type="hidden" name="catid" value="{{$cat.catid}}" />
+		            <input type="hidden" name="forward" value='{{U url="fvote/manage?catid=`$cat.catid`"}}' />
+		            <label class="btn"><input type="submit" name="submit" value="确 定" class="submit" /></label>
+		            <label class="btn"><input type="reset" name="reset" value="重 置" class="submit" /></label>
+		            </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+var option_num = 3;
+	$(function(){
+		$('input[name="info[ischeckbox]"]').change(function(){
+			if(this.value==1) {
+				$('#range_1').show();
+			} else $('#range_1').hide();
+		});
+		
+		//添加选项
+		$('#addItem1').click(function(){
+			var d_obj = $('#option_list_1');
+			var p_len = d_obj.children('p').length;
+			d_obj.append('<p><span>'+parseInt(p_len+1)+'</span>、<input type="text" name="info[option][]" size="40" class="required input" msg="必填" id="opt'+option_num+'" /> 图片:<input type="text" name="info[image][]" id="pic'+option_num+'" size="18" /><input type="button" value="上传图片" id="upload_img_'+option_num+'" class="dialog" title="从电脑上传图片" alt="__ROOT__/admin.php?m=fupload&a=commonUpload&opener_id=pic'+option_num+'&height=300&width=450"></p>');
+			
+			window.parent.mainCo && window.parent.mainCo();
+			$('#opt'+option_num).focus().blur();
+			option_num++;
+		});
+		//减少选项
+		$('#descItem1').click(function(){
+			var d_obj = $('#option_list_1');
+			var _p = d_obj.children('p');
+			var p_len = _p.length;
+			if(p_len>2) {
+				$(_p[p_len-1]).remove();
+				window.parent.mainCo && window.parent.mainCo();
+				$('#opt'+option_num).focus().blur();
+			}
+		});
+	});
+</script>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,171 @@
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<title>图片库</title>
+<style>
+* {
+	font-size: 12px;
+	line-height: 1.5;
+}
+body {
+	font-size: 12px;
+	line-height: 1.5;
+}
+a:link {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline
+}
+a:visited {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline
+}
+a:hover {
+	font-size: 12px;
+	color: red
+}
+div, form, h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding:0;
+}
+.m1 {
+	border-left: 1px solid #DFDFDB;
+	border-top: 1px solid #DFDFDB;
+	border-bottom: 1px solid #808080
+}
+.m2 {
+	border-left: 1px solid #DFDFDB;
+	border-bottom: 1px solid #808080;
+	border-top: 1px solid #DFDFDB;
+	border-right: 1px solid #DFDFDB;
+}
+.m3 {
+	border-left: 1px solid #DFDFDB;
+	border-top: 1px solid #DFDFDB;
+	border-right: 1px solid #DFDFDB;
+}
+.article {
+	FONT-SIZE: 10pt;
+LINE-HEIGHT: 160%；table-layout:fixed;
+	word-break:break-all
+}
+.bn {
+	color:#FFFFFF;
+	font-size:0.1pt;
+	line-height:50%
+}
+.contents {
+	font-size:1pt;
+	color:#F7F6F8
+}
+.nb {
+	border: 1px solid #000000;
+	height:18px
+}
+.coolbg {
+	border-right: 2px solid #ACACAC;
+	border-bottom: 2px solid #ACACAC;
+	background-color: #E6E6E6
+}
+.ctfield {
+	padding: 3px;
+	line-height: 150%
+}
+.nndiv {
+	width: 175px;
+	height:20px;
+	margin: 0px;
+	padding: 0px;
+	word-break: break-all;
+	overflow: hidden;
+}
+.linerow {
+	border-bottom: 1px solid #CBD8AC;
+}
+</style>
+<link type="text/css" rel="stylesheet" href="{{$smarty.const._PUBLIC_}}js/tooltip/jquery.tooltip.css" />
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/jquery-1.4.2.min.js"></script>
+<script language="javascript" src="{{$smarty.const._PUBLIC_}}js/tooltip/jquery.tooltip.min.js"></script>
+<script language="javascript">
+$().ready(function (){	
+	  $(".overview").tooltip({ 
+		  delay: 0, 
+		  showURL: false, 
+		  bodyHandler: function() {
+			  return $("<img width=\"150\"/>").attr("src", $(this).attr("href")); 
+		  } 
+	  });	
+});
+</script>
+</head>
+<body id="test">
+<table width='100%' border='0' cellspacing='0' cellpadding='2'>
+  <thead>
+  <tr bgcolor="#CCCCCC">
+    <td width="8%" align="center" class='linerow' ><strong>预览</strong></td>
+    <td width="30%" align="center" class='linerow'><strong>点击名称选择图片</strong></td>
+    <td width="15%" align="center" class='linerow'><strong>文件大小</strong></td>
+    <td width="30%" align="center" class='linerow'><strong>最后修改时间</strong></td>
+    <td align="center" class='linerow'><strong>操作</strong></td>
+  </tr>
+  </thead>
+  <tr>
+    <td class='linerow' colspan='5' bgcolor='#FFFFE8'> 点击“V”预览图片，点击图片名选择图片，显示图片后点击该图片关闭预览。 </td>
+  </tr>
+  <tbody>
+  <tr>
+    <td class='linerow' colspan='4'><a href='{{U url="ffiles/images?opener_id=`$data.opener_id`&path=`$data.parent_path`"}}'><img src="{{$smarty.const._PUBLIC_}}images/dir2.gif" border=0 width=16 height=16 align=absmiddle>上级目录</a></td>
+    <td class='linerow' >当前目录:{{$data.path}}</td>
+  </tr>
+  {{foreach from=$data.files item=v}} 
+  <tr>
+    <td  class='linerow' colspan='2'>
+    {{if $v.isdir }}   
+    <a href='{{U url="ffiles/images?opener_id=`$data.opener_id`&shower_id=`$data.shower_id`&path=`$v.url`"}}'><img src="{{$smarty.const._PUBLIC_}}images/dir.gif" border=0 width=16 height=16 align=absmiddle>{{$v.filename}}</a>
+    {{else}} 
+   <a href="{{$v.fullurl}}" title="点击选择" onClick="{{if $data.shower_id}}$(window.parent.document).find('#mainFrame').contents().find('#{{$data.shower_id}}').html('<img src={{$data.upload_dir}}{{$v.imageurl}} width=150 height=150 />');{{else}}$(window.parent.document).find('#mainFrame').contents().find('#{{$data.opener_id}}').val('{{$data.upload_dir}}{{$v.imageurl}}');{{/if}}" rel="{{$v.imageurl}}" class="overview"><img 
+   src='{{$smarty.const._PUBLIC_}}images/picviewnone.gif' width='16' height='16' border='0'>&nbsp;&nbsp;{{$v.filename}}</a>
+    {{/if}}
+    </td>
+    <td align="center"  class='linerow'>{{if !$v.isdir}} {{$v.filesize}} {{/if}}&nbsp;</td>
+    <td align="center"  class='linerow'>{{if !$v.isdir }} {{$v.filemtime|date:'Y-m-d H:i:s'}} {{/if}}&nbsp;</td>
+    <td align="center"  class='linerow'>
+    {{if !$v.isdir }}
+    <a href='{{U url="ffiles/images?do=cutimg&file=`$v.imageurl`"}}'>裁剪</a> | 
+    <a href='{{U url="ffiles/images?do=delete&file=`$v.imageurl`&forward=`$forward`"}}' onClick="return window.confirm('此操作不可恢复，确定执行？');">删除</a>
+		{{/if}}
+    &nbsp;
+    </td>
+  </tr>
+  {{/foreach}}
+  </tbody>
+  <tfoot> 
+  <tr>
+    <!--<td colspan="5">&nbsp;</td>-->
+  </tr>
+  </tfoot>
+</table>
+<script>
+    $(function(){
+      $("a.overview").bind('click',function(){
+        var link=$(this),
+            main=$(window.parent.document),
+            targetID='#'+'{{$data.opener_id}}',
+            url=link.attr('rel');
+            //url=(function(){
+            //   var src=link.attr('href').split('/');
+            //   return src[src.length-1];
+            //})();
+         
+        main.find('#mainFrame').contents().find(targetID).val(url);
+        window.parent.JqueryDialog.Close();
+        main.find('#mainFrame').contents().find(targetID).focus();
+        return false;
+      });
+    });
+</script>
+
+
+</body>
+</html>

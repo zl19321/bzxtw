@@ -1,0 +1,126 @@
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Only variables should be assigned by reference FbaseAction.class.php 第 62 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [8] Undefined index: forward FbaseAction.class.php 第 63 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [8] Undefined index: ajax FindexAction.class.php 第 26 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of MenuModel::_before_insert() should be compatible with that of Model::_before_insert() MenuModel.class.php 第 14 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of MenuModel::_before_update() should be compatible with that of Model::_before_update() MenuModel.class.php 第 14 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of MenuModel::_after_select() should be compatible with that of Model::_after_select() MenuModel.class.php 第 14 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of MenuModel::_after_find() should be compatible with that of Model::_after_find() MenuModel.class.php 第 14 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.002358s SQL = SHOW COLUMNS FROM fangfa_menu
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000259s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='1' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000191s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='4' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000143s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='86' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000096s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='87' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000094s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='88' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000093s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='89' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000108s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='125' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000118s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='126' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000090s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='127' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000098s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='90' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000175s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='91' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000100s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='92' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000109s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='144' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000089s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='151' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000087s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='152' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000098s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='164' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000097s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='180' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000161s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='194' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000118s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='5' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000092s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='59' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000095s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='65' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000092s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='68' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000087s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='70' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000096s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='6' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000087s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='11' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000096s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='12' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000092s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='13' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000100s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='7' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000125s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='8' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000101s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='18' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000105s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='19' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000105s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='20' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000103s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='21' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000163s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='22' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000193s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='23' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000117s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='24' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000134s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='9' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000112s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='73' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000109s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='74' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000093s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='77' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000154s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='80' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] in_array() expects parameter 2 to be array, null given MenuModel.class.php 第 253 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000107s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='83' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000137s SQL = SELECT `menuid` FROM `fangfa_menu` WHERE `parentid`='10' ORDER BY `sort` ASC,`menuid` ASC
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] Invalid argument supplied for foreach() MenuModel.class.php 第 335 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] unlink(F:\wamp\www\bzxtw\cms/data/admin/runtime/templates_c\%%61^614^614C3482%%index.html.php) [<a href='function.unlink'>function.unlink</a>]: No such file or directory core.write_file.php 第 44 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Only variables should be assigned by reference FbaseAction.class.php 第 62 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [8] Undefined index: forward FbaseAction.class.php 第 63 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of RelationModel::_after_insert() should be compatible with that of Model::_after_insert() RelationModel.class.php 第 24 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2048] Declaration of UserModel::delete() should be compatible with that of Model::delete() UserModel.class.php 第 23 行.
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.002571s SQL = SHOW COLUMNS FROM fangfa_user
+[ 2015-09-13T02:41:56+08:00 ] SQL:  RunTime:0.000434s SQL = SELECT fangfa_user.*,
+				  fangfa_role.role_id AS `role_id`,
+				  fangfa_role.nickname AS `rolenickname`,
+				  fangfa_role.name AS `rolename` FROM `fangfa_user` LEFT JOIN `fangfa_role_user`
+				 		  ON (fangfa_role_user.user_id=fangfa_user.user_id) LEFT JOIN `fangfa_role`
+				 	 ON (fangfa_role_user.role_id=fangfa_role.role_id) WHERE fangfa_user.user_id='999999' LIMIT 1 
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [8] Undefined index: last_login_ip FindexAction.class.php 第 91 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] unlink(F:\wamp\www\bzxtw\cms/data/admin/runtime/templates_c\%%96^96F^96FF8E8A%%home.html.php) [<a href='function.unlink'>function.unlink</a>]: No such file or directory core.write_file.php 第 44 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] unlink(F:\wamp\www\bzxtw\cms/data/admin/runtime/templates_c\%%23^235^23515278%%header.html.php) [<a href='function.unlink'>function.unlink</a>]: No such file or directory core.write_file.php 第 44 行.
+[ 2015-09-13T02:41:56+08:00 ] NOTIC: [2] unlink(F:\wamp\www\bzxtw\cms/data/admin/runtime/templates_c\%%D2^D27^D27C030E%%footer.html.php) [<a href='function.unlink'>function.unlink</a>]: No such file or directory core.write_file.php 第 44 行.

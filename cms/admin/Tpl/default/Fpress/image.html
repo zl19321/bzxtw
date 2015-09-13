@@ -1,0 +1,48 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fpress/manage?catid=`$cat.catid`"}}' {{if $action_name=="manage"}}class="selected" rel="tabsContent1"{{/if}}>管理杂志</a></li>
+			<li><a href='{{U url="fpress/add?catid=`$cat.catid`"}}' {{if $action_name=="add"}}class="selected"{{/if}}>添加杂志</a></li>
+			<li><a href='{{U url="fpress/image?catid=`$cat.catid`"}}' {{if $action_name=="image"}}class="selected"{{/if}}>编辑内容</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" action="{{U url='fpress/image?dosubmit=1'}}">
+<div id="pageCo">
+<div class="manageForm">
+<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent"  >
+	<tbody>
+		<tr>
+			<th width="150">功能介绍</th>
+			<td>
+				<font color="Red">*</font>内容图片的宽高：900 * 600；上传之前图片请预先按照页面顺序，进行命名。例如：1.jpg,2.jpg,3.jpg<br/>
+				<font color="Red">*</font>每次最多上传100M，并且同时上传最多不超过20张，以免系统运行过于缓慢。 <br/>
+				<font color="Red">*</font>双击内容图片名字，删除图片。 
+			</td>
+		</tr>
+		{{foreach from=$form_data item=v key=id}}
+		<tr>
+			<th width="150">{{$v.name}}<span>{{$v.tips}}</span></th>
+			<td>{{$v.form}}</td>
+		</tr>
+		{{/foreach}}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>&nbsp;</th>
+			<td><label class="btn"><input type="submit" name="submit" value="确定保存" class="submit" /></label>
+				<label class="btn"><input type="button" name="submit" value="返 回" class="submit" onclick="javascript:location='__ROOT__/admin.php?m=fpress&a=manage&catid={{$cat.catid}}'"/></label>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+</div>
+<input type="hidden" name="info[pid]" value="{{$pid}}" />
+<input type="hidden" name="info[id]" value="{{$data.id}}" />
+<input type="hidden" name="info[catid]" value="{{$catid}}" />
+<input type="hidden" name="catid" value="{{$catid}}" />
+<input type="hidden" name="info[action]" id="action" value="show" />
+</form>
+{{include file="default/Public/footer.html"}}

@@ -1,0 +1,66 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fmodule/add"}}' {{if $action_name=="add"}}class="selected" rel="tabsContent1"{{/if}}>注册模块</a></li>
+			<li><a href='{{U url="fmodule/manage"}}' {{if $action_name=="manage"}}class="selected"{{/if}}>管理模块</a></li>
+		</ul>		
+	</div>
+</div>
+
+<form class="validate" name="myform" method="post" action="{{U url='fmodule/add?dosubmit=1'}}" >
+<div id="pageCo">
+	<div class="manageForm">
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+				      <th width="150">模块名称<span>如：人才招聘，留言板等</span></th> 
+				      <td><input type="text" name="info[name]" maxlength="50" size="40" class="required input"  title="【模块名称】必填"/></td>
+				    </tr>
+				    <tr>
+				      <th width="150">模块控制器<span>模块的后台管理的控制器文件名称，如 “ftestAction.class.php”则为 “ftest”</span></th>
+				      <td><input type="text" name="info[controller]"  maxlength="50" size="40" title="【模块控制器】必填" class="required input" /></td>
+				    </tr>
+				    <tr>
+				      <th width="150">主记录表<span>主记录表名称，不包括前缀</span></th>
+				      <td><input type="text" name="info[tablename]"  maxlength="50" size="40" class="input" /></td>
+				    </tr>
+				    <tr>
+				      <th width="150">模块描述<span></span></th>
+				      <td><textarea name="info[description]" id="description" cols="40" rows="2" class="textarea" ></textarea></td>
+				    </tr>
+				    <tr>
+				      <th width="150">模块属性<span></span></th>
+				      <td>
+				        静态：<input type="radio" name="info[ishtml]" value="1" checked="checked" /> 是
+				        <input type="radio" name="info[ishtml]" value="0" /> 否 <br />
+				        可扩展：<input type="radio" name="info[extendable]" value="1" /> 是
+				        <input type="radio" name="info[extendable]" value="0" checked="checked" /> 否 
+				      </td>
+				    </tr>
+				    <tr>
+				      <th width="150">排序<span></span></th>
+				      <td><input type="text" name="info[sort]" size="4" value="1" class="sort" /></td>
+				    </tr>
+				    <tr>
+				      <th width="150">状态<span></span></th>
+				      <td><input type="radio" name="info[status]" value="1" checked="checked" /> 启用
+				        <input type="radio" name="info[status]" value="0" /> 禁用</td>
+				    </tr>
+			</tbody>
+			<tfoot>
+				<tr>
+			      <th width="150">&nbsp;</th>
+			      <td>
+			        <input type="hidden" name="forward" value="{{U url='fmodule/manage'}}" />
+			        <input type="hidden" name="info[issystem]" value="0" />
+			        <input type="hidden" name="_tablename" value="module" />
+			        <label class="btn"><input type="submit" name="submit" value="确 定 " class="submit" /></label>
+			        <label class="btn"><input type="reset" name="reset" value="重 置 " class="submit" /></label></td>
+			    </tr>
+			</tfoot>
+		</table>
+	</div>	
+</div>
+</form>
+{{include file="default/Public/footer.html"}}

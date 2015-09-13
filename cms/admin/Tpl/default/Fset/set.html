@@ -1,0 +1,15 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+<div class="tabs">
+<ul>
+	{{$set_html.head}}
+</ul>
+</div>
+</div>
+
+<form method="post" action="{{U url='fset/set?dosubmit=1'}}">
+<div id="pageCo">
+<div class="manageForm">{{$set_html.body}}</div>
+</div>
+<input type="hidden" name="forward" value="{{$forward}}" /></form>
+{{include file="default/Public/footer.html"}}

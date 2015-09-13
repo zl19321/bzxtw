@@ -1,0 +1,119 @@
+{{include file="default/Public/header.html"}}
+<div id="pageTop">
+	<div class="tabs"> 
+		<ul>
+			<li><a href='{{U url="fask/manage?catid=`$cat.catid`"}}'>管理问答</a></li>
+			<li><a href='{{U url="fask/category_manage?catid=`$cat.catid`"}}'>管理问答分类</a></li>
+			<li><a href='javascript:void(0);' class="selected" rel="tabsContent1">编辑问答</a></li>
+		</ul>		
+	</div>
+</div>
+<form method="post" class="validate" action="{{U url='fask/edit?dosubmit=1'}}">
+<div id="pageCo">
+	<div class="manageForm">
+		<div id="messageContainer" style="display:none;">
+			<ol></ol>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			<tbody>
+				<tr>
+			      <th width='150'>问题</th>
+			      <td><input type="text" name="info[title]" class="input required" value="{{$data.title}}" style="width:500px" /></td>
+			    </tr>
+			    <tr>
+			      <th width='150'>描述</th>
+			      <td><textarea name="info[content]" style="width:500px; height:200px;">{{$data.content}}</textarea></td>
+			    </tr>
+			    <tr>
+			      <th width='150'>所属分类</th>
+			      <td><select name="info[ask_category_id]">
+			      {{$ask_categorys_option}}
+			      </select></td>
+			    </tr>
+			    <tr>
+			      <th width='150'>用户名</th>
+			      <td>{{$data.username}}</td>
+			    </tr>
+			    <tr>
+			      <th width='150'>来源ip</th>
+			      <td>{{$data.ip}}</td>
+			    </tr>
+			    <tr>
+			      <th width='150'>是否显示</th>
+			      <td><input type="radio" name="info[status]" value="1" class="input" {{if $data.status==1}}checked{{/if}} />是
+			      	<input type="radio" name="info[status]" value="0" class="input" {{if $data.status!=1}}checked{{/if}} />否
+			      </td>
+			    </tr>
+			    <tr>
+			      <th width='150'>创建时间</th>
+			      <td><script language="javascript" src="__ROOT__/admin/public/js/calendar/WdatePicker.js"></script>
+		              <input type="text" name="info[create_time]" class="Wdate input" onFocus="WdatePicker({isShowClear:true,dateFmt:'yyyy-MM-dd HH:mm'})" value="{{'Y-m-d H:i'|date:$data.create_time}}" /></td>
+			    </tr>
+			    <tr>
+			    	<th colspan="2" style="text-align:center; font-weight:bold;">回答列表</th>
+			    </tr>
+			    <tr>
+			    	<td colspan="2">
+			    		<table cellpadding="0" cellspacing="0" class="tabcontent" id="tabsContent1">
+			    		<tr>
+			    			<th width="100" style="text-align:center; font-weight:bold;">用户名</th>
+			    			<th width="60" style="text-align:center; font-weight:bold;">来源ip</th>
+			    			<th width="120" style="text-align:center; font-weight:bold;">创建时间</th>
+			    			<th style="text-align:center; font-weight:bold;">内容</th>
+			    			<th width="30" style="text-align:center; font-weight:bold;">最佳</th>
+			    			<th width="30" style="text-align:center; font-weight:bold;">操作</th>
+			    		</tr>
+				    	{{foreach from=$data.answer_list item=v}}
+				    	<tr>
+				    		<td>{{$v.username}}</td>
+				    		<td>{{$v.ip}}</td>
+				    		<td>{{'Y-m-d H:i'|date:$v.create_time}}</td>
+				    		<td>{{$v.content}}</td>
+				    		<td><input type="radio" name="info[good_answer]" value="{{$v.ask_id}}" {{if $v.ask_id==$data.good_answer}}checked{{/if}} /></td>
+				    		<td><a href="javascript:void(0);" onclick="deleteAnswer(this, {{$v.ask_id}})">删除</a></td>
+				    	</tr>
+				    	{{/foreach}}
+				    	<tr>
+				    		<td>&nbsp;</td>
+				    		<td>&nbsp;</td>
+				    		<td>&nbsp;</td>
+				    		<td>&nbsp;</td>
+				    		<td><input type="button" value="取消最佳" onclick="cancelAnswer();" /></td>
+				    		<td>&nbsp;</td>
+				    	</tr>
+				    	</table>
+			    	</td>
+			    </tr>
+			</tbody>
+			<tfoot>
+			    <tr>
+			      <th>&nbsp;</th>
+			      <td>
+			      <input type="hidden" name="forward" value='{{U url="fask/manage?catid=`$cat.catid`"}}' />
+			      <input type="hidden" name="info[ask_id]" value="{{$data.ask_id}}" />
+                  <label class="btn"><input type="submit" value="确认" class="submit" /></label>
+						&nbsp;<label class="btn"><input type="reset" value="重置" class="submit" /></label>
+						<input type="hidden" name="catid" value="{{$cat.catid}}" />
+						<input type="hidden" name="info[catid]" value="{{$cat.catid}}" />
+				  </td>
+			    </tr>
+				</tfoot>
+		</table>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+function deleteAnswer(obj, ask_id) {
+	$.getJSON('{{U url="fask/edit?act=delAnswer&parentid=`$data.ask_id`&catid=`$cat.catid`"}}', {'ask_id':ask_id}, function(data){
+		if(data == 'ok') $(obj).parent().parent().remove();
+		else alert('删除失败,请稍后再试！');
+	});
+}
+function cancelAnswer()
+{
+	$('input[name="info[good_answer]"]').each(function(i){
+		$(this).attr('checked', false);
+	});
+}
+</script>
+{{include file="default/Public/footer.html"}}
